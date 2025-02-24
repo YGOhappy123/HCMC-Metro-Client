@@ -79,7 +79,7 @@ To start the development server, use:
 npm run dev
 ```
 
-This will start the Vite development server
+This will start the Vite development server.
 
 You can view the app by visiting `http://localhost:3000` in your browser.
 
@@ -121,6 +121,36 @@ Thanks to the following people for contributing to this project ✨:
                     style="border-radius: 4px; background: #fff;"
                 /><br />
                 <sub><b>YGOhappy123</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/KQii">
+                <img 
+                    src="https://avatars.githubusercontent.com/u/127427121?v=4"
+                    alt="KQii" width="100px;" height="100px;" 
+                    style="border-radius: 4px; background: #fff;"
+                /><br />
+                <sub><b>KQii</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/NgocYenDg">
+                <img 
+                    src="https://avatars.githubusercontent.com/u/163749076?v=4"
+                    alt="NgocYenDg" width="100px;" height="100px;" 
+                    style="border-radius: 4px; background: #fff;"
+                /><br />
+                <sub><b>NgocYenDg</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/tienanh443">
+                <img 
+                    src="https://avatars.githubusercontent.com/u/125814106?v=4"
+                    alt="tienanh443" width="100px;" height="100px;" 
+                    style="border-radius: 4px; background: #fff;"
+                /><br />
+                <sub><b>tienanh443</b></sub>
             </a>
         </td>
     </tr>
