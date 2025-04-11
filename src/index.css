@@ -2,10 +2,58 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @plugin 'daisyui' {
-    themes:
-        light --default,
-        dark;
+    themes: false;
 }
 
 @theme {
+    --color-primary: #265b9e;
+    --color-secondary: #3981ca;
+    --color-accent: #245898;
+    --color-ivory: #f3ecdc;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(252, 252, 252, 0.6);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, var(--color-accent), var(--color-primary));
+}
+
+::-webkit-scrollbar-thumb:hover {
+    opacity: 90;
+}
+
+/* Prevent Autofill CSS */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--color-primary);
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Error Page Linear Gradient */
+.error-page-linear-gradient {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.font-nunito {
+    font-family: 'Nunito', sans-serif;
+}
+
+.font-oswald {
+    font-family: 'Oswald', sans-serif;
+}
+
+.bg-muted {
+    background-color: hsl(240 3.7% 15.9%);
 }

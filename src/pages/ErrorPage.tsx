@@ -6,7 +6,7 @@ const ErrorPage = () => {
 
     return (
         <div id="error-page" className="flex h-screen flex-col items-center justify-center">
-            <span className="font-nunito error-page-linear-gradient select-none !bg-clip-text text-9xl font-bold text-transparent">Oops!</span>
+            <span className="font-nunito error-page-linear-gradient !bg-clip-text text-9xl font-bold text-transparent select-none">Oops!</span>
             <p className="mt-5 text-base font-medium">Rất tiếc, đã xảy ra lỗi không mong muốn.</p>
             <p className="text-base font-medium">
                 <i>
@@ -14,7 +14,7 @@ const ErrorPage = () => {
                 </i>
             </p>
             <button
-                className="error-page-linear-gradient mt-5 select-none rounded px-5 py-3 text-base font-medium text-white hover:opacity-80"
+                className="error-page-linear-gradient mt-5 cursor-pointer rounded px-5 py-3 text-base font-medium text-white select-none hover:opacity-80"
                 onClick={() => navigate('/')}
             >
                 Về trang chủ
