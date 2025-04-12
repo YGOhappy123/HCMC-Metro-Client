@@ -40,11 +40,11 @@ const AuthPage = () => {
         return (
             <div className="bg-accent flex h-screen w-full items-center justify-center">
                 <div className="bg-ivory flex gap-3 rounded-xl p-3">
-                    <div className="h-[640px] w-[540px]">
+                    <div className="h-[640px] w-[480px]">
                         <AuthCarousel />
                     </div>
 
-                    <div className="h-[640px] w-[540px]">
+                    <div className="h-[640px] w-[480px]">
                         {formType === 'login' && <LoginForm changeFormType={setFormType} />}
                         {formType === 'register' && <RegisterForm changeFormType={setFormType} />}
                         {formType === 'forgot' && <ForgotPasswordForm changeFormType={setFormType} />}

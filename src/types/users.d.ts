@@ -59,7 +59,7 @@ declare global {
         createdBy?: Partial<IAdmin> | string
     }
 
-    type IRole = 'Customer' | 'Staff' | 'Admin'
+    type IRole = 'customer' | 'staff' | 'admin'
 }
 
 export {}

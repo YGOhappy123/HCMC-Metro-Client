@@ -7,9 +7,32 @@
 
 @theme {
     --color-primary: #265b9e;
+    --color-primary-red: #d64a33;
     --color-secondary: #3981ca;
     --color-accent: #245898;
     --color-ivory: #f3ecdc;
+    --container-container: 1400px;
+}
+
+/* CSS Variables */
+:root {
+    --sidebar-logo-height: 70px;
+}
+
+.link {
+    @apply hover:bg-secondary/20 flex cursor-pointer items-center gap-6 rounded-md p-2.5 font-medium no-underline duration-300 select-none;
+}
+
+.active {
+    @apply bg-primary hover:bg-primary text-white;
+}
+
+.active svg {
+    @apply text-white;
+}
+
+.sub-menu.active {
+    @apply text-primary bg-transparent;
 }
 
 /* Scrollbar Styling */

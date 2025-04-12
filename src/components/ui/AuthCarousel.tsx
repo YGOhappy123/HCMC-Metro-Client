@@ -1,9 +1,9 @@
 const POSTER_IMAGES = [
-    'https://images.unsplash.com/photo-1549294413-26f195200c16?q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1600011689032-8b628b8a8747?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    'https://img.idesign.vn/2021/08/cd9c2b113750929-602e54e1756b1.gif',
+    'https://img.idesign.vn/2021/08/0d2e3e113750929-602e54e22649f.gif',
+    'https://img.idesign.vn/2021/08/70e1a4113750929-602e4dc676aa2.gif',
+    'https://img.idesign.vn/2021/08/2f446a113750929-602e4eeee33c1.gif',
+    'https://img.idesign.vn/2021/08/4f4a7e113750929-602e54e1e38e2.gif'
 ]
 
 const AuthCarousel = () => {

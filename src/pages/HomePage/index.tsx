@@ -1,9 +1,16 @@
-import { useTheme } from '@/hooks/useTheme'
-import { signOut } from '@/slices/authSlice'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { signOut } from '@/slices/authSlice'
+import { useTheme } from '@/hooks/useTheme'
+import useTitle from '@/hooks/useTitle'
 
 const HomePage = () => {
+    useTitle('HCMC Metro | Trang Chủ')
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     const { theme, toggleTheme } = useTheme()
     const dispatch = useDispatch()
     const navigate = useNavigate()
