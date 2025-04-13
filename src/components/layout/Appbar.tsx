@@ -35,12 +35,14 @@ const Appbar = () => {
 
                 <div className="flex items-center gap-3">
                     {user?.avatar && (
-                        <button
-                            className="border-primary bg-ivory flex aspect-square h-[54px] items-center justify-center overflow-hidden rounded-full border-2"
-                            onClick={() => navigate('/profile')}
-                        >
-                            <img src={user.avatar} alt="user avatar" className="h-full w-full object-cover" />
-                        </button>
+                        <div className="tooltip tooltip-bottom tooltip-neutral rounded-sm text-white" data-tip={`Ấn vào đây để vào "Trang cá nhân"`}>
+                            <button
+                                className="border-primary bg-ivory flex aspect-square h-[54px] cursor-pointer items-center justify-center overflow-hidden rounded-full border-2"
+                                onClick={() => navigate('/profile')}
+                            >
+                                <img src={user.avatar} alt="user avatar" className="h-full w-full object-cover" />
+                            </button>
+                        </div>
                     )}
                     <button
                         className="border-primary bg-ivory text-primary flex h-[54px] w-[180px] cursor-pointer items-center justify-center rounded-full border-2 font-semibold tracking-widest uppercase hover:bg-[#DBD6CA]"

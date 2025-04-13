@@ -2,10 +2,11 @@ import { createBrowserRouter } from 'react-router-dom'
 import MainRoutes from '@/routes/MainRoutes'
 import AuthRoutes from '@/routes/AuthRoutes'
 import DashboardRoutes from '@/routes/DashboardRoutes'
+import ProfileRoutes from '@/routes/ProfileRoutes'
 
-const developmentRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...DashboardRoutes])
-const testingRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...DashboardRoutes])
-const productionRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...DashboardRoutes])
+const developmentRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...DashboardRoutes])
+const testingRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...DashboardRoutes])
+const productionRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...DashboardRoutes])
 
 const getRouter = (environment: 'development' | 'testing' | 'production') => {
     switch (environment) {

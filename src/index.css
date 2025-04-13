@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
 @import 'tailwindcss';
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -11,6 +12,8 @@
     --color-secondary: #3981ca;
     --color-accent: #245898;
     --color-ivory: #f3ecdc;
+    --color-neutral: #0b0809;
+    --radius-field: 0.25rem;
     --container-container: 1400px;
 }
 

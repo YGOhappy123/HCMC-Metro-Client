@@ -23,7 +23,7 @@ const authService = () => {
     const navigate = useNavigate()
 
     const loginMutation = useMutation({
-        mutationFn: (account: { username: string; password: string }) => axios.post<IResponseData<LoginResponse>>(`/auth/login`, account),
+        mutationFn: (account: { username: string; password: string }) => axios.post<IResponseData<LoginResponse>>('/auth/login', account),
         onError: onError,
         onSuccess: res => {
             const redirectPath = cookies.get('redirect_path') || '/'
@@ -74,7 +74,7 @@ const authService = () => {
 
     const updatePasswordMutation = useMutation({
         mutationFn: ({ oldPassword, newPassword, confirmPassword }: { oldPassword: string; newPassword: string; confirmPassword: string }) =>
-            axios.post<IResponseData<any>>(`/auth/change-password`, { oldPassword, newPassword, confirmPassword }),
+            axios.post<IResponseData<any>>('/auth/change-password', { oldPassword, newPassword, confirmPassword }),
         onError: onError,
         onSuccess: res => {
             toast(getMappedMessage(res.data.message), toastConfig('success'))
