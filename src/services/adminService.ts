@@ -127,6 +127,12 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
     const updateAdminMutation = useMutation({
         mutationFn: ({ data }: { data: Partial<IAdmin> }) => axios.patch<IResponseData<any>>('/personnel/admins/update-info', data),
         onSuccess: res => {
+            if (isSearching) {
+                queryClient.invalidateQueries({ queryKey: ['search-admins'] })
+                // searchAdminsQuery.refetch()
+            } else {
+                queryClient.invalidateQueries({ queryKey: ['admins'] })
+            }
             toast(getMappedMessage(res.data.message), toastConfig('success'))
         },
         onError: onError

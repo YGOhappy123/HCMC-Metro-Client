@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PopoverContent } from '@/components/ui/Popover'
-import { AdminSortAndFilterParams } from '@/services/adminService'
+import { StaffSortAndFilterParams } from '@/services/staffService'
 import { DateRange } from 'react-day-picker'
 
 import Button from '@/components/common/Button'
@@ -8,17 +8,20 @@ import TextInput from '@/components/common/TextInput'
 import SelectInput from '@/components/common/SelectInput'
 import DateRangePicker from '@/components/common/DateRangePicker'
 
-type AdminFilterProps = {
+type StaffFilterProps = {
+    stations: IStation[]
     setHavingFilters: (value: boolean) => void
-    onChange: (params: AdminSortAndFilterParams) => void
+    onChange: (params: StaffSortAndFilterParams) => void
     onSearch: () => void
     onReset: () => void
 }
 
-const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFilterProps) => {
+const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }: StaffFilterProps) => {
     const [searchName, setSearchName] = useState<string>('')
     const [searchEmail, setSearchEmail] = useState<string>('')
     const [searchPhoneNumber, setSearchPhoneNumber] = useState<string>('')
+    const [searchStation, setSearchStation] = useState<number>(0)
+    const [searchIsWorking, setSearchIsWorking] = useState<string | undefined>(undefined)
     const [range, setRange] = useState<string[] | any[]>()
     const [sort, setSort] = useState<string>('-createdAt')
     const [date, setDate] = useState<DateRange | undefined>(undefined)
@@ -35,13 +38,13 @@ const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFil
     }, [date])
 
     useEffect(() => {
-        onChange({ searchName, searchEmail, searchPhoneNumber, sort, range })
-    }, [searchName, searchEmail, searchPhoneNumber, sort, range])
+        onChange({ searchName, searchEmail, searchPhoneNumber, searchStation, searchIsWorking, sort, range })
+    }, [searchName, searchEmail, searchPhoneNumber, searchStation, searchIsWorking, sort, range])
 
     const handleSearch = () => {
         onSearch()
 
-        if (!searchName && !searchEmail && !searchPhoneNumber && sort === '-createdAt' && !range?.length) {
+        if (!searchName && !searchEmail && !searchPhoneNumber && !searchStation && !searchIsWorking && sort === '-createdAt' && !range?.length) {
             setHavingFilters(false)
         } else {
             setHavingFilters(true)
@@ -52,6 +55,8 @@ const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFil
         setSearchName('')
         setSearchEmail('')
         setSearchPhoneNumber('')
+        setSearchStation(0)
+        setSearchIsWorking(undefined)
         setSort('-createdAt')
         setDate(undefined)
         setHavingFilters(false)
@@ -61,7 +66,7 @@ const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFil
     return (
         <PopoverContent className="w-[400px] bg-white">
             <div className="mb-4 flex items-center justify-between">
-                <Button text="Tìm kiếm" variant="gradient" className="rounded-2xl border-primary px-3 py-1.5 text-xs" onClick={handleSearch} />
+                <Button text="Tìm kiếm" variant="gradient" className="border-primary rounded-2xl px-3 py-1.5 text-xs" onClick={handleSearch} />
                 <Button text="Đặt lại" variant="danger" className="rounded-2xl px-3 py-1.5 text-xs" onClick={handleReset} />
             </div>
             <form>
@@ -104,6 +109,35 @@ const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFil
                 <div className="mb-4">
                     <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" />
                 </div>
+                <div className="mb-4">
+                    <SelectInput
+                        fieldName="station"
+                        placeholder="Lọc theo ga công tác"
+                        options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
+                        error=""
+                        value={searchStation}
+                        onChange={(value: string | number) => setSearchStation(value as number)}
+                        onFocus={() => {}}
+                        labelClassName="bg-white"
+                        selectClassName="py-[9px]"
+                    />
+                </div>
+                <div className="mb-4">
+                    <SelectInput
+                        fieldName="isWorking"
+                        placeholder="Lọc theo trạng thái làm việc"
+                        options={[
+                            { value: 'true', label: 'Còn làm việc' },
+                            { value: 'false', label: 'Đã nghỉ' }
+                        ]}
+                        error=""
+                        value={searchIsWorking ?? ''}
+                        onChange={(value: string | number) => setSearchIsWorking(value as string)}
+                        onFocus={() => {}}
+                        labelClassName="bg-white"
+                        selectClassName="py-[9px]"
+                    />
+                </div>
                 <div>
                     <SelectInput
                         fieldName="sort"
@@ -125,4 +159,4 @@ const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFil
     )
 }
 
-export default AdminFilter
+export default StaffFilter

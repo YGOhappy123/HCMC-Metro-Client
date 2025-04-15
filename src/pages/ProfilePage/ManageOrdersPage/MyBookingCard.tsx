@@ -9,7 +9,7 @@ import { getMappedBookingServiceStatus, getMappedBookingStatus, getMappedPayment
 import dayjs from 'dayjs'
 import bookingService from '@/services/bookingService'
 import serviceReservationService from '@/services/serviceReservationService'
-import ConfirmationDialog from '@/components/common/ConfirmationDialog'
+import ConfirmationDialog from '@/components/ui/ConfirmationDialog'
 import BookServiceDialog from '@/pages/ProfilePage/ManageOrdersPage/BookServiceDialog'
 
 type MyBookingCardProps = {
