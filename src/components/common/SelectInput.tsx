@@ -29,7 +29,7 @@ const SelectInput = ({
         <div className="relative">
             <select
                 className={twMerge(
-                    `peer block min-h-[auto] w-full cursor-pointer rounded border-2 border-neutral-500 bg-transparent px-3 py-3.5 font-medium leading-[2.15] text-primary caret-primary outline-none transition-all duration-200 ease-linear focus:border-primary motion-reduce:transition-none ${selectClassName}`
+                    `peer text-primary caret-primary focus:border-primary block min-h-[auto] w-full cursor-pointer rounded border-2 border-neutral-500 bg-transparent px-3 py-3.5 leading-[2.15] font-medium transition-all duration-200 ease-linear outline-none motion-reduce:transition-none ${selectClassName}`
                 )}
                 id={fieldName}
                 value={value}
@@ -46,7 +46,7 @@ const SelectInput = ({
             <label
                 htmlFor={fieldName}
                 className={twMerge(
-                    `pointer-events-none absolute left-3 top-1/2 mb-0 max-w-[90%] origin-[0_0] -translate-y-1/2 truncate bg-ivory px-1 font-medium text-neutral-500 transition-all duration-200 ease-out peer-focus:top-0.5 peer-focus:scale-[0.8] peer-focus:text-primary peer-[:not(:placeholder-shown)]:top-0.5 peer-[:not(:placeholder-shown)]:scale-[0.8] peer-[:not(:placeholder-shown)]:text-primary motion-reduce:transition-none ${labelClassName}`
+                    `bg-ivory peer-focus:text-primary peer-[:not(:placeholder-shown)]:text-primary pointer-events-none absolute top-1/2 left-3 mb-0 max-w-[90%] origin-[0_0] -translate-y-1/2 truncate px-1 font-medium text-neutral-500 transition-all duration-200 ease-out peer-focus:top-0.5 peer-focus:scale-[0.8] peer-[:not(:placeholder-shown)]:top-0.5 peer-[:not(:placeholder-shown)]:scale-[0.8] motion-reduce:transition-none ${labelClassName}`
                 )}
             >
                 {placeholder}

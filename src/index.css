@@ -38,6 +38,18 @@
     @apply text-primary bg-transparent;
 }
 
+.table-tag-blue {
+    @apply w-fit rounded border-2 border-solid border-blue-600 bg-blue-100 px-3 text-center text-sm font-medium text-balance text-blue-600;
+}
+
+.table-tag-green {
+    @apply w-fit rounded border-2 border-solid border-green-600 bg-green-100 px-3 text-center text-sm font-medium text-balance text-green-600;
+}
+
+.table-tag-pink {
+    @apply w-fit rounded border-2 border-solid border-pink-600 bg-pink-100 px-3 text-center text-sm font-medium text-balance text-pink-600;
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 6px;

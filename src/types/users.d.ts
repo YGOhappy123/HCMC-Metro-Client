@@ -1,8 +1,7 @@
 declare global {
     interface IUser {
         userId: number
-        firstName: string
-        lastName: string
+        fullName: string
         role: IRole
         createdAt: string
 
@@ -18,8 +17,7 @@ declare global {
 
     interface ICustomer {
         customerId: number
-        firstName: string
-        lastName: string
+        fullName: string
         createdAt: string
 
         email?: string
@@ -30,8 +28,7 @@ declare global {
 
     interface IStaff {
         staffId: number
-        firstName: string
-        lastName: string
+        fullName: string
         createdAt: string
 
         email: string
@@ -39,14 +36,16 @@ declare global {
         avatar: string
         isActive?: boolean
 
-        gender: 'Male' | 'Female'
         hireDate: string
-        createdBy: Partial<IAdmin> | string
+        workingStationId: number
+        workingStation?: Partial<IStation>
+        createdBy: number
+        createdByAdmin?: Partial<IAdmin> | string
     }
 
     interface IAdmin {
         adminId: number
-        firstName: string
+        fullName: string
         lastName: string
         createdAt: string
 
@@ -55,8 +54,8 @@ declare global {
         avatar?: string
         isActive?: boolean
 
-        gender: 'Male' | 'Female'
-        createdBy?: Partial<IAdmin> | string
+        createdBy?: number
+        createdByAdmin?: Partial<IAdmin> | string
     }
 
     type IRole = 'customer' | 'staff' | 'admin'

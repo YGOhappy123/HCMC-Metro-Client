@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import {
-    OverallDashboardPage
+    OverallDashboardPage,
+    StaffDashboardPage
     // RoomDashboardPage,
     // RoomClassDashboardPage,
     // FloorDashboardPage,
@@ -21,7 +22,7 @@ const DashboardRoutes = [
         path: '/dashboard',
         element: (
             <Suspense>
-                <AuthProtector children={<DashboardLayout />} redirect="/auth" allowedRoles={['admin', 'staff', 'customer']} />
+                <AuthProtector children={<DashboardLayout />} redirect="/auth" allowedRoles={['admin', 'staff']} />
             </Suspense>
         ),
         errorElement: <ErrorPage />,
@@ -29,7 +30,7 @@ const DashboardRoutes = [
             {
                 path: '',
                 element: <OverallDashboardPage />
-            }
+            },
             // {
             //     path: 'rooms',
             //     element: <RoomDashboardPage />
@@ -62,6 +63,10 @@ const DashboardRoutes = [
             //     path: 'admins',
             //     element: <AdminDashboardPage />
             // },
+            {
+                path: 'staffs',
+                element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+            }
             // {
             //     path: 'bookings',
             //     element: <BookingDashboardPage />
