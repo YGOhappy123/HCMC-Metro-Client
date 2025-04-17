@@ -63,7 +63,7 @@ declare global {
         expirationDate: string
     }
 
-    interface ISfcCardAttributes {
+    interface IIssuedSfcCard {
         sfcCardId: number
         code: string
         issuedStationId: number
