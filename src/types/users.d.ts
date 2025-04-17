@@ -20,6 +20,9 @@ declare global {
         fullName: string
         createdAt: string
 
+        singleJourneyTickets?: any[]
+        subscriptionTickets?: any[]
+
         email?: string
         phoneNumber?: string
         avatar?: string
