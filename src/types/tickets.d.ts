@@ -28,7 +28,7 @@ declare global {
         paymentMethod: PaymentMethod
         price: number
         purchaseDate: string
-        expirationDate: string
+        expiredAt: string
     }
 
     interface ISubscriptionTicket {
@@ -60,7 +60,7 @@ declare global {
         paymentMethod: PaymentMethod
         price: number
         purchaseDate: string
-        expirationDate: string
+        expiredAt: string
     }
 
     interface IIssuedSfcCard {
