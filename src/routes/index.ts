@@ -3,10 +3,11 @@ import MainRoutes from '@/routes/MainRoutes'
 import AuthRoutes from '@/routes/AuthRoutes'
 import DashboardRoutes from '@/routes/DashboardRoutes'
 import ProfileRoutes from '@/routes/ProfileRoutes'
+import FragmentRoutes from '@/routes/FragmentRoutes'
 
-const developmentRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...DashboardRoutes])
-const testingRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...DashboardRoutes])
-const productionRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...DashboardRoutes])
+const developmentRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...FragmentRoutes, ...DashboardRoutes])
+const testingRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...FragmentRoutes, ...DashboardRoutes])
+const productionRoutes = createBrowserRouter([...MainRoutes, ...AuthRoutes, ...ProfileRoutes, ...FragmentRoutes, ...DashboardRoutes])
 
 const getRouter = (environment: 'development' | 'testing' | 'production') => {
     switch (environment) {

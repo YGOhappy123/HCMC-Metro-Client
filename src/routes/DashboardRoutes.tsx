@@ -1,13 +1,13 @@
 import { Suspense } from 'react'
 import {
     OverallDashboardPage,
-    StaffDashboardPage
+    StaffDashboardPage,
     // RoomDashboardPage,
     // RoomClassDashboardPage,
     // FloorDashboardPage,
     // FeatureDashboardPage,
     // ServiceDashboardPage,
-    // CustomerDashboardPage,
+    CustomerDashboardPage
     // AdminDashboardPage,
     // BookingDashboardPage,
     // TransactionDashboardPage,
@@ -55,10 +55,10 @@ const DashboardRoutes = [
             //     path: 'services',
             //     element: <ServiceDashboardPage />
             // },
-            // {
-            //     path: 'customers',
-            //     element: <CustomerDashboardPage />
-            // },
+            {
+                path: 'customers',
+                element: <CustomerDashboardPage />
+            },
             // {
             //     path: 'admins',
             //     element: <AdminDashboardPage />
