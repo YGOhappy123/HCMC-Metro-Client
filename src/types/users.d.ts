@@ -20,9 +20,7 @@ declare global {
         fullName: string
         createdAt: string
 
-        singleJourneyTickets?: IIssuedSingleJourneyTicket[]
-        subscriptionTickets?: IIssuedSubscriptionTicket[]
-
+        orders?: IOrder[]
         email?: string
         phoneNumber?: string
         avatar?: string
