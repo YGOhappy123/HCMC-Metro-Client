@@ -1,7 +1,8 @@
 import { Suspense } from 'react'
 import {
     OverallDashboardPage,
-    StaffDashboardPage
+    StaffDashboardPage,
+    TicketPriceLookupDashboardPage
     // RoomDashboardPage,
     // RoomClassDashboardPage,
     // FloorDashboardPage,
@@ -66,6 +67,10 @@ const DashboardRoutes = [
             {
                 path: 'staffs',
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+            },
+            {
+                path: 'ticket-prices',
+                element: <AuthProtector children={<TicketPriceLookupDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
             }
             // {
             //     path: 'bookings',

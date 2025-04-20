@@ -20,6 +20,7 @@
 /* CSS Variables */
 :root {
     --sidebar-logo-height: 70px;
+    --color-brand-600: #4f46e5;
 }
 
 .link {

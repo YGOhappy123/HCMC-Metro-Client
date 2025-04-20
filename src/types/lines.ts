@@ -12,6 +12,13 @@ declare global {
         location: string
         lines?: ILine[] | Partial<ILine>[]
     }
+
+    interface IPath {
+        fromStation: IStation
+        toStation: IStation
+        line: string
+        price: number
+    }
 }
 
 export {}
