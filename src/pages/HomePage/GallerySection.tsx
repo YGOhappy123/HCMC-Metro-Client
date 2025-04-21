@@ -6,15 +6,15 @@ import ServicesGallerySection from '@/pages/HomePage/ServicesGallerySection'
 const DESCRIPTION_IMAGES = {
     gallery: {
         feature:
-            'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/487489194_1089817216520187_7863584507565965494_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH06c7aUC2mU3TPUEksdt2UbzNb0xQDqZxvM1vTFAOpnC178ikBFg1O2vS9CjUfFUOUOVBsHGSNDHpBLrntQw1J&_nc_ohc=fX7KR5OKGMwQ7kNvwHYFOOW&_nc_oc=Adns1JRepMchIA7WbWbx_jc-6CtEUetJZcDfw99ahMDihFS8LBIW5GQ_G3BXayYo4OQ&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=8bYxa_OjJIaDbOqGH6hZhA&oh=00_AfHrc13_GW024KMzQSVOHJhNk0qR2usTZsUI8c8XGbEZ3w&oe=68092D40',
         top: [
-            'https://images.unsplash.com/photo-1618220048045-10a6dbdf83e0?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1615529179035-e760f6a2dcee?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            'https://cdn.tcdulichtphcm.vn/upload/4-2024/images/2024-12-20/1734664051-dsc07346.jpg',
+            'https://mia.vn/media/uploads/blog-du-lich/gieng-troi-2-1736845069.jpg'
         ],
         bottom: [
-            'https://images.unsplash.com/photo-1615971677499-5467cbab01c0?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1617806265182-7b3f847f0b75?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            'https://images.unsplash.com/photo-1602872029708-84d970d3382b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ben_Thanh_market_2.jpg/960px-Ben_Thanh_market_2.jpg',
+            'https://cdn3.ivivu.com/2024/11/z4484349590890_559af-1558.jpg',
+            'https://cdn3.ivivu.com/2024/11/dia-diem-check-in-doc-tuyen-Metro-so-1-ivivu-7.png'
         ]
     },
     banner: 'https://cdnv2.tgdd.vn/mwg-static/common/News/1259810/cach-tra-cuu-lo-trinh-tuyen-metro-so-1-aH2.jpg'

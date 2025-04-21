@@ -7,11 +7,11 @@ import {
     // FloorDashboardPage,
     // FeatureDashboardPage,
     // ServiceDashboardPage,
-    CustomerDashboardPage
+    CustomerDashboardPage,
     // AdminDashboardPage,
     // BookingDashboardPage,
     // TransactionDashboardPage,
-    // ServiceBookingDashboardPage
+    PriceUpdateDashboardPage
 } from '@/pages/DashboardPage'
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
@@ -66,7 +66,7 @@ const DashboardRoutes = [
             {
                 path: 'staffs',
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
-            }
+            },
             // {
             //     path: 'bookings',
             //     element: <BookingDashboardPage />
@@ -75,10 +75,10 @@ const DashboardRoutes = [
             //     path: 'transactions',
             //     element: <TransactionDashboardPage />
             // },
-            // {
-            //     path: 'service-bookings',
-            //     element: <ServiceBookingDashboardPage />
-            // }
+            {
+                path: 'ticket-prices-update',
+                element: <PriceUpdateDashboardPage />
+            }
         ]
     }
 ]

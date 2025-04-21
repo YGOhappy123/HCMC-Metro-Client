@@ -4,6 +4,7 @@ import StatisticSection from '@/pages/HomePage/StatisticSection'
 import HomeHeroSection from '@/pages/HomePage/HomeHeroSection'
 import DescriptionSection from '@/pages/HomePage/DescriptionSection'
 import GallerySection from '@/pages/HomePage/GallerySection'
+import FindPathSection from '@/pages/HomePage/FindPathSection'
 
 const HomePage = () => {
     useTitle('HCMC Metro | Trang Chủ')
@@ -16,6 +17,7 @@ const HomePage = () => {
             <HomeHeroSection />
             <StatisticSection />
             <DescriptionSection />
+            <FindPathSection />
             <GallerySection />
         </div>
     )

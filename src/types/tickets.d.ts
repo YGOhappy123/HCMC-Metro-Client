@@ -1,5 +1,7 @@
 declare global {
-    type PaymentMethod = 'cash' | 'creditCard' | 'digitalWallet' | 'sfc'
+    type PaymentMethod = 'cash' | 'creditCard' | 'digitalWallet'
+
+    type TicketStatus = 'unpaid' | 'paid' | 'onboard' | 'used'
 
     interface IOrder {
         orderId: number
@@ -38,6 +40,7 @@ declare global {
         exitStation?: IStation
         paymentMethod?: PaymentMethod
         paymentTime?: string
+        status: TicketStatus
         price: number
         purchaseDate: string
         expiredAt: string
@@ -71,18 +74,24 @@ declare global {
         subscriptionTicket?: ISubscriptionTicket
         paymentMethod?: PaymentMethod
         paymentTime?: string
+        status: TicketStatus
         price: number
         purchaseDate: string
         expiredAt: string
     }
 
-    interface IIssuedSfcCard {
-        sfcCardId: number
-        code: string
-        issuedStationId: number
-        balance: number
-        isActive: boolean
-        issuedAt: string
+    interface ITrip {
+        ticketId: number
+        singleJourneyTicketId?: number
+        singleJourneyTicket?: IIssuedSingleJourneyTicket
+        subscriptionTicketId?: number
+        subscriptionTicket?: IIssuedSubscriptionTicket
+        entryStationId: number
+        entryStation?: IStation
+        exitStationId: number
+        exitStation?: IStation
+        entryTime: string
+        exitTime?: string
     }
 }
 

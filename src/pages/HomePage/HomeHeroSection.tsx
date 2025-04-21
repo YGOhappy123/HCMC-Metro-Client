@@ -24,7 +24,7 @@ const HomeHeroSection = () => {
                     <div className="flex items-center gap-6">
                         <button
                             className="bg-accent text-ivory hover:bg-accent/90 flex h-[60px] w-[280px] cursor-pointer items-center justify-center rounded-full font-semibold tracking-widest uppercase"
-                            onClick={() => navigate('/about-us')}
+                            onClick={() => navigate('/our-services')}
                         >
                             Tìm hiểu thêm
                         </button>

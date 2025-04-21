@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
-// import AwardsSection from '@/pages/AboutPage/AwardsSection'
-// import HighlightedServicesSection from '@/pages/OurServicesPage/HighlightedServicesSection'
 
 const DESCRIPTION_IMAGES = [
     'https://cafefcdn.com/203337114487263232/2024/10/14/metro-so-1-tphcm-con-nhieu-ton-tai-chua-du-dieu-kien-nghiem-thu-18957-1728889475383-17288894760931397653419.jpg',
@@ -21,7 +19,7 @@ const DescriptionSection = () => {
                             Tàu điện Việt Nam với giá cả phải chăng cùng các tiện ích hiện đại
                         </p>
                     </div>
-                    <Link to="/about-us">
+                    <Link to="/our-services">
                         <div className="text-primary font-semibold tracking-widest uppercase">
                             Tìm hiểu thêm <FontAwesomeIcon icon={faArrowRight} />
                         </div>
@@ -53,9 +51,6 @@ const DescriptionSection = () => {
                     ))}
                 </div>
             </div>
-
-            {/* <AwardsSection isSummarized containerClassNames="pt-[100px]" />
-            <HighlightedServicesSection isSummarized containerClassNames="pt-[100px]" /> */}
         </section>
     )
 }

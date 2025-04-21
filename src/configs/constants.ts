@@ -15,7 +15,6 @@ type NavigationTab = {
 
 export const NAVIGATION_TABS: NavigationTab[] = [
     { label: 'trang chủ', href: '/' },
-    { label: 'giới thiệu', href: '/about-us' },
     { label: 'dịch vụ', href: '/our-services' },
     { label: 'mua vé', href: '/buy-tickets' },
     { label: 'quản lý', href: '/dashboard', roles: ['admin'] }

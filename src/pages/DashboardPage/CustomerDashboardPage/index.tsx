@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Dialog, DialogTrigger } from '@/components/ui/Dialog'
+import { Dialog } from '@/components/ui/Dialog'
 import { Popover, PopoverTrigger } from '@/components/ui/Popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'

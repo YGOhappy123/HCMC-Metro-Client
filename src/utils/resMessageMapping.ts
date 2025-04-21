@@ -1,4 +1,4 @@
-const RES_MESSAGE_MAPPING = {
+export const RES_MESSAGE_MAPPING = {
     NO_CREDENTIALS: 'Không có thông tin xác thực.',
     INVALID_TOKEN: 'Token không hợp lệ',
     FORBIDDEN: 'Bạn không có quyền thực hiện hành động này.',
@@ -17,6 +17,9 @@ const RES_MESSAGE_MAPPING = {
     UPLOAD_IMAGE_FAILED: 'Tải ảnh lên thất bại.',
     DELETE_IMAGE_FAILED: 'Xóa ảnh thất bại.',
     EMAIL_VERIFICATION_FAILED: 'Email chưa được xác thực',
+    PAYMENT_VERIFICATION_FAILED: 'Xác thực giao dịch thất bại',
+    INVALID_LINE_SELECTED: 'Tuyến được chọn không hợp lệ',
+    INVALID_STATION_SELECTED: 'Ga được chọn không hợp lệ',
 
     LOGIN_SUCCESSFULLY: 'Đăng nhập thành công.',
     REGISTER_SUCCESSFULLY: 'Đăng ký thành công.',
@@ -31,11 +34,10 @@ const RES_MESSAGE_MAPPING = {
     DELETE_IMAGE_SUCCESSFULLY: 'Xóa ảnh thành công.',
     UPDATE_USER_SUCCESSFULLY: 'Cập nhật người dùng thành công.',
     CREATE_ADMIN_SUCCESSFULLY: 'Tạo admin mới thành công.',
-    CREATE_STAFF_SUCCESSFULLY: 'Tạo nhân viên mới thành công.'
+    CREATE_STAFF_SUCCESSFULLY: 'Tạo nhân viên mới thành công.',
+    UPDATE_PRICE_SUCCESSFULLY: 'Cập nhật giá vé thành công.'
 }
 
-const getMappedMessage = (originalMessage: string) => {
+export const getMappedMessage = (originalMessage: string) => {
     return RES_MESSAGE_MAPPING[originalMessage as keyof typeof RES_MESSAGE_MAPPING] ?? originalMessage
 }
-
-export { RES_MESSAGE_MAPPING, getMappedMessage }
