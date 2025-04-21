@@ -4,7 +4,7 @@ import { DataTable } from '@/components/ui/DataTable'
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { getMappedPaymentMethod } from '@/utils/paymentMethodMapping'
+import { getMappedPaymentMethod, getMappedTicketStatus } from '@/utils/paymentMethodMapping'
 import { QRCodeCanvas } from 'qrcode.react'
 import Button from '@/components/common/Button'
 import dayjs from 'dayjs'
@@ -17,7 +17,7 @@ type TicketDialogProps = {
 const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
     const [ticketType, setTicketType] = useState<'single-journey' | 'subscription'>('single-journey')
 
-    const singleJourneyColumns: ColumnDef<Partial<IIssuedSingleJourneyTicket>>[] = [
+    const singleJourneyColumns: ColumnDef<IIssuedSingleJourneyTicket>[] = [
         {
             accessorKey: 'ticketId',
             header: 'Mã Vé'
@@ -80,9 +80,21 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             }
         },
         {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng Thái Vé</div>,
+            cell: ({ row }) => {
+                const status = row.original.status
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-pink">{getMappedTicketStatus(status!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
             accessorKey: 'dates',
             header: 'Ngày Mua',
-            enableHiding: true,
             cell: ({ row }) => {
                 const purchaseDate = row.original.purchaseDate
                 const expiredAt = row.original.expiredAt
@@ -108,7 +120,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
         }
     ]
 
-    const subscriptionColumns: ColumnDef<Partial<IIssuedSubscriptionTicket>>[] = [
+    const subscriptionColumns: ColumnDef<IIssuedSubscriptionTicket>[] = [
         {
             accessorKey: 'ticketId',
             header: 'Mã Vé'
@@ -168,9 +180,21 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             }
         },
         {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng Thái Vé</div>,
+            cell: ({ row }) => {
+                const status = row.original.status
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-pink">{getMappedTicketStatus(status!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
             accessorKey: 'dates',
             header: 'Ngày Mua',
-            enableHiding: true,
             cell: ({ row }) => {
                 const purchaseDate = row.original.purchaseDate
                 const expiredAt = row.original.expiredAt
@@ -221,7 +245,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
     }, [])
 
     return (
-        <DialogContent className="max-w-[1100px] bg-white">
+        <DialogContent className="max-w-[1200px] bg-white">
             <DialogHeader>
                 <DialogTitle>Các vé khách hàng đã mua</DialogTitle>
                 <DialogDescription></DialogDescription>

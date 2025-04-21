@@ -65,7 +65,6 @@ const CustomerTable = ({ customers, total, page, limit, setPage, onSelectCustome
         {
             accessorKey: 'createdAt',
             header: () => <div className="text-center">Ngày Tạo Tài Khoản</div>,
-            enableHiding: true,
             cell: ({ row }) => {
                 const createdAt = row.original.createdAt
 
