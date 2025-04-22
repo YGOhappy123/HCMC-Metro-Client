@@ -20,12 +20,12 @@ const StaffDashboardPage = () => {
         page,
         limit,
         setPage,
-        createStaffMutation,
-        updateStaffMutation,
-        deactivateStaffMutation,
         buildQuery,
         onFilterSearch,
-        onResetFilterSearch
+        onResetFilterSearch,
+        createStaffMutation,
+        updateStaffMutation,
+        deactivateStaffMutation
     } = staffService({ enableFetching: true })
 
     const fetchAllStationsQuery = useQuery({

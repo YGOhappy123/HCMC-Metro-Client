@@ -40,7 +40,6 @@ const StaffTable = ({ staffs, total, page, limit, setPage, onSelectStaff, deacti
         {
             accessorKey: 'contact',
             header: 'Thông Tin Liên Hệ',
-            enableHiding: true,
             cell: ({ row }) => {
                 const email = row.original.email
                 const phoneNumber = row.original.phoneNumber
@@ -62,7 +61,6 @@ const StaffTable = ({ staffs, total, page, limit, setPage, onSelectStaff, deacti
         {
             accessorKey: 'createdAt',
             header: 'Ngày Và Người Tạo',
-            enableHiding: true,
             cell: ({ row }) => {
                 const createdAt = row.original.createdAt
                 const createdBy = row.original.createdByAdmin
@@ -84,7 +82,6 @@ const StaffTable = ({ staffs, total, page, limit, setPage, onSelectStaff, deacti
         {
             accessorKey: 'workingStation',
             header: () => <div className="text-center">Ga Đang Công Tác</div>,
-            enableHiding: true,
             cell: ({ row }) => {
                 const workingStation = row.original.workingStation
 
@@ -98,7 +95,6 @@ const StaffTable = ({ staffs, total, page, limit, setPage, onSelectStaff, deacti
         {
             accessorKey: 'hireDate',
             header: () => <div className="text-center">Ngày Vào Làm</div>,
-            enableHiding: true,
             cell: ({ row }) => {
                 const hireDate = row.original.hireDate
 

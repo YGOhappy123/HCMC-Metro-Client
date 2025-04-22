@@ -1,4 +1,4 @@
-const SORT_MAPPING = {
+export const SORT_MAPPING = {
     '-createdAt': [['createdAt', 'DESC']],
     '+createdAt': [['createdAt', 'ASC']],
     '-price': [['price', 'DESC']],
@@ -9,10 +9,10 @@ const SORT_MAPPING = {
     '+paymentTime': [['paymentTime', 'ASC']],
     '-amount': [['amount', 'DESC']],
     '+amount': [['amount', 'ASC']],
+    '-issuedAt': [['issuedAt', 'DESC']],
+    '+issuedAt': [['issuedAt', 'ASC']]
 }
 
-const getMappedSort = (sort: string) => {
+export const getMappedSort = (sort: string) => {
     return SORT_MAPPING[sort as keyof typeof SORT_MAPPING] ?? []
 }
-
-export { SORT_MAPPING, getMappedSort }

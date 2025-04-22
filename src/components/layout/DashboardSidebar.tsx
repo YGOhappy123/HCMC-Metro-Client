@@ -77,16 +77,6 @@ const SUB_MENU_LIST = [
                         navigation: 'issue-subscription-ticket'
                     }
                 ]
-            },
-            {
-                label: 'Hỗ trợ mua thẻ',
-                icon: faCreditCard,
-                items: [
-                    {
-                        label: 'Thẻ nạp tiền SFC',
-                        navigation: 'issue-sfc-card'
-                    }
-                ]
             }
         ]
     },

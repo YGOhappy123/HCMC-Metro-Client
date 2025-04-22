@@ -107,7 +107,7 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
                     />
                 </div>
                 <div className="mb-4">
-                    <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" />
+                    <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" placeHolder="Lọc theo ngày vào làm" />
                 </div>
                 <div className="mb-4">
                     <SelectInput
