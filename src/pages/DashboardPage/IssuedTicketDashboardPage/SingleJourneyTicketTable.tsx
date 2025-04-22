@@ -1,6 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
 import dayjs from '@/libs/dayjs'
+import formatCurrency from '@/utils/formatCurrency'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons'
 
 type SingleJourneyTicketTableProps = {
     tickets: IIssuedSingleJourneyTicket[]
@@ -16,47 +19,54 @@ const SingleJourneyTicketTable = ({ tickets, total, page, limit, setPage }: Sing
             accessorKey: 'ticketId',
             header: 'Mã vé'
         },
-        // {
-        //     accessorKey: 'fullName',
-        //     header: 'Khách hàng',
-        //     enableHiding: true,
-        //     cell: ({ row }) => {
-        //         const customerName = row.original.order?.customer?.fullName
-        //         return customerName
-        //     }
-        // },
         {
             accessorKey: 'orderId',
-            header: 'Đơn hàng'
+            header: 'Mã đơn hàng',
+            enableHiding: true,
+            cell: ({ row }) => {
+                const orderId = row.original.orderId
+                return `#${orderId}`
+            }
         },
         {
             accessorKey: 'price',
-            header: 'Giá vé',
+            header: () => <div className="text-center">Giá vé</div>,
             enableHiding: true,
             cell: ({ row }) => {
                 const price = row.original.price
-                return `${price}.000 VND`
+                return (
+                    <div className="flex justify-center">
+                        <div className="flex w-21 justify-end rounded-xl bg-orange-100">
+                            <span className="rounded px-2 py-1 text-right text-lg font-semibold text-green-800">{formatCurrency(price)}</span>
+                        </div>
+                    </div>
+                )
             }
         },
         {
             accessorKey: 'issuedStation',
-            header: 'Mua tại',
+            header: () => <div className="text-center">Nơi mua vé</div>,
             enableHiding: true,
             cell: ({ row }) => {
                 const issuedStation = row.original.issuedStation?.stationName
 
-                if (!issuedStation) return <span>X</span>
+                if (!issuedStation)
+                    return (
+                        <div className="flex justify-center">
+                            <div className="table-tag-orange">Mua trực tuyến</div>
+                        </div>
+                    )
 
                 return (
                     <div className="flex justify-center">
-                        <div className="table-tag-pink">{issuedStation}</div>
+                        <div className="table-tag-pink">Ga {issuedStation}</div>
                     </div>
                 )
             }
         },
         {
             accessorKey: 'entryExitStation',
-            header: 'Trạm đi và trạm đến',
+            header: 'Lộ trình của khách',
             enableHiding: true,
             cell: ({ row }) => {
                 const entryStation = row.original.entryStation?.stationName
@@ -66,10 +76,10 @@ const SingleJourneyTicketTable = ({ tickets, total, page, limit, setPage }: Sing
                     <div className="flex gap-4">
                         <div className="flex flex-col gap-2">
                             <div className="mt-0.25">
-                                <span className="font-semibold">Trạm đi: </span>
+                                <span className="font-semibold">Ga xuất phát: </span>
                             </div>
                             <div className="mt-1">
-                                <span className="font-semibold">Trạm đến: </span>
+                                <span className="font-semibold">Ga đích đến: </span>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -82,7 +92,7 @@ const SingleJourneyTicketTable = ({ tickets, total, page, limit, setPage }: Sing
         },
         {
             accessorKey: 'issuedExpiredAt',
-            header: 'Ngày mua & ngày hết hạn',
+            header: 'Thời gian hiệu lực',
             enableHiding: true,
             cell: ({ row }) => {
                 const issuedAt = row.original.issuedAt
@@ -101,41 +111,24 @@ const SingleJourneyTicketTable = ({ tickets, total, page, limit, setPage }: Sing
                     </div>
                 )
             }
+        },
+        {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng thái thanh toán</div>,
+            enableHiding: true,
+            cell: ({ row }) => {
+                const isPaid = row.original.status === 'paid'
+                return (
+                    <div className="flex justify-center">
+                        {isPaid ? (
+                            <FontAwesomeIcon icon={faCheckCircle} className="min-w-max text-green-400" size="xl" />
+                        ) : (
+                            <FontAwesomeIcon icon={faClock} className="min-w-max text-yellow-300" size="xl" />
+                        )}
+                    </div>
+                )
+            }
         }
-        // {
-        //     accessorKey: 'actions',
-        //     header: () => <div className="text-center">Hành Động</div>,
-        //     cell: ({ row }) => {
-        //         const staff = row.original
-
-        //         return (
-        //             <div className="grid grid-cols-1 gap-2 xl:grid-cols-1">
-        //                 <Button
-        //                     text="Cập nhật thông tin"
-        //                     variant="info"
-        //                     disabled={staff.isActive === false}
-        //                     onClick={() => onSelectStaff(staff)}
-        //                     className="min-w-fit rounded px-3 py-1.5 text-xs"
-        //                 />
-        //                 <ConfirmationDialog
-        //                     Trigger={
-        //                         <button
-        //                             disabled={staff.isActive === false}
-        //                             className="min-w-fit cursor-pointer rounded border-2 border-solid border-yellow-600 bg-yellow-100 px-3 py-1.5 text-xs font-medium text-yellow-600 hover:opacity-90 disabled:cursor-not-allowed disabled:border-gray-600 disabled:bg-gray-100 disabled:text-gray-600 disabled:opacity-50"
-        //                         >
-        //                             {staff.isActive === false ? 'Tài khoản đã khóa' : 'Khóa tài khoản'}
-        //                         </button>
-        //                     }
-        //                     title="Xác nhận khóa tài khoản"
-        //                     body="Bạn có chắc muốn khóa tài khoản này không? Nhân viên sẽ không thể sử dụng tài khoản này trong khi khóa."
-        //                     onConfirm={async () => {
-        //                         await deactivateStaffMutation.mutateAsync(staff.staffId)
-        //                     }}
-        //                 />
-        //             </div>
-        //         )
-        //     }
-        // }
     ]
 
     const lastPage = Math.ceil(total / limit)

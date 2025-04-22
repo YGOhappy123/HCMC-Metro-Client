@@ -35,7 +35,7 @@ const PriceUpdateDashboardPage = () => {
                 <div className="flex items-center gap-1">
                     <input
                         type="radio"
-                        id="css"
+                        id="subscription"
                         name="ticketType"
                         value="subscription"
                         checked={ticketType === 'subscription'}
