@@ -8,7 +8,7 @@ const SORT_MAPPING = {
     '-paymentTime': [['paymentTime', 'DESC']],
     '+paymentTime': [['paymentTime', 'ASC']],
     '-amount': [['amount', 'DESC']],
-    '+amount': [['amount', 'ASC']]
+    '+amount': [['amount', 'ASC']],
 }
 
 const getMappedSort = (sort: string) => {

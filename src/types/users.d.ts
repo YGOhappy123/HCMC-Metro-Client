@@ -41,7 +41,7 @@ declare global {
         workingStation?: Partial<IStation>
         createdBy: number
         createdByAdmin?: Partial<IAdmin> | string
-    }
+    } 
 
     interface IAdmin {
         adminId: number
