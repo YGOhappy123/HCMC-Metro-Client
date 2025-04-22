@@ -10,7 +10,9 @@ export const SORT_MAPPING = {
     '-orderId': [['orderId', 'DESC']],
     '+orderId': [['orderId', 'ASC']],
     '-amount': [['amount', 'DESC']],
-    '+amount': [['amount', 'ASC']]
+    '+amount': [['amount', 'ASC']],
+    '-issuedAt': [['issuedAt', 'DESC']],
+    '+issuedAt': [['issuedAt', 'ASC']]
 }
 
 export const getMappedSort = (sort: string) => {
