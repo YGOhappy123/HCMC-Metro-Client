@@ -13,11 +13,12 @@
     --color-accent: #245898;
     --color-ivory: #f3ecdc;
     --color-neutral: #0b0809;
+    --color-base-300: #15191e;
     --radius-field: 0.25rem;
     --container-container: 1400px;
 }
 
-/* CSS Variables */
+/* User-defined CSS Variables */
 :root {
     --sidebar-logo-height: 70px;
     --color-brand-600: #4f46e5;
@@ -95,4 +96,9 @@ input:-webkit-autofill:active {
 
 .bg-muted {
     background-color: hsl(240 3.7% 15.9%);
+}
+
+/* CSS Overwrite */
+.steps .step {
+    min-width: 8rem;
 }

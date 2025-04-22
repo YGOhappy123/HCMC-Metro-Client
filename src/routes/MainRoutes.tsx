@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import MainLayout from '@/layouts/MainLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import HomePage from '@/pages/HomePage'
+import BuyTicketsPage from '@/pages/BuyTicketsPage'
 
 const MainRoutes = [
     {
@@ -16,6 +17,10 @@ const MainRoutes = [
             {
                 path: '',
                 element: <HomePage />
+            },
+            {
+                path: '/buy-tickets',
+                element: <BuyTicketsPage />
             }
         ]
     }

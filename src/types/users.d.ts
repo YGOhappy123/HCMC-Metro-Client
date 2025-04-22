@@ -20,6 +20,7 @@ declare global {
         fullName: string
         createdAt: string
 
+        orders?: IOrder[]
         email?: string
         phoneNumber?: string
         avatar?: string

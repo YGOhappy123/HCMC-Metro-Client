@@ -15,7 +15,6 @@ type NavigationTab = {
 
 export const NAVIGATION_TABS: NavigationTab[] = [
     { label: 'trang chủ', href: '/' },
-    { label: 'giới thiệu', href: '/about-us' },
     { label: 'dịch vụ', href: '/our-services' },
     { label: 'mua vé', href: '/buy-tickets' },
     { label: 'quản lý', href: '/dashboard', roles: ['admin'] }
@@ -30,3 +29,5 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ]
 
 export const LOGIN_SESSION_EXPIRED_MESSAGE = 'Phiên đăng nhập hết hạn. Xin vui lòng đăng nhập lại.'
+
+export const INTRODUCTION_VIDEO_URL = 'https://youtube.com'

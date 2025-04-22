@@ -13,12 +13,16 @@ declare global {
         lines?: ILine[] | Partial<ILine>[]
     }
 
-    interface IPath {
-        fromStation: IStation
-        toStation: IStation
+    interface IPathSegment {
+        from?: number
+        fromStation?: IStation
+        to?: number
+        toStation?: IStation
         line: string
         price: number
     }
+
+    type IPath = IPathSegment[]
 }
 
 export {}

@@ -2,17 +2,17 @@ import { Suspense } from 'react'
 import {
     OverallDashboardPage,
     StaffDashboardPage,
-    TicketPriceLookupDashboardPage
+    TicketPriceLookupDashboardPage,
     // RoomDashboardPage,
     // RoomClassDashboardPage,
     // FloorDashboardPage,
     // FeatureDashboardPage,
     // ServiceDashboardPage,
-    // CustomerDashboardPage,
+    CustomerDashboardPage,
     // AdminDashboardPage,
     // BookingDashboardPage,
     // TransactionDashboardPage,
-    // ServiceBookingDashboardPage
+    PriceUpdateDashboardPage
 } from '@/pages/DashboardPage'
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
@@ -56,10 +56,10 @@ const DashboardRoutes = [
             //     path: 'services',
             //     element: <ServiceDashboardPage />
             // },
-            // {
-            //     path: 'customers',
-            //     element: <CustomerDashboardPage />
-            // },
+            {
+                path: 'customers',
+                element: <CustomerDashboardPage />
+            },
             // {
             //     path: 'admins',
             //     element: <AdminDashboardPage />
@@ -71,7 +71,7 @@ const DashboardRoutes = [
             {
                 path: 'ticket-prices',
                 element: <AuthProtector children={<TicketPriceLookupDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
-            }
+            },
             // {
             //     path: 'bookings',
             //     element: <BookingDashboardPage />
@@ -80,10 +80,10 @@ const DashboardRoutes = [
             //     path: 'transactions',
             //     element: <TransactionDashboardPage />
             // },
-            // {
-            //     path: 'service-bookings',
-            //     element: <ServiceBookingDashboardPage />
-            // }
+            {
+                path: 'ticket-prices-update',
+                element: <PriceUpdateDashboardPage />
+            }
         ]
     }
 ]

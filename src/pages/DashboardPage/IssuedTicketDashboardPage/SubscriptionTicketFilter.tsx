@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PopoverContent } from '@/components/ui/Popover'
-import { StaffSortAndFilterParams } from '@/services/staffService'
+import { IssuedSubscriptionTicketSortAndFilterParams } from '@/services/issuedSubscriptionTicketService'
 import { DateRange } from 'react-day-picker'
 
 import Button from '@/components/common/Button'
@@ -8,22 +8,30 @@ import TextInput from '@/components/common/TextInput'
 import SelectInput from '@/components/common/SelectInput'
 import DateRangePicker from '@/components/common/DateRangePicker'
 
-type StaffFilterProps = {
+type SubscriptionTicketFilterProps = {
     stations: IStation[]
+    subscriptionTickets: ISubscriptionTicket[]
     setHavingFilters: (value: boolean) => void
-    onChange: (params: StaffSortAndFilterParams) => void
+    onChange: (params: IssuedSubscriptionTicketSortAndFilterParams) => void
     onSearch: () => void
     onReset: () => void
 }
 
-const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }: StaffFilterProps) => {
-    const [searchName, setSearchName] = useState<string>('')
-    const [searchEmail, setSearchEmail] = useState<string>('')
-    const [searchPhoneNumber, setSearchPhoneNumber] = useState<string>('')
-    const [searchStation, setSearchStation] = useState<number>(0)
-    const [searchIsWorking, setSearchIsWorking] = useState<string | undefined>(undefined)
+const SubscriptionTicketFilter = ({
+    stations,
+    subscriptionTickets,
+    setHavingFilters,
+    onChange,
+    onSearch,
+    onReset
+}: SubscriptionTicketFilterProps) => {
+    const [searchCustomerName, setSearchCustomerName] = useState<string>('')
+    const [searchOrderId, setSearchOrderId] = useState<string>('')
+    const [searchPrice, setSearchPrice] = useState<string>('')
+    const [searchIssuedStation, setSearchIssuedStation] = useState<number>(0)
+    const [searchSubscriptionTicket, setSearchSubscriptionTicket] = useState<number>(0)
     const [range, setRange] = useState<string[] | any[]>()
-    const [sort, setSort] = useState<string>('-createdAt')
+    const [sort, setSort] = useState<string>('-issuedAt')
     const [date, setDate] = useState<DateRange | undefined>(undefined)
 
     useEffect(() => {
@@ -38,13 +46,13 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
     }, [date])
 
     useEffect(() => {
-        onChange({ searchName, searchEmail, searchPhoneNumber, searchStation, searchIsWorking, sort, range })
-    }, [searchName, searchEmail, searchPhoneNumber, searchStation, searchIsWorking, sort, range])
+        onChange({ searchCustomerName, searchOrderId, searchPrice, searchIssuedStation, searchSubscriptionTicket, sort, range })
+    }, [searchCustomerName, searchOrderId, searchPrice, searchIssuedStation, searchSubscriptionTicket, sort, range])
 
     const handleSearch = () => {
         onSearch()
 
-        if (!searchName && !searchEmail && !searchPhoneNumber && !searchStation && !searchIsWorking && sort === '-createdAt' && !range?.length) {
+        if (!searchCustomerName && !searchOrderId && !searchPrice && !searchIssuedStation && sort === '-issuedAt' && !range?.length) {
             setHavingFilters(false)
         } else {
             setHavingFilters(true)
@@ -52,12 +60,12 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
     }
 
     const handleReset = () => {
-        setSearchName('')
-        setSearchEmail('')
-        setSearchPhoneNumber('')
-        setSearchStation(0)
-        setSearchIsWorking(undefined)
-        setSort('-createdAt')
+        setSearchCustomerName('')
+        setSearchOrderId('')
+        setSearchPrice('')
+        setSearchIssuedStation(0)
+        setSearchSubscriptionTicket(0)
+        setSort('-issuedAt')
         setDate(undefined)
         setHavingFilters(false)
         onReset()
@@ -70,13 +78,25 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
                 <Button text="Đặt lại" variant="danger" className="rounded-2xl px-3 py-1.5 text-xs" onClick={handleReset} />
             </div>
             <form>
-                <div className="mb-4">
+                {/* <div className="mb-4">
                     <TextInput
                         fieldName="name"
-                        placeholder="Lọc theo tên"
+                        placeholder="Lọc theo tên khách hàng"
                         error=""
-                        value={searchName}
-                        onChange={(value: string) => setSearchName(value)}
+                        value={searchCustomerName}
+                        onChange={(value: string) => setSearchCustomerName(value)}
+                        onFocus={() => {}}
+                        labelClassName="bg-white"
+                        inputClassName="leading-2"
+                    />
+                </div> */}
+                <div className="mb-4">
+                    <TextInput
+                        fieldName="orderId"
+                        placeholder="Lọc theo mã đơn hàng"
+                        error=""
+                        value={searchOrderId}
+                        onChange={(value: string) => setSearchOrderId(value)}
                         onFocus={() => {}}
                         labelClassName="bg-white"
                         inputClassName="leading-2"
@@ -84,67 +104,52 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
                 </div>
                 <div className="mb-4">
                     <TextInput
-                        fieldName="email"
-                        placeholder="Lọc theo email"
+                        fieldName="price"
+                        placeholder="Lọc theo giá vé (x 1000 VND)"
                         error=""
-                        value={searchEmail}
-                        onChange={(value: string) => setSearchEmail(value)}
+                        value={searchPrice}
+                        onChange={(value: string) => setSearchPrice(value)}
                         onFocus={() => {}}
                         labelClassName="bg-white"
                         inputClassName="leading-2"
                     />
-                </div>
-                <div className="mb-4">
-                    <TextInput
-                        fieldName="phoneNumber"
-                        placeholder="Lọc theo số điện thoại"
-                        error=""
-                        value={searchPhoneNumber}
-                        onChange={(value: string) => setSearchPhoneNumber(value)}
-                        onFocus={() => {}}
-                        labelClassName="bg-white"
-                        inputClassName="leading-2"
-                    />
-                </div>
-                <div className="mb-4">
-                    <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" placeHolder="Lọc theo ngày vào làm" />
                 </div>
                 <div className="mb-4">
                     <SelectInput
-                        fieldName="station"
-                        placeholder="Lọc theo ga công tác"
+                        fieldName="subscriptionTicket"
+                        placeholder="Lọc theo loại vé"
+                        options={subscriptionTickets.map(ticket => ({ value: ticket.subscriptionTicketId, label: ticket.ticketName }))}
+                        error=""
+                        value={searchSubscriptionTicket}
+                        onChange={(value: string | number) => setSearchSubscriptionTicket(value as number)}
+                        onFocus={() => {}}
+                        labelClassName="bg-white"
+                        selectClassName="py-[9px]"
+                    />
+                </div>
+                <div className="mb-4">
+                    <SelectInput
+                        fieldName="issuedStation"
+                        placeholder="Lọc theo ga mua vé"
                         options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
                         error=""
-                        value={searchStation}
-                        onChange={(value: string | number) => setSearchStation(value as number)}
+                        value={searchIssuedStation}
+                        onChange={(value: string | number) => setSearchIssuedStation(value as number)}
                         onFocus={() => {}}
                         labelClassName="bg-white"
                         selectClassName="py-[9px]"
                     />
                 </div>
                 <div className="mb-4">
-                    <SelectInput
-                        fieldName="isWorking"
-                        placeholder="Lọc theo trạng thái làm việc"
-                        options={[
-                            { value: 'true', label: 'Còn làm việc' },
-                            { value: 'false', label: 'Đã nghỉ' }
-                        ]}
-                        error=""
-                        value={searchIsWorking ?? ''}
-                        onChange={(value: string | number) => setSearchIsWorking(value as string)}
-                        onFocus={() => {}}
-                        labelClassName="bg-white"
-                        selectClassName="py-[9px]"
-                    />
+                    <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" placeHolder="Lọc theo ngày mua" />
                 </div>
                 <div>
                     <SelectInput
                         fieldName="sort"
                         placeholder="Sắp xếp theo"
                         options={[
-                            { value: '-createdAt', label: 'Ngày tạo giảm dần' },
-                            { value: '+createdAt', label: 'Ngày tạo tăng dần' }
+                            { value: '-issuedAt', label: 'Ngày mua giảm dần' },
+                            { value: '+issuedAt', label: 'Ngày mua tăng dần' }
                         ]}
                         error=""
                         value={sort}
@@ -159,4 +164,4 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
     )
 }
 
-export default StaffFilter
+export default SubscriptionTicketFilter
