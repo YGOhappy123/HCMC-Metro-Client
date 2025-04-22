@@ -96,7 +96,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             accessorKey: 'dates',
             header: 'Ngày Mua',
             cell: ({ row }) => {
-                const purchaseDate = row.original.purchaseDate
+                const purchaseDate = row.original.issuedAt
                 const expiredAt = row.original.expiredAt
                 const paymentTime = row.original.paymentTime
 
@@ -196,7 +196,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             accessorKey: 'dates',
             header: 'Ngày Mua',
             cell: ({ row }) => {
-                const purchaseDate = row.original.purchaseDate
+                const purchaseDate = row.original.issuedAt
                 const expiredAt = row.original.expiredAt
                 const paymentTime = row.original.paymentTime
 

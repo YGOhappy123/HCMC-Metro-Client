@@ -40,10 +40,10 @@ export default function StatisticCard({ value, previousValue, label, unit, loadi
 
     return (
         <div
-            className="flex min-h-[150px] cursor-pointer items-center gap-4 rounded-2xl border-2 border-primary bg-secondary/85 p-6 shadow-md"
+            className="border-primary bg-secondary/65 flex min-h-[150px] cursor-pointer items-center gap-4 rounded-2xl border-2 p-6 shadow-md"
             onClick={() => navigate(to)}
         >
-            <div className="flex aspect-square w-10 items-center justify-center rounded-lg bg-ivory">
+            <div className="bg-ivory flex aspect-square w-10 items-center justify-center rounded-lg">
                 {isIncreasing ? (
                     <FontAwesomeIcon icon={faArrowUp} size="lg" className="text-primary" />
                 ) : (
@@ -53,12 +53,12 @@ export default function StatisticCard({ value, previousValue, label, unit, loadi
             {loading ? (
                 <Skeleton className="h-full w-full rounded-xl" />
             ) : (
-                <div className="flex flex-col items-start gap-2 text-accent">
+                <div className="text-accent flex flex-col items-start gap-2">
                     <div className="flex items-center gap-2 text-3xl">
                         <strong>{count ? count.toLocaleString('en-US') : 0}</strong>
                         {unit && <strong>{unit}</strong>}
                         {value > 0 && previousValue > 0 && (
-                            <span className={`text-xl font-bold ${isIncreasing ? 'text-green-600' : 'text-red-600'}`}>
+                            <span className={`text-xl font-bold ${isIncreasing ? 'text-green-300' : 'text-red-300'}`}>
                                 ({isIncreasing ? '+' : ''}
                                 {percentGrowth}%)
                             </span>

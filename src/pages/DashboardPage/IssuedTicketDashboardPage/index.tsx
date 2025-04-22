@@ -6,15 +6,12 @@ import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
 import SingleJourneyTicketTable from '@/pages/DashboardPage/IssuedTicketDashboardPage/SingleJourneyTicketTable'
 import SubscriptionTicketTable from '@/pages/DashboardPage/IssuedTicketDashboardPage/SubscriptionTicketTable'
-import SfcCardTable from '@/pages/DashboardPage/IssuedTicketDashboardPage/SfcCardTable'
 import SingleJourneyTicketFilter from '@/pages/DashboardPage/IssuedTicketDashboardPage/SingleJourneyTicketFilter'
 import SubscriptionTicketFilter from '@/pages/DashboardPage/IssuedTicketDashboardPage/SubscriptionTicketFilter'
-import SfcCardFilter from '@/pages/DashboardPage/IssuedTicketDashboardPage/SfcCardFilter'
 import useAxiosIns from '@/hooks/useAxiosIns'
 import TabContainer from '@/components/ui/TabContainer'
 import issuedSingleJourneyTicketService from '@/services/issuedSingleJourneyTicketService'
 import issuedSubscriptionTicketService from '@/services/issuedSubscriptionTicketService'
-import issuedSfcCardService from '@/services/issuedSfcCardService'
 
 const IssuedTicketDashboardPage = () => {
     const axios = useAxiosIns()
@@ -40,17 +37,6 @@ const IssuedTicketDashboardPage = () => {
         onResetFilterSearch: sOnResetFilterSearch
     } = issuedSubscriptionTicketService({ enableFetching: true })
 
-    const {
-        tickets: sfcTickets,
-        total: sfcTotal,
-        page: sfcPage,
-        limit: sfcLimit,
-        setPage: sfcSetPage,
-        buildQuery: sfcBuildQuery,
-        onFilterSearch: sfcOnFilterSearch,
-        onResetFilterSearch: sfcOnResetFilterSearch
-    } = issuedSfcCardService({ enableFetching: true })
-
     const fetchAllStationsQuery = useQuery({
         queryKey: ['stations-all'],
         queryFn: () => axios.get<IResponseData<IStation[]>>('/stations/metro-stations'),
@@ -73,7 +59,7 @@ const IssuedTicketDashboardPage = () => {
 
     const [havingFilters, setHavingFilters] = useState(false)
     const [activeTab, setActiveTab] = useState(0)
-    const tabs = ['Vé một chặng', 'Vé thời hạn', 'Thẻ SFC']
+    const tabs = ['Vé một chặng', 'Vé thời hạn']
 
     return (
         <div className="flex w-full flex-col gap-4">
@@ -121,23 +107,6 @@ const IssuedTicketDashboardPage = () => {
                             />
                         </Popover>
                     )}
-                    {activeTab === 2 && (
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <div className="relative flex min-w-[120px] cursor-pointer items-center justify-center rounded-md border-2 border-solid border-black bg-black/10 px-6 py-3 font-medium text-black hover:opacity-90">
-                                    Tìm kiếm
-                                    {havingFilters && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
-                                </div>
-                            </PopoverTrigger>
-                            <SfcCardFilter
-                                stations={stations}
-                                setHavingFilters={setHavingFilters}
-                                onChange={sfcBuildQuery}
-                                onSearch={sfcOnFilterSearch}
-                                onReset={sfcOnResetFilterSearch}
-                            />
-                        </Popover>
-                    )}
                 </div>
             </div>
 
@@ -145,7 +114,6 @@ const IssuedTicketDashboardPage = () => {
 
             {activeTab === 0 && <SingleJourneyTicketTable tickets={sjTickets} total={total} page={page} limit={limit} setPage={setPage} />}
             {activeTab === 1 && <SubscriptionTicketTable tickets={sTickets} total={sTotal} page={sPage} limit={sLimit} setPage={sSetPage} />}
-            {activeTab === 2 && <SfcCardTable tickets={sfcTickets} total={sfcTotal} page={sfcPage} limit={sfcLimit} setPage={sfcSetPage} />}
         </div>
     )
 }

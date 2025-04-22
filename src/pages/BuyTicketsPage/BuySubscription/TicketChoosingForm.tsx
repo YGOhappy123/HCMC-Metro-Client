@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { PAYMENT_METHOD_MAPPING } from '@/utils/paymentMethodMapping'
 import SelectInput from '@/components/common/SelectInput'
+import SelectSearchInput from '@/components/common/SelectSearchInput'
 import useAxiosIns from '@/hooks/useAxiosIns'
 
 type TicketChoosingFormProps = {
@@ -26,7 +27,7 @@ const TicketChoosingForm = ({ setSelectedTicket }: TicketChoosingFormProps) => {
     return (
         <div className="flex h-[98px] w-full gap-10 rounded-full border-2 border-solid border-[#9C9C9C] bg-[#FFFBF2] p-5 text-[#4D4D4D]">
             <div className="ml-[10px] grid flex-2 grid-cols-[1fr] items-center text-lg">
-                <SelectInput
+                <SelectSearchInput
                     fieldName="ticket"
                     placeholder="Chọn vé cần tra cứu"
                     options={tickets.map(ticket => ({ value: ticket.subscriptionTicketId, label: ticket.ticketName }))}
@@ -35,7 +36,7 @@ const TicketChoosingForm = ({ setSelectedTicket }: TicketChoosingFormProps) => {
                     onChange={(value: string | number) => setTicketId(value as number)}
                     onFocus={() => {}}
                     labelClassName="bg-[#FFFBF2]"
-                    selectClassName="py-[9px] rounded-md"
+                    selectClassName="py-[9px] rounded-md leading-normal"
                 />
             </div>
             <div className="border-secondary w-[2px] border-l-2 border-solid"></div>

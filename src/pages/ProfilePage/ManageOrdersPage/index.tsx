@@ -8,92 +8,9 @@ import Button from '@/components/common/Button'
 import SelectInput from '@/components/common/SelectInput'
 import MyOrderCard from '@/pages/ProfilePage/ManageOrdersPage/MyOrderCard'
 
-//     useEffect(() => setPage(1), [activeStatus])
-
-//     const lastPage = Math.ceil([...myBookings.filter(bk => !activeStatus || bk.status === activeStatus)].length / limit)
-
-//     return (
-//             <div className="grid grid-cols-3 justify-center gap-4">
-//                 <Button
-//                     text="Tất cả"
-//                     variant={activeStatus === undefined ? 'gradient' : undefined}
-//                     onClick={() => setActiveStatus(undefined)}
-//                     className="w-full rounded-full text-lg font-semibold capitalize"
-//                 />
-//                 {['Pending', 'Confirmed', 'Cancelled', 'CheckedIn', 'CheckedOut', 'PaymentDone'].map(status => (
-//                     <Button
-//                         key={status}
-//                         text={getMappedBookingStatus(status)}
-//                         variant={activeStatus === status ? 'gradient' : undefined}
-//                         onClick={() => setActiveStatus(prev => (prev === status ? undefined : (status as BookingStatus)))}
-//                         className="w-full rounded-full text-lg font-semibold capitalize"
-//                     />
-//                 ))}
-//             </div>
-
-//             {myBookings.length > 0 ? (
-//                 <>
-//                     {[...myBookings.filter(bk => !activeStatus || bk.status === activeStatus)]
-//                         .slice((page - 1) * limit, page * limit)
-//                         .map(booking => (
-//                             <MyBookingCard
-//                                 key={booking.id}
-//                                 booking={booking}
-//                                 fetchMyBookingsQuery={fetchMyBookingsQuery}
-//                                 services={availableServices}
-//                             />
-//                         ))}
-
-//                     <div className="mt-2">
-//                         <Pagination>
-//                             <PaginationContent>
-//                                 <PaginationItem>
-//                                     <PaginationPrevious onClick={() => setPage(page === 1 ? 1 : page - 1)} />
-//                                 </PaginationItem>
-//                                 {Array.from({ length: lastPage }, (_, i) => i + 1).map(num => (
-//                                     <PaginationItem key={num}>
-//                                         <PaginationLink isActive={num === page} onClick={() => setPage(num)}>
-//                                             {num}
-//                                         </PaginationLink>
-//                                     </PaginationItem>
-//                                 ))}
-//                                 <PaginationItem>
-//                                     <PaginationNext onClick={() => setPage(page === lastPage ? lastPage : page + 1)} />
-//                                 </PaginationItem>
-//                             </PaginationContent>
-//                         </Pagination>
-//                     </div>
-//                 </>
-//             ) : (
-//                 <>
-//                     <div className="text-left font-semibold text-[#6E6E6E]">
-//                         <p className="text-lg">Bạn chưa có đơn đặt phòng nào!</p>
-//                         <p>Chúng tôi mong sẽ sớm được gặp bạn tại Stay Mate Hotel &hearts;</p>
-//                     </div>
-//                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
-//                         <Button
-//                             text="Tìm hiểu thêm"
-//                             onClick={() => navigate('/about-us')}
-//                             variant="gradient"
-//                             className="w-full rounded-full text-lg font-semibold capitalize"
-//                         />
-//                         <Button
-//                             text="Đặt phòng ngay"
-//                             onClick={() => navigate('/booking')}
-//                             className="w-full rounded-full text-lg font-semibold capitalize"
-//                         />
-//                     </div>
-//                 </>
-//             )}
-//         </div>
-//     )
-// }
-
-// export default ManageOrdersPage
-
 const ManageOrdersPage = () => {
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(4)
+    const [limit, setLimit] = useState(1)
     const [paymentStatus, setPaymentStatus] = useState<boolean | undefined>(undefined)
     const [sort, setSort] = useState<string>('-orderId')
 
@@ -118,14 +35,14 @@ const ManageOrdersPage = () => {
         select: res => res.data
     })
     const orders = fetchMyOrdersQuery.data?.data ?? []
+    const total = fetchMyOrdersQuery.data?.total ?? 0
+    const lastPage = Math.ceil(total / limit)
 
     useEffect(() => {
         if (page !== 1) {
             setPage(1)
         }
     }, [paymentStatus])
-
-    console.log(orders)
 
     return (
         <div className="flex w-full flex-col gap-6 lg:w-auto lg:flex-1">
@@ -200,23 +117,27 @@ const ManageOrdersPage = () => {
                     ))}
 
                     <div className="mt-2">
-                        {/* <Pagination>
-                            <PaginationContent>
-                                <PaginationItem>
-                                    <PaginationPrevious onClick={() => setPage(page === 1 ? 1 : page - 1)} />
-                                </PaginationItem>
-                                {Array.from({ length: lastPage }, (_, i) => i + 1).map(num => (
-                                    <PaginationItem key={num}>
-                                        <PaginationLink isActive={num === page} onClick={() => setPage(num)}>
-                                            {num}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                ))}
-                                <PaginationItem>
-                                    <PaginationNext onClick={() => setPage(page === lastPage ? lastPage : page + 1)} />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination> */}
+                        <div className="join flex w-full justify-center">
+                            <div className="join">
+                                <button
+                                    className="join-item btn border-primary cursor-pointer disabled:opacity-70"
+                                    disabled={page === 1}
+                                    onClick={() => setPage(page === 1 ? 1 : page - 1)}
+                                >
+                                    «
+                                </button>
+                                <button className="join-item btn border-primary">
+                                    Trang {page}/{lastPage}
+                                </button>
+                                <button
+                                    className="join-item btn border-primary cursor-pointer disabled:opacity-70"
+                                    disabled={page === lastPage}
+                                    onClick={() => setPage(page === lastPage ? lastPage : page + 1)}
+                                >
+                                    »
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </>
             )}

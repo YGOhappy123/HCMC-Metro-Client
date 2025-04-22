@@ -8,7 +8,7 @@ function TabItem({ isActive, onClick, children }: TabItemProps) {
     return (
         <li
             onClick={onClick}
-            className={`w-3xs cursor-pointer rounded-[5px] px-4 py-2 text-center transition-colors duration-300 ${isActive ? 'bg-[var(--color-primary)] text-white' : 'text-blue-700 hover:bg-blue-200'} `}
+            className={`border-primary w-3xs cursor-pointer rounded-[5px] border-2 px-4 py-2 text-center transition-colors duration-300 ${isActive ? 'bg-[var(--color-primary)] text-white' : 'text-primary hover:bg-blue-200'} `}
         >
             {children}
         </li>

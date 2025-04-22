@@ -53,8 +53,7 @@ function TicketPriceLookupForm({
     const paymentMethods: PaymentMethod[] = [
         { value: 'cash', label: 'Tiền mặt' },
         { value: 'creditCard', label: 'Thẻ tín dụng' },
-        { value: 'digitalWallet', label: 'Ví điện tử' },
-        { value: 'sfc', label: 'Thẻ SFC' }
+        { value: 'digitalWallet', label: 'Ví điện tử' }
     ]
 
     function validateFormValues() {
@@ -105,7 +104,7 @@ function TicketPriceLookupForm({
                         value={formValues.fromStationId}
                         onChange={(value: string | number) => setFormValues(prev => ({ ...prev, fromStationId: value as number }))}
                         onFocus={() => setErrors(prev => ({ ...prev, fromStationId: '' }))}
-                        labelClassName="bg-white"
+                        labelClassName="bg-stone-100"
                         selectClassName="w-72"
                     />
                     <span className="text-4xl">&rarr;</span>
@@ -118,7 +117,7 @@ function TicketPriceLookupForm({
                         value={formValues.toStationId}
                         onChange={(value: string | number) => setFormValues(prev => ({ ...prev, toStationId: value as number }))}
                         onFocus={() => setErrors(prev => ({ ...prev, toStationId: '' }))}
-                        labelClassName="bg-white"
+                        labelClassName="bg-stone-100"
                         selectClassName="w-72"
                     />
                 </div>
@@ -132,7 +131,7 @@ function TicketPriceLookupForm({
                         options={paymentMethods}
                         onChange={(value: string | number) => setFormValues(prev => ({ ...prev, paymentMethod: value as string }))}
                         onFocus={() => setErrors(prev => ({ ...prev, paymentMethod: '' }))}
-                        labelClassName="bg-white"
+                        labelClassName="bg-stone-100"
                     />
                 </div>
 

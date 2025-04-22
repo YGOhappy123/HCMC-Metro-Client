@@ -1,14 +1,20 @@
+import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
+import { ColumnDef } from '@tanstack/react-table'
+import { DataTable } from '@/components/ui/DataTable'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/Accordion'
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { getMappedPaymentMethod, getMappedTicketStatus } from '@/utils/paymentMethodMapping'
+import { QRCodeCanvas } from 'qrcode.react'
+import Button from '@/components/common/Button'
 import dayjs from 'dayjs'
-import { getMappedPaymentMethod } from '@/utils/paymentMethodMapping'
 
 type MyOrderCardProps = {
     order: IOrder
 }
 
-const baseButtonClass =
-    'min-w-[120px] rounded-md border-2 border-solid px-6 py-3 font-medium hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50'
 const statusTheme = {
     unpaid: 'bg-pink-100 border-pink-600 text-pink-600',
     paid: 'bg-green-100 border-green-600 text-green-600',
@@ -19,6 +25,149 @@ const statusTheme = {
 }
 
 const MyOrderCard = ({ order }: MyOrderCardProps) => {
+    const singleJourneyColumns: ColumnDef<IIssuedSingleJourneyTicket>[] = [
+        {
+            accessorKey: 'ticketId',
+            header: 'Mã Vé'
+        },
+        {
+            accessorKey: 'code',
+            header: () => <div className="text-center">Mã Code</div>,
+            cell: ({ row }) => {
+                const code = row.original.code
+
+                return (
+                    <div className="flex justify-center">
+                        <QRCodeCanvas value={code!} size={80} />
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'stations',
+            header: () => <div className="text-center">Ga Khởi Hành Và Đích Đến</div>,
+            cell: ({ row }) => {
+                const entryStation = row.original.entryStation
+                const exitStation = row.original.exitStation
+
+                return (
+                    <div className="flex flex-col items-center justify-center gap-2">
+                        <span>{entryStation?.stationName}</span>
+                        <FontAwesomeIcon icon={faArrowDown} />
+                        <span>{exitStation?.stationName}</span>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'price',
+            header: () => <div className="text-center">Giá Tiền</div>,
+            cell: ({ row }) => {
+                const price = row.original.price
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-green">
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price! * 1000)}
+                        </div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng Thái Vé</div>,
+            cell: ({ row }) => {
+                const status = row.original.status
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-pink">{getMappedTicketStatus(status!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'dates',
+            header: () => <div className="text-center">Ngày Hết Hạn</div>,
+            cell: ({ row }) => {
+                const expiredAt = row.original.expiredAt
+
+                return <div className="text-center">{dayjs(expiredAt).format('DD/MM/YYYY HH:mm:ss')}</div>
+            }
+        }
+    ]
+
+    const subscriptionColumns: ColumnDef<IIssuedSubscriptionTicket>[] = [
+        {
+            accessorKey: 'ticketId',
+            header: 'Mã Vé'
+        },
+        {
+            accessorKey: 'code',
+            header: () => <div className="text-center">Mã Code</div>,
+            cell: ({ row }) => {
+                const code = row.original.code
+
+                return (
+                    <div className="flex justify-center">
+                        <QRCodeCanvas value={code!} size={80} />
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'stations',
+            header: () => <div className="text-center">Loại Vé</div>,
+            cell: ({ row }) => {
+                const ticket = row.original.subscriptionTicket
+
+                return (
+                    <div className="flex items-center justify-center gap-2">
+                        <span>{ticket?.ticketName}</span>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'price',
+            header: () => <div className="text-center">Giá Tiền</div>,
+            cell: ({ row }) => {
+                const price = row.original.price
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-green">
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price! * 1000)}
+                        </div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng Thái Vé</div>,
+            cell: ({ row }) => {
+                const status = row.original.status
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-pink">{getMappedTicketStatus(status!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'dates',
+            header: () => <div className="text-center">Ngày Hết Hạn</div>,
+            cell: ({ row }) => {
+                const expiredAt = row.original.expiredAt
+
+                return <div className="text-center">{dayjs(expiredAt).format('DD/MM/YYYY HH:mm:ss')}</div>
+            }
+        }
+    ]
+
     return (
         <Accordion type="single" collapsible className="w-full">
             <div className="border-primary flex flex-col gap-3 rounded-2xl border-2 bg-white px-11 py-9">
@@ -48,24 +197,14 @@ const MyOrderCard = ({ order }: MyOrderCardProps) => {
                             <h3 className="text-primary text-xl font-semibold">Các vé được mua</h3>
                         </AccordionTrigger>
                         <AccordionContent className="p-0">
-                            {/* {order.orderRooms.map((room, index) => (
-                                <div key={index} className="mt-3 flex flex-col gap-2">
-                                    <h4 className="text-secondary text-xl font-semibold">Phòng {(index + 1).toString().padStart(2, '0')}:</h4>
-                                    <p className="flex items-center justify-between text-lg">
-                                        <span className="font-semibold">Thông tin phòng: </span>
-                                        Mã {room!.roomNumber} - Tầng {room!.floor} - Loại {room!.roomClass}
-                                    </p>
-                                    <p className="flex items-center justify-between text-lg">
-                                        <span className="font-semibold">Số khách thuê: </span>
-                                        {room.numberOfGuests?.toString().padStart(2, '0')} người
-                                    </p>
-                                    <p className="flex items-center justify-between text-lg">
-                                        <span className="font-semibold">Đơn giá theo ngày: </span>
-                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.unitPrice!)}
-                                    </p>
-                                    {index !== order.orderRooms.length - 1 && <div className="mt-1 h-0.5 bg-black/10"></div>}
-                                </div>
-                            ))} */}
+                            <div className="mt-3">
+                                {!!order.singleJourneyTickets?.length && (
+                                    <DataTable columns={singleJourneyColumns} data={order.singleJourneyTickets!} noDataMessage="" />
+                                )}
+                                {!!order.subscriptionTickets?.length && (
+                                    <DataTable columns={subscriptionColumns} data={order.subscriptionTickets!} noDataMessage="" />
+                                )}
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </div>

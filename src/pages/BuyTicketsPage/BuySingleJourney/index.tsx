@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { SegmentDisplay } from '@/pages/HomePage/FindPathSection'
+import { SegmentDisplay } from '@/components/ui/SegmentDisplay'
 import StationsChoosingForm from '@/pages/BuyTicketsPage/BuySingleJourney/StationsChoosingForm'
 import BuyTicketForm from '@/pages/BuyTicketsPage/BuySingleJourney/BuyTicketForm'
 

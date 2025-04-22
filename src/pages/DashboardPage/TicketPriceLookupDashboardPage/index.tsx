@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Dialog, DialogTrigger } from '@/components/ui/Dialog'
-import { Popover, PopoverTrigger } from '@/components/ui/Popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
-
 import useAxiosIns from '@/hooks/useAxiosIns'
 import TicketPriceLookupForm from './TicketPriceLookupForm'
 import PathTable from './PathTable'
@@ -44,7 +41,7 @@ const TicketPriceLookupDashboardPage = () => {
         queryFn: () => {
             if (!searchCriteria) return null
 
-            return axios.get<IResponseData<IPath[]>>('/stations/metro-path-enriched', {
+            return axios.get<IResponseData<IPath>>('/stations/metro-path-enriched', {
                 params: {
                     start: searchCriteria.fromStationId,
                     end: searchCriteria.toStationId,
