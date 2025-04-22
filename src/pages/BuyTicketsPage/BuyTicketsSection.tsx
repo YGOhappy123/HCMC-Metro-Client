@@ -1,5 +1,6 @@
-import BuySingleJourney from '@/pages/BuyTicketsPage/BuySingleJourney'
 import { useState } from 'react'
+import BuySingleJourney from '@/pages/BuyTicketsPage/BuySingleJourney'
+import BuySubscription from '@/pages/BuyTicketsPage/BuySubscription'
 
 const BuyTicketsSection = () => {
     const [ticketType, setTicketType] = useState<'single-journey' | 'subscription'>('single-journey')
@@ -30,7 +31,7 @@ const BuyTicketsSection = () => {
                     <div className="flex items-center gap-1">
                         <input
                             type="radio"
-                            id="css"
+                            id="subscription"
                             name="ticketType"
                             value="subscription"
                             checked={ticketType === 'subscription'}
@@ -44,6 +45,7 @@ const BuyTicketsSection = () => {
                 </div>
 
                 {ticketType === 'single-journey' && <BuySingleJourney />}
+                {ticketType === 'subscription' && <BuySubscription />}
             </div>
         </section>
     )

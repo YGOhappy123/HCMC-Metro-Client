@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/ui/DataTable'
 import { ColumnDef } from '@tanstack/react-table'
-import { IGroupedTicketPrice } from '@/pages/DashboardPage/PriceUpdateDashboardPage/UpdateSingleJourney'
+import { IGroupedTicketPrice } from '@/pages/DashboardPage/PriceUpdateDashboardPage/UpdateSubscription'
 import { PAYMENT_METHOD_MAPPING } from '@/utils/paymentMethodMapping'
 import Button from '@/components/common/Button'
 
@@ -17,48 +17,31 @@ type PriceTableProps = {
 const PriceTable = ({ prices, total, page, limit, setPage, onViewHistory, onUpdatePrice }: PriceTableProps) => {
     const columns: ColumnDef<IGroupedTicketPrice>[] = [
         {
-            accessorKey: 'firstStation',
-            header: () => 'Nhà ga thứ nhẩt',
+            accessorKey: 'ticketId',
+            header: 'Mã vé',
             cell: ({ row }) => {
-                const station = row.original.stations?.[0]
-
-                return (
-                    <div>
-                        <div>
-                            <span className="font-semibold">Mã nhà ga: </span>
-                            {station?.stationId}
-                        </div>
-                        <div>
-                            <span className="font-semibold">Tên nhà ga: </span>
-                            {station?.stationName}
-                        </div>
-                        <div>
-                            <span className="font-semibold">Địa chỉ: </span>
-                            {station?.location}
-                        </div>
-                    </div>
-                )
+                const ticket = row.original.ticket
+                return ticket.subscriptionTicketId
             }
         },
         {
-            accessorKey: 'secondStation',
-            header: () => 'Nhà ga thứ hai',
+            accessorKey: 'ticket',
+            header: () => 'Thông tin vé',
             cell: ({ row }) => {
-                const station = row.original.stations?.[1]
-
+                const ticket = row.original.ticket
                 return (
                     <div>
                         <div>
-                            <span className="font-semibold">Mã nhà ga: </span>
-                            {station?.stationId}
+                            <span className="font-semibold">Tên vé: </span>
+                            {ticket?.ticketName}
                         </div>
                         <div>
-                            <span className="font-semibold">Tên nhà ga: </span>
-                            {station?.stationName}
+                            <span className="font-semibold">Số ngày hiệu lực: </span>
+                            {ticket?.validityDays} ngày
                         </div>
                         <div>
-                            <span className="font-semibold">Địa chỉ: </span>
-                            {station?.location}
+                            <span className="font-semibold">Yêu cầu khi mua vé: </span>
+                            {ticket?.requirements ?? 'Không có yêu cầu đặc biệt'}
                         </div>
                     </div>
                 )
@@ -69,17 +52,10 @@ const PriceTable = ({ prices, total, page, limit, setPage, onViewHistory, onUpda
             header: () => 'Giá vé mới nhất',
             cell: ({ row }) => {
                 const prices = row.original.prices
-
                 return (
                     <div>
-                        {Object.entries(PAYMENT_METHOD_MAPPING).map(([method, mappedMethod]) => (
-                            <div key={method}>
-                                <span className="font-semibold">{mappedMethod}: </span>
-                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                                    (prices?.find(rec => rec.paymentMethod === method)?.price ?? 0)! * 1000
-                                )}
-                            </div>
-                        ))}
+                        <span className="font-semibold">Tất cả phương thức: </span>
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((prices?.[0]?.price ?? 0)! * 1000)}
                     </div>
                 )
             }
@@ -89,7 +65,6 @@ const PriceTable = ({ prices, total, page, limit, setPage, onViewHistory, onUpda
             header: () => <div className="text-center">Hành Động</div>,
             cell: ({ row }) => {
                 const group = row.original
-
                 return (
                     <div className="grid grid-cols-1 gap-2 xl:grid-cols-1">
                         <Button
