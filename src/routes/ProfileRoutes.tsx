@@ -1,11 +1,6 @@
 import { Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
-import {
-    EditProfilePage,
-    ChangeAvatarPage,
-    ChangePasswordPage
-    // ManageBookingsPage
-} from '@/pages/ProfilePage'
+import { EditProfilePage, ChangeAvatarPage, ChangePasswordPage, ManageOrdersPage } from '@/pages/ProfilePage'
 import ProfileLayout from '@/layouts/ProfileLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
@@ -35,11 +30,11 @@ const ProfileRoutes = [
             {
                 path: 'change-password',
                 element: <ChangePasswordPage />
+            },
+            {
+                path: 'my-orders',
+                element: <AuthProtector children={<ManageOrdersPage />} redirect="/auth" allowedRoles={['customer']} />
             }
-            // {
-            //     path: 'bookings',
-            //     element: <AuthProtector children={<ManageBookingsPage />} redirect="/auth" allowedRoles={['customer']} />
-            // }
         ]
     }
 ]

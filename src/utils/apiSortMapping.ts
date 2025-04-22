@@ -7,6 +7,8 @@ export const SORT_MAPPING = {
     '+totalAmount': [['totalAmount', 'ASC']],
     '-paymentTime': [['paymentTime', 'DESC']],
     '+paymentTime': [['paymentTime', 'ASC']],
+    '-orderId': [['orderId', 'DESC']],
+    '+orderId': [['orderId', 'ASC']],
     '-amount': [['amount', 'DESC']],
     '+amount': [['amount', 'ASC']],
     '-issuedAt': [['issuedAt', 'DESC']],

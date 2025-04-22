@@ -18,3 +18,12 @@ export const TICKET_STATUS_MAPPING = {
 export const getMappedTicketStatus = (status: string) => {
     return TICKET_STATUS_MAPPING[status as keyof typeof TICKET_STATUS_MAPPING] ?? 'Không xác định'
 }
+
+export const SALES_ORIGIN_MAPPING = {
+    station: 'Mua trực tiếp tại ga',
+    website: 'Mua online tại website'
+}
+
+export const getMappedSalesOrigin = (status: string) => {
+    return SALES_ORIGIN_MAPPING[status as keyof typeof SALES_ORIGIN_MAPPING] ?? 'Không xác định'
+}

@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
-import { IGroupedTicketPrice } from '@/pages/DashboardPage/PriceUpdateDashboardPage/UpdateSingleJourney'
+import { IGroupedTicketPrice } from '@/pages/DashboardPage/PriceUpdateDashboardPage/UpdateSubscription'
 import { getMappedPaymentMethod } from '@/utils/paymentMethodMapping'
 import Button from '@/components/common/Button'
 import dayjs from 'dayjs'
@@ -12,7 +12,7 @@ type ViewPriceHistoryDialogProps = {
 }
 
 const ViewPriceHistoryDialog = ({ priceGroup, closeDialog }: ViewPriceHistoryDialogProps) => {
-    const columns: ColumnDef<ISingleJourneyTicketPrice>[] = [
+    const columns: ColumnDef<ISubscriptionTicketPrice>[] = [
         {
             accessorKey: 'priceId',
             header: 'Mã Giá Tiền'
@@ -28,19 +28,6 @@ const ViewPriceHistoryDialog = ({ priceGroup, closeDialog }: ViewPriceHistoryDia
                         <div className="table-tag-green">
                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price! * 1000)}
                         </div>
-                    </div>
-                )
-            }
-        },
-        {
-            accessorKey: 'method',
-            header: () => <div className="text-center">Phương Thức Thanh Toán</div>,
-            cell: ({ row }) => {
-                const method = row.original.paymentMethod
-
-                return (
-                    <div className="flex justify-center">
-                        <div className="table-tag-blue">{getMappedPaymentMethod(method!)}</div>
                     </div>
                 )
             }
@@ -77,7 +64,7 @@ const ViewPriceHistoryDialog = ({ priceGroup, closeDialog }: ViewPriceHistoryDia
     ]
 
     return (
-        <DialogContent className="max-w-[900px] bg-white">
+        <DialogContent className="max-w-[700px] bg-white">
             <DialogHeader>
                 <DialogTitle>Lịch sử cập nhật giá vé</DialogTitle>
                 <DialogDescription></DialogDescription>

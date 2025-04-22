@@ -25,7 +25,7 @@ const ProfileSidebar = () => {
                 </NavLink>
                 {user.role === 'customer' && (
                     <NavLink
-                        to="/profile/orders"
+                        to="/profile/my-orders"
                         className={({ isActive }) => `text-lg ${isActive ? 'text-primary' : 'text-white/50 hover:text-white'}`}
                     >
                         Quản lý đơn hàng đã mua

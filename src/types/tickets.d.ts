@@ -42,7 +42,6 @@ declare global {
         paymentTime?: string
         status: TicketStatus
         price: number
-        purchaseDate: string
         issuedAt: string
         expiredAt: string
     }
@@ -52,6 +51,7 @@ declare global {
         ticketName: string
         requirements?: string
         validityDays: number
+        price?: number
     }
 
     interface ISubscriptionTicketPrice {
@@ -77,7 +77,6 @@ declare global {
         paymentTime?: string
         status: TicketStatus
         price: number
-        purchaseDate: string
         issuedAt: string
         expiredAt: string
     }

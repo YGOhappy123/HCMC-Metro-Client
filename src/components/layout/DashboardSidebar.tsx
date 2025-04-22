@@ -107,16 +107,6 @@ const SUB_MENU_LIST = [
                         navigation: 'ticket-prices-update'
                     }
                 ]
-            },
-            {
-                label: 'Thống kê',
-                icon: faCashRegister,
-                items: [
-                    {
-                        label: 'Doanh thu',
-                        navigation: 'transactions'
-                    }
-                ]
             }
         ]
     }

@@ -96,7 +96,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             accessorKey: 'dates',
             header: 'Ngày Mua',
             cell: ({ row }) => {
-                const purchaseDate = row.original.purchaseDate
+                const purchaseDate = row.original.issuedAt
                 const expiredAt = row.original.expiredAt
                 const paymentTime = row.original.paymentTime
 
@@ -146,7 +146,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
 
                 return (
                     <div className="flex items-center justify-center gap-2">
-                        <span>{ticket?.name}</span>
+                        <span>{ticket?.ticketName}</span>
                     </div>
                 )
             }
@@ -196,7 +196,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             accessorKey: 'dates',
             header: 'Ngày Mua',
             cell: ({ row }) => {
-                const purchaseDate = row.original.purchaseDate
+                const purchaseDate = row.original.issuedAt
                 const expiredAt = row.original.expiredAt
                 const paymentTime = row.original.paymentTime
 
@@ -269,7 +269,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
                 <div className="flex items-center gap-1">
                     <input
                         type="radio"
-                        id="css"
+                        id="subscription"
                         name="ticketType"
                         value="subscription"
                         checked={ticketType === 'subscription'}

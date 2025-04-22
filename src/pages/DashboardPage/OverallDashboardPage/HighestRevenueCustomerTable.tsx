@@ -1,29 +1,19 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
-import dayjs from 'dayjs'
 
-type HighestTotalPaymentGuestTableProps = {
-    guests: IGuest[]
+type HighestRevenueCustomerTableProps = {
+    guests: ICustomer[]
 }
 
-const HighestTotalPaymentGuestTable = ({ guests }: HighestTotalPaymentGuestTableProps) => {
-    const columns: ColumnDef<IGuest>[] = [
+const HighestRevenueCustomerTable = ({ guests }: HighestRevenueCustomerTableProps) => {
+    const columns: ColumnDef<ICustomer>[] = [
         {
-            accessorKey: 'id',
+            accessorKey: 'customerId',
             header: 'Mã Khách Hàng'
         },
         {
-            accessorKey: 'name',
-            header: 'Họ Và Tên',
-            cell: ({ row }) => {
-                const firstName = row.original.firstName
-                const lastName = row.original.lastName
-                return (
-                    <span>
-                        {lastName} {firstName}
-                    </span>
-                )
-            }
+            accessorKey: 'fullName',
+            header: 'Họ Và Tên'
         },
         {
             accessorKey: 'email',
@@ -55,27 +45,22 @@ const HighestTotalPaymentGuestTable = ({ guests }: HighestTotalPaymentGuestTable
             }
         },
         {
-            accessorKey: 'createdAt',
-            header: 'Ngày Tạo',
+            accessorKey: 'ticketCount',
+            header: () => <div className="text-center">Số Vé Đã Mua</div>,
             cell: ({ row }) => {
-                const createdAt = row.original.createdAt
-
-                return (
-                    <div>
-                        <div>{dayjs(createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
-                    </div>
-                )
+                const ticketCount = row.original.ticketCount
+                return <div className="flex justify-center">{(ticketCount as number).toString().padStart(2, '0')}</div>
             }
         },
         {
-            accessorKey: 'totalPayment',
+            accessorKey: 'totalRevenues',
             header: () => <div className="text-center">Số Tiền Giao Dịch</div>,
             cell: ({ row }) => {
-                const totalPayment = row.original.totalPayment
+                const totalRevenues = row.original.totalRevenues
                 return (
                     <div className="flex justify-center">
                         <div className="table-tag-green border-3 font-bold">
-                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPayment as number)}
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((totalRevenues as number) * 1000)}
                         </div>
                     </div>
                 )
@@ -85,7 +70,7 @@ const HighestTotalPaymentGuestTable = ({ guests }: HighestTotalPaymentGuestTable
 
     return (
         <div className="flex w-full flex-col items-center gap-4">
-            <h2 className="text-3xl font-semibold text-accent">Top 5 khách hàng có giá trị giao dịch cao nhất</h2>
+            <h2 className="text-accent text-2xl font-semibold">Top 5 khách hàng có giá trị giao dịch cao nhất</h2>
             <div className="w-full">
                 <DataTable columns={columns} data={guests} />
             </div>
@@ -93,4 +78,4 @@ const HighestTotalPaymentGuestTable = ({ guests }: HighestTotalPaymentGuestTable
     )
 }
 
-export default HighestTotalPaymentGuestTable
+export default HighestRevenueCustomerTable

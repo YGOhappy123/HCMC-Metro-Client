@@ -75,7 +75,7 @@ const ThankYouPage = () => {
                     <div className="flex items-center gap-6">
                         <button
                             className="flex h-[60px] w-[250px] cursor-pointer items-center justify-center gap-3 rounded-full bg-[#699282] font-semibold tracking-widest text-[#D9D9D9] uppercase hover:bg-[#699282]/90"
-                            onClick={() => navigate('/profile/orders')}
+                            onClick={() => navigate('/profile/my-orders')}
                         >
                             <FontAwesomeIcon icon={faHotel} size="lg" /> Quản lý đơn
                         </button>
