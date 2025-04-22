@@ -10,8 +10,8 @@ import DateRangePicker from '@/components/common/DateRangePicker'
 
 type SingleJourneyTicketFilterProps = {
     stations: IStation[]
-    activeTab: number
-    setHavingFilters: (value: boolean) => void
+    activeTab: string
+    setHavingFilters: (value: any) => void
     onChange: (params: IssuedSingleJourneyTicketSortAndFilterParams) => void
     onSearch: () => void
     onReset: () => void
@@ -21,6 +21,7 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
     const [searchCustomerName, setSearchCustomerName] = useState<string>('')
     const [searchOrderId, setSearchOrderId] = useState<string>('')
     const [searchPrice, setSearchPrice] = useState<string>('')
+    const [searchPaymentStatus, setSearchPaymentStatus] = useState<string>('')
     const [searchIssuedStation, setSearchIssuedStation] = useState<number>(0)
     const [searchEntryStation, setSearchEntryStation] = useState<number>(0)
     const [searchExitStation, setSearchExitStation] = useState<number>(0)
@@ -40,8 +41,18 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
     }, [date])
 
     useEffect(() => {
-        onChange({ searchCustomerName, searchOrderId, searchPrice, searchIssuedStation, searchEntryStation, searchExitStation, sort, range })
-    }, [searchCustomerName, searchOrderId, searchPrice, searchIssuedStation, searchEntryStation, searchExitStation, sort, range])
+        onChange({
+            searchCustomerName,
+            searchOrderId,
+            searchPrice,
+            searchPaymentStatus,
+            searchIssuedStation,
+            searchEntryStation,
+            searchExitStation,
+            sort,
+            range
+        })
+    }, [searchCustomerName, searchOrderId, searchPrice, searchPaymentStatus, searchIssuedStation, searchEntryStation, searchExitStation, sort, range])
 
     const handleSearch = () => {
         onSearch()
@@ -50,15 +61,16 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
             !searchCustomerName &&
             !searchOrderId &&
             !searchPrice &&
+            !searchPaymentStatus &&
             !searchIssuedStation &&
             !searchEntryStation &&
             !searchExitStation &&
             sort === '-issuedAt' &&
             !range?.length
         ) {
-            setHavingFilters(false)
+            setHavingFilters(prev => ({ ...prev, [activeTab]: false }))
         } else {
-            setHavingFilters(true)
+            setHavingFilters(prev => ({ ...prev, [activeTab]: true }))
         }
     }
 
@@ -66,12 +78,13 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
         setSearchCustomerName('')
         setSearchOrderId('')
         setSearchPrice('')
+        setSearchPaymentStatus('')
         setSearchIssuedStation(0)
         setSearchEntryStation(0)
         setSearchExitStation(0)
         setSort('-issuedAt')
         setDate(undefined)
-        setHavingFilters(false)
+        setHavingFilters(prev => ({ ...prev, [activeTab]: false }))
         onReset()
     }
 
@@ -82,22 +95,10 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
                 <Button text="Đặt lại" variant="danger" className="rounded-2xl px-3 py-1.5 text-xs" onClick={handleReset} />
             </div>
             <form>
-                {/* <div className="mb-4">
-                    <TextInput
-                        fieldName="name"
-                        placeholder="Lọc theo tên khách hàng"
-                        error=""
-                        value={searchCustomerName}
-                        onChange={(value: string) => setSearchCustomerName(value)}
-                        onFocus={() => {}}
-                        labelClassName="bg-white"
-                        inputClassName="leading-2"
-                    />
-                </div> */}
                 <div className="mb-4">
                     <TextInput
                         fieldName="orderId"
-                        placeholder="Lọc theo mã đơn hàng"
+                        placeholder="Lọc theo mã đơn hàng (sau #)"
                         error=""
                         value={searchOrderId}
                         onChange={(value: string) => setSearchOrderId(value)}
@@ -117,6 +118,39 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
                         labelClassName="bg-white"
                         inputClassName="leading-2"
                     />
+                </div>
+                <div className="relative mb-4 flex justify-around gap-2 rounded border-2 border-neutral-500">
+                    <label className="text-primary absolute -top-3 left-2.5 bg-white px-1 text-[13px] font-medium">
+                        Lọc theo trạng thái thanh toán
+                    </label>
+                    <div className="flex items-center gap-1">
+                        <input
+                            type="radio"
+                            id="paid"
+                            name="paidStatus"
+                            value="paid"
+                            onChange={e => setSearchPaymentStatus(e.target.value)}
+                            checked={searchPaymentStatus === 'paid'}
+                            className="accent-primary h-4 w-4 cursor-pointer"
+                        />
+                        <label htmlFor="paid" className="cursor-pointer p-2 font-medium text-neutral-500">
+                            Đã thanh toán
+                        </label>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <input
+                            type="radio"
+                            id="unpaid"
+                            name="paidStatus"
+                            value="unpaid"
+                            onChange={e => setSearchPaymentStatus(e.target.value)}
+                            checked={searchPaymentStatus === 'unpaid'}
+                            className="accent-primary h-4 w-4 cursor-pointer"
+                        />
+                        <label htmlFor="unpaid" className="cursor-pointer p-2 font-medium text-neutral-500">
+                            Chưa thanh toán
+                        </label>
+                    </div>
                 </div>
                 <div className="mb-4">
                     <SelectInput

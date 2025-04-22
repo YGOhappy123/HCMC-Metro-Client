@@ -43,12 +43,13 @@ declare global {
         status: TicketStatus
         price: number
         purchaseDate: string
+        issuedAt: string
         expiredAt: string
     }
 
     interface ISubscriptionTicket {
-        ticketId: number
-        name: string
+        subscriptionTicketId: number
+        ticketName: string
         requirements?: string
         validityDays: number
     }
@@ -77,6 +78,7 @@ declare global {
         status: TicketStatus
         price: number
         purchaseDate: string
+        issuedAt: string
         expiredAt: string
     }
 

@@ -53,7 +53,7 @@ const SelectSearchInput = ({
                     onFocus()
                 }}
                 className={twMerge(
-                    `peer text-primary caret-primary focus:border-primary block min-h-[auto] w-full cursor-pointer rounded border-2 border-neutral-500 bg-transparent px-3 py-2 leading-[2.15] font-medium transition-all duration-200 ease-linear outline-none motion-reduce:transition-none ${selectClassName}`
+                    `peer text-primary caret-primary focus:border-primary block min-h-[auto] w-full cursor-pointer rounded border-2 border-neutral-500 bg-transparent px-3.5 py-2 leading-[2.15] font-medium transition-all duration-200 ease-linear outline-none motion-reduce:transition-none ${selectClassName}`
                 )}
             >
                 {selectedLabel}

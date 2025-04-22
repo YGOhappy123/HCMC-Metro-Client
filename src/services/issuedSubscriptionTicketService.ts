@@ -13,6 +13,7 @@ export type IssuedSubscriptionTicketSortAndFilterParams = {
     searchCustomerName: string
     searchOrderId: string
     searchPrice: string
+    searchPaymentStatus: string
     searchIssuedStation: number
     searchSubscriptionTicket: number
     sort: string
@@ -35,6 +36,7 @@ const issuedSingleJourneyTicketService = ({ enableFetching }: { enableFetching: 
         searchCustomerName,
         searchOrderId,
         searchPrice,
+        searchPaymentStatus,
         searchIssuedStation,
         searchSubscriptionTicket,
         sort,
@@ -44,6 +46,7 @@ const issuedSingleJourneyTicketService = ({ enableFetching }: { enableFetching: 
         if (searchCustomerName) query.fullName = searchCustomerName.trim()
         if (searchOrderId) query.orderId = parseInt(searchOrderId.trim())
         if (searchPrice) query.price = parseInt(searchPrice.trim())
+        if (searchPaymentStatus) query.status = searchPaymentStatus.trim()
         if (searchIssuedStation) query.issuedStationId = searchIssuedStation
         if (searchSubscriptionTicket) query.subscriptionTicketId = searchSubscriptionTicket
         if (range) {
