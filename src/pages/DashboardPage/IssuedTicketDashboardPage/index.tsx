@@ -9,7 +9,6 @@ import SubscriptionTicketTable from '@/pages/DashboardPage/IssuedTicketDashboard
 import SingleJourneyTicketFilter from '@/pages/DashboardPage/IssuedTicketDashboardPage/SingleJourneyTicketFilter'
 import SubscriptionTicketFilter from '@/pages/DashboardPage/IssuedTicketDashboardPage/SubscriptionTicketFilter'
 import useAxiosIns from '@/hooks/useAxiosIns'
-import TabContainer from '@/components/ui/TabContainer'
 import issuedSingleJourneyTicketService from '@/services/issuedSingleJourneyTicketService'
 import issuedSubscriptionTicketService from '@/services/issuedSubscriptionTicketService'
 
@@ -57,9 +56,11 @@ const IssuedTicketDashboardPage = () => {
     })
     const subscriptionTickets = fetchAllSubscriptionTicketsQuery.data?.data || []
 
-    const [havingFilters, setHavingFilters] = useState(false)
-    const [activeTab, setActiveTab] = useState(0)
-    const tabs = ['Vé một chặng', 'Vé thời hạn']
+    const [havingFilters, setHavingFilters] = useState<{ [key: string]: boolean }>({
+        'single-journey': false,
+        subscription: false
+    })
+    const [ticketType, setTicketType] = useState<'single-journey' | 'subscription'>('single-journey')
 
     return (
         <div className="flex w-full flex-col gap-4">
@@ -70,18 +71,19 @@ const IssuedTicketDashboardPage = () => {
                     </span>
                     <span className="text-primary">Vé đã phát hành</span>
                 </h2>
+
                 <div className="flex justify-center gap-4">
-                    {activeTab === 0 && (
+                    {ticketType === 'single-journey' && (
                         <Popover>
                             <PopoverTrigger asChild>
                                 <div className="relative flex min-w-[120px] cursor-pointer items-center justify-center rounded-md border-2 border-solid border-black bg-black/10 px-6 py-3 font-medium text-black hover:opacity-90">
                                     Tìm kiếm
-                                    {havingFilters && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
+                                    {havingFilters[ticketType] && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
                                 </div>
                             </PopoverTrigger>
                             <SingleJourneyTicketFilter
                                 stations={stations}
-                                activeTab={activeTab}
+                                activeTab={ticketType}
                                 setHavingFilters={setHavingFilters}
                                 onChange={buildQuery}
                                 onSearch={onFilterSearch}
@@ -89,17 +91,18 @@ const IssuedTicketDashboardPage = () => {
                             />
                         </Popover>
                     )}
-                    {activeTab === 1 && (
+                    {ticketType === 'subscription' && (
                         <Popover>
                             <PopoverTrigger asChild>
                                 <div className="relative flex min-w-[120px] cursor-pointer items-center justify-center rounded-md border-2 border-solid border-black bg-black/10 px-6 py-3 font-medium text-black hover:opacity-90">
                                     Tìm kiếm
-                                    {havingFilters && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
+                                    {havingFilters[ticketType] && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
                                 </div>
                             </PopoverTrigger>
                             <SubscriptionTicketFilter
                                 stations={stations}
                                 subscriptionTickets={subscriptionTickets}
+                                activeTab={ticketType}
                                 setHavingFilters={setHavingFilters}
                                 onChange={sBuildQuery}
                                 onSearch={sOnFilterSearch}
@@ -110,10 +113,43 @@ const IssuedTicketDashboardPage = () => {
                 </div>
             </div>
 
-            <TabContainer tabs={tabs} activeIndex={activeTab} onChange={setActiveTab} />
+            <div className="flex items-center justify-center gap-10">
+                <div className="flex items-center gap-1">
+                    <input
+                        type="radio"
+                        id="single-journey"
+                        name="ticketType"
+                        value="single-journey"
+                        checked={ticketType === 'single-journey'}
+                        onChange={e => setTicketType(e.target.value as any)}
+                        className="accent-primary h-4 w-4 cursor-pointer"
+                    />
+                    <label htmlFor="single-journey" className="cursor-pointer p-2">
+                        Vé một chặng
+                    </label>
+                </div>
+                <div className="flex items-center gap-1">
+                    <input
+                        type="radio"
+                        id="subscription"
+                        name="ticketType"
+                        value="subscription"
+                        checked={ticketType === 'subscription'}
+                        onChange={e => setTicketType(e.target.value as any)}
+                        className="accent-primary h-4 w-4 cursor-pointer"
+                    />
+                    <label htmlFor="subscription" className="cursor-pointer p-2">
+                        Vé thời hạn
+                    </label>
+                </div>
+            </div>
 
-            {activeTab === 0 && <SingleJourneyTicketTable tickets={sjTickets} total={total} page={page} limit={limit} setPage={setPage} />}
-            {activeTab === 1 && <SubscriptionTicketTable tickets={sTickets} total={sTotal} page={sPage} limit={sLimit} setPage={sSetPage} />}
+            {ticketType === 'single-journey' && (
+                <SingleJourneyTicketTable tickets={sjTickets} total={total} page={page} limit={limit} setPage={setPage} />
+            )}
+            {ticketType === 'subscription' && (
+                <SubscriptionTicketTable tickets={sTickets} total={sTotal} page={sPage} limit={sLimit} setPage={sSetPage} />
+            )}
         </div>
     )
 }
