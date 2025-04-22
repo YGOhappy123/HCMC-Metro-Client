@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Form } from '@/components/ui/Form'
 import SelectInput from '@/components/common/SelectInput'
+import SelectSearchInput from '@/components/common/SelectSearchInput'
 import Button from '@/components/common/Button'
 
 type PaymentMethod = {
@@ -96,7 +97,7 @@ function TicketPriceLookupForm({
         <Form onSubmit={handleSubmit}>
             <div className="mx-auto my-5 flex w-3/5 flex-col items-center gap-y-8">
                 <div className="flex w-full items-center justify-between gap-x-1">
-                    <SelectInput
+                    <SelectSearchInput
                         fieldName="fromStationId"
                         placeholder="Trạm xuất phát"
                         error={errors.fromStationId}
@@ -109,7 +110,7 @@ function TicketPriceLookupForm({
                     />
                     <span className="text-4xl">&rarr;</span>
 
-                    <SelectInput
+                    <SelectSearchInput
                         fieldName="toStationId"
                         placeholder="Trạm đích"
                         error={errors.toStationId}

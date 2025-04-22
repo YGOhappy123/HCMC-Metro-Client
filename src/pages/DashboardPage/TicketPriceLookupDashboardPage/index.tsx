@@ -5,13 +5,7 @@ import { Popover, PopoverTrigger } from '@/components/ui/Popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
-import StaffTable from '@/pages/DashboardPage/StaffDashboardPage/StaffTable'
-import CreateStaffDialog from '@/pages/DashboardPage/StaffDashboardPage/CreateStaffDialog'
-import StaffFilter from '@/pages/DashboardPage/StaffDashboardPage/StaffFilter'
-import staffService from '@/services/staffService'
 import useAxiosIns from '@/hooks/useAxiosIns'
-import UpdateStaffDialog from '@/pages/DashboardPage/StaffDashboardPage/UpdateStaffDialog'
-import { Form } from '@/components/ui/Form'
 import TicketPriceLookupForm from './TicketPriceLookupForm'
 import PathTable from './PathTable'
 import Spinner from '@/components/ui/Spinner'
@@ -75,11 +69,11 @@ const TicketPriceLookupDashboardPage = () => {
                 </h2>
             </div>
 
-            <h2 className="font-oswald text-center text-3xl font-bold text-black/30 uppercase">
+            <h2 className="font-oswald text-center text-2xl font-bold text-black/30 uppercase">
                 <span>Nhập thông tin</span>
             </h2>
             <TicketPriceLookupForm stations={stations} onSubmit={handleSearchSubmit} onReset={handleReset} />
-            {paths.length > 0 && <PathTable paths={paths} />}
+            {isLoading ? <Spinner /> : paths.length > 0 && <PathTable paths={paths} />}
         </div>
     )
 }

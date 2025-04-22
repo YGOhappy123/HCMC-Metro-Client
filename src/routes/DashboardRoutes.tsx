@@ -3,6 +3,7 @@ import {
     OverallDashboardPage,
     StaffDashboardPage,
     TicketPriceLookupDashboardPage,
+    IssuedTicketDashboardPage,
     // RoomDashboardPage,
     // RoomClassDashboardPage,
     // FloorDashboardPage,
@@ -71,6 +72,10 @@ const DashboardRoutes = [
             {
                 path: 'ticket-prices',
                 element: <AuthProtector children={<TicketPriceLookupDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
+            },
+            {
+                path: 'issued-tickets',
+                element: <AuthProtector children={<IssuedTicketDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
             },
             // {
             //     path: 'bookings',
