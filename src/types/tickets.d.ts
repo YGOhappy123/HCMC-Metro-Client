@@ -86,4 +86,4 @@ declare global {
     }
 }
 
-export {}
+export {IOrder,PaymentMethod,ISubscriptionTicketPrice,IIssuedSubscriptionTicket}

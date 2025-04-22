@@ -7,8 +7,10 @@ import {
     // FloorDashboardPage,
     // FeatureDashboardPage,
     // ServiceDashboardPage,
-    CustomerDashboardPage
-    // AdminDashboardPage,
+    CustomerDashboardPage,
+    AdminDashboardPage,
+    SJTDashboardPage,
+    STDashboardPage
     // BookingDashboardPage,
     // TransactionDashboardPage,
     // ServiceBookingDashboardPage
@@ -16,6 +18,7 @@ import {
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
+
 
 const DashboardRoutes = [
     {
@@ -59,10 +62,18 @@ const DashboardRoutes = [
                 path: 'customers',
                 element: <CustomerDashboardPage />
             },
-            // {
-            //     path: 'admins',
-            //     element: <AdminDashboardPage />
-            // },
+            {
+                path: 'issue-single-journey-ticket',
+                element: <SJTDashboardPage />
+            },
+            {
+                path: 'issue-subscription-ticket',
+                element: <STDashboardPage />
+            },
+            {
+                path: 'admins',
+                element: <AdminDashboardPage />
+            },
             {
                 path: 'staffs',
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />

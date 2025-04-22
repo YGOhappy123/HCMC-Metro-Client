@@ -25,4 +25,4 @@ declare global {
     type IPath = IPathSegment[]
 }
 
-export {}
+export {IStation, IPathSegment}
