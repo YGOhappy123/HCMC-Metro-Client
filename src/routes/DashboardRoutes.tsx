@@ -18,6 +18,7 @@ import {
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthProtector from '@/components/container/AuthProtector'
+import TripDashboardPage from '@/pages/DashboardPage/TripDashboardPage'
 
 const DashboardRoutes = [
     {
@@ -76,6 +77,10 @@ const DashboardRoutes = [
             {
                 path: 'issued-tickets',
                 element: <AuthProtector children={<IssuedTicketDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
+            },
+            {
+                path: 'trips',
+                element: <AuthProtector children={<TripDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
             },
             // {
             //     path: 'bookings',

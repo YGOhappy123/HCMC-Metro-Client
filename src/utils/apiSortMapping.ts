@@ -12,7 +12,11 @@ export const SORT_MAPPING = {
     '-amount': [['amount', 'DESC']],
     '+amount': [['amount', 'ASC']],
     '-issuedAt': [['issuedAt', 'DESC']],
-    '+issuedAt': [['issuedAt', 'ASC']]
+    '+issuedAt': [['issuedAt', 'ASC']],
+    '-entryTime': [['entryTime', 'DESC']],
+    '+entryTime': [['entryTime', 'ASC']],
+    '-exitTime': [['exitTime', 'DESC']],
+    '+exitTime': [['exitTime', 'ASC']]
 }
 
 export const getMappedSort = (sort: string) => {

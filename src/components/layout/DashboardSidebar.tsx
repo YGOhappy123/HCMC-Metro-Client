@@ -35,6 +35,10 @@ const SUB_MENU_LIST = [
                         navigation: 'customers'
                     },
                     {
+                        label: 'Danh sách chuyến đi',
+                        navigation: 'trips'
+                    },
+                    {
                         label: 'Vé đã phát hành',
                         navigation: 'issued-tickets'
                     }
