@@ -9,6 +9,7 @@ import tripService from '@/services/tripService'
 import TripTable from './TripTable'
 import TripFilter from './TripFilter'
 import { Dialog } from '@/components/ui/Dialog'
+import TicketDetailDialog from './TicketDetailDialog'
 
 const TripDashboardPage = () => {
     const axios = useAxiosIns()
@@ -35,7 +36,8 @@ const TripDashboardPage = () => {
     const subscriptionTickets = fetchAllSubscriptionTicketsQuery.data?.data || []
 
     const [havingFilters, setHavingFilters] = useState(false)
-    const [isTicketDetailModalOpen, setIsTicketDetailModalOpen] = useState(false)
+    const [isTicketDetailDialogOpen, setIsTicketDetailDialogOpen] = useState(false)
+    const [selectedTicket, setSelectedTicket] = useState<IIssuedSingleJourneyTicket | IIssuedSubscriptionTicket | null>(null)
 
     return (
         <div className="flex w-full flex-col gap-4">
@@ -65,19 +67,23 @@ const TripDashboardPage = () => {
                         />
                     </Popover>
 
-                    {/* <Dialog open={isTicketDetailModalOpen} onOpenChange={setIsTicketDetailModalOpen}>
-                        <UpdateStaffDialog
-                            selectedStaff={selectedStaff}
-                            isOpen={isTicketDetailModalOpen}
-                            stations={stations}
-                            closeDialog={() => setIsTicketDetailModalOpen(false)}
-                            updateStaffMutation={updateStaffMutation}
-                        />
-                    </Dialog> */}
+                    <Dialog open={isTicketDetailDialogOpen} onOpenChange={setIsTicketDetailDialogOpen}>
+                        <TicketDetailDialog ticket={selectedTicket} closeDialog={() => setIsTicketDetailDialogOpen(false)} />
+                    </Dialog>
                 </div>
             </div>
 
-            <TripTable trips={trips} total={total} page={page} limit={limit} setPage={setPage} />
+            <TripTable
+                trips={trips}
+                total={total}
+                page={page}
+                limit={limit}
+                setPage={setPage}
+                onSelectTicket={(ticket: IIssuedSingleJourneyTicket | IIssuedSubscriptionTicket) => {
+                    setSelectedTicket(ticket)
+                    setIsTicketDetailDialogOpen(true)
+                }}
+            />
         </div>
     )
 }

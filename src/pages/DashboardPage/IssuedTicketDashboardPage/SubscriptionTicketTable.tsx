@@ -4,6 +4,7 @@ import dayjs from '@/libs/dayjs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons'
 import formatCurrency from '@/utils/formatCurrency'
+import TicketNameTag from '@/components/ui/TicketNameTag'
 
 type SubscriptionTicketTableProps = {
     tickets: IIssuedSubscriptionTicket[]
@@ -35,36 +36,7 @@ const SubscriptionTicketTable = ({ tickets, total, page, limit, setPage }: Subsc
             cell: ({ row }) => {
                 const ticketName = row.original.subscriptionTicket?.ticketName
 
-                switch (ticketName) {
-                    case 'Vé 1 ngày':
-                        return (
-                            <div className="flex justify-center">
-                                <div className="table-tag-cyan">{ticketName}</div>
-                            </div>
-                        )
-                    case 'Vé 3 ngày':
-                        return (
-                            <div className="flex justify-center">
-                                <div className="table-tag-indigo">{ticketName}</div>
-                            </div>
-                        )
-                    case 'Vé tháng phổ thông':
-                        return (
-                            <div className="flex justify-center">
-                                <div className="table-tag-fuchsia">{ticketName}</div>
-                            </div>
-                        )
-                    case 'Vé tháng HSSV':
-                        return (
-                            <div className="flex justify-center">
-                                <div className="table-tag-emerald">{ticketName}</div>
-                            </div>
-                        )
-                    default:
-                        break
-                }
-
-                return ticketName
+                return <TicketNameTag ticketName={ticketName || ''} />
             }
         },
         {
