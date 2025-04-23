@@ -25,6 +25,8 @@ declare global {
         phoneNumber?: string
         avatar?: string
         isActive?: boolean
+        totalRevenues?: number
+        ticketCount?: number
     }
 
     interface IStaff {

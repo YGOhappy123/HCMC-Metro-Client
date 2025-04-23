@@ -1,15 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
-import dayjs from '@/libs/dayjs'
-import ConfirmationDialog from '@/components/ui/ConfirmationDialog'
-import Button from '@/components/common/Button'
 
 type PathTableProps = {
-    paths: IPath[]
+    paths: IPathSegment[]
 }
 
 const PathTable = ({ paths }: PathTableProps) => {
-    const columns: ColumnDef<IPath>[] = [
+    const columns: ColumnDef<IPathSegment>[] = [
         {
             accessorKey: 'fromStation',
             header: 'Trạm đi',
@@ -21,11 +18,11 @@ const PathTable = ({ paths }: PathTableProps) => {
                     <div>
                         <div>
                             <span className="font-semibold">Tên trạm: </span>
-                            {fromStation.stationName}
+                            {fromStation?.stationName}
                         </div>
                         <div>
                             <span className="font-semibold">Địa chỉ: </span>
-                            {fromStation.location}
+                            {fromStation?.location}
                         </div>
                     </div>
                 )
@@ -42,11 +39,11 @@ const PathTable = ({ paths }: PathTableProps) => {
                     <div>
                         <div>
                             <span className="font-semibold">Tên trạm: </span>
-                            {toStation.stationName}
+                            {toStation?.stationName}
                         </div>
                         <div>
                             <span className="font-semibold">Địa chỉ: </span>
-                            {toStation.location}
+                            {toStation?.location}
                         </div>
                     </div>
                 )
@@ -58,22 +55,19 @@ const PathTable = ({ paths }: PathTableProps) => {
         },
         {
             accessorKey: 'price',
-            header: 'Giá tiền'
-        }
-        // {
-        //     accessorKey: 'workingStation',
-        //     header: () => <div className="text-center">Ga Đang Công Tác</div>,
-        //     enableHiding: true,
-        //     cell: ({ row }) => {
-        //         const workingStation = row.original.workingStation
+            header: () => <div className="text-center">Giá Tiền</div>,
+            cell: ({ row }) => {
+                const price = row.original.price
 
-        //         return (
-        //             <div className="flex justify-center">
-        //                 <div className="table-tag-pink">{workingStation?.stationName}</div>
-        //             </div>
-        //         )
-        //     }
-        // },
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-green">
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price! * 1000)}
+                        </div>
+                    </div>
+                )
+            }
+        }
     ]
 
     return (

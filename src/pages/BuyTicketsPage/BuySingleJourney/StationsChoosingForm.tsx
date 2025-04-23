@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { PAYMENT_METHOD_MAPPING } from '@/utils/paymentMethodMapping'
 import SelectInput from '@/components/common/SelectInput'
+import SelectSearchInput from '@/components/common/SelectSearchInput'
 import useAxiosIns from '@/hooks/useAxiosIns'
 
 type StationsChoosingFormProps = {
@@ -37,7 +38,7 @@ const StationsChoosingForm = ({ setPath, setEntry, setExit }: StationsChoosingFo
     return (
         <div className="flex h-[98px] w-full gap-10 rounded-full border-2 border-solid border-[#9C9C9C] bg-[#FFFBF2] p-5 text-[#4D4D4D]">
             <div className="ml-[10px] grid flex-1 grid-cols-[1fr] items-center text-lg">
-                <SelectInput
+                <SelectSearchInput
                     fieldName="station"
                     placeholder="Chọn ga xuất phát"
                     options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
@@ -46,12 +47,12 @@ const StationsChoosingForm = ({ setPath, setEntry, setExit }: StationsChoosingFo
                     onChange={(value: string | number) => setEntryStation(value as number)}
                     onFocus={() => {}}
                     labelClassName="bg-[#FFFBF2]"
-                    selectClassName="py-[9px] rounded-md"
+                    selectClassName="py-[9px] rounded-md leading-normal"
                 />
             </div>
             <div className="border-secondary w-[2px] border-l-2 border-solid"></div>
             <div className="grid flex-1 grid-cols-[1fr] items-center text-lg">
-                <SelectInput
+                <SelectSearchInput
                     fieldName="station"
                     placeholder="Chọn ga đich đến"
                     options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
@@ -60,7 +61,7 @@ const StationsChoosingForm = ({ setPath, setEntry, setExit }: StationsChoosingFo
                     onChange={(value: string | number) => setExitStation(value as number)}
                     onFocus={() => {}}
                     labelClassName="bg-[#FFFBF2]"
-                    selectClassName="py-[9px] rounded-md"
+                    selectClassName="py-[9px] rounded-md leading-normal"
                 />
             </div>
             <div className="border-secondary w-[2px] border-l-2 border-solid"></div>

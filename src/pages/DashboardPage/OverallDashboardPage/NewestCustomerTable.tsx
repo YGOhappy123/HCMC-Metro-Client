@@ -2,28 +2,19 @@ import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
 import dayjs from 'dayjs'
 
-type HighestBookingCountGuestTableProps = {
-    guests: IGuest[]
+type HighestRevenueCustomerTableProps = {
+    guests: ICustomer[]
 }
 
-const HighestBookingCountGuestTable = ({ guests }: HighestBookingCountGuestTableProps) => {
-    const columns: ColumnDef<IGuest>[] = [
+const HighestRevenueCustomerTable = ({ guests }: HighestRevenueCustomerTableProps) => {
+    const columns: ColumnDef<ICustomer>[] = [
         {
-            accessorKey: 'id',
+            accessorKey: 'customerId',
             header: 'Mã Khách Hàng'
         },
         {
-            accessorKey: 'name',
-            header: 'Họ Và Tên',
-            cell: ({ row }) => {
-                const firstName = row.original.firstName
-                const lastName = row.original.lastName
-                return (
-                    <span>
-                        {lastName} {firstName}
-                    </span>
-                )
-            }
+            accessorKey: 'fullName',
+            header: 'Họ Và Tên'
         },
         {
             accessorKey: 'email',
@@ -66,24 +57,12 @@ const HighestBookingCountGuestTable = ({ guests }: HighestBookingCountGuestTable
                     </div>
                 )
             }
-        },
-        {
-            accessorKey: 'bookingCount',
-            header: () => <div className="text-center">Số Đơn Đặt Phòng</div>,
-            cell: ({ row }) => {
-                const bookingCount = row.original.bookingCount
-                return (
-                    <div className="flex justify-center">
-                        <div className="table-tag-blue border-3 font-bold">{bookingCount?.toString().padStart(2, '0')} đơn</div>
-                    </div>
-                )
-            }
         }
     ]
 
     return (
         <div className="flex w-full flex-col items-center gap-4">
-            <h2 className="text-3xl font-semibold text-accent">Top 5 khách hàng có số đơn đặt phòng cao nhất</h2>
+            <h2 className="text-accent text-2xl font-semibold">Top 5 khách hàng mới nhất của website</h2>
             <div className="w-full">
                 <DataTable columns={columns} data={guests} />
             </div>
@@ -91,4 +70,4 @@ const HighestBookingCountGuestTable = ({ guests }: HighestBookingCountGuestTable
     )
 }
 
-export default HighestBookingCountGuestTable
+export default HighestRevenueCustomerTable

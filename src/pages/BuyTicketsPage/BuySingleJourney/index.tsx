@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { SegmentDisplay } from '@/pages/HomePage/FindPathSection'
+import { SegmentDisplay } from '@/components/ui/SegmentDisplay'
 import StationsChoosingForm from '@/pages/BuyTicketsPage/BuySingleJourney/StationsChoosingForm'
 import BuyTicketForm from '@/pages/BuyTicketsPage/BuySingleJourney/BuyTicketForm'
 
@@ -39,8 +39,17 @@ const BuySingleJourney = () => {
                             <i className="text-lg">
                                 <b>Giá vé giữa 2 ga cùng tuyến:</b> Giá vé = Giá vé được niêm yết sẵn tại nhà ga.
                             </i>
+                            <i className="text-lg">
+                                <b>Ngày hết hạn của vé:</b> Ngày hết hạn = Thời điểm mua vé + 30 ngày.
+                            </i>
                             <i className="mt-4 text-lg">
                                 <b>Lưu ý:</b> Hiện tại mua vé online chỉ hỗ trợ phương thức ví điện tử VnPay.
+                            </i>
+                            <i className="text-lg">
+                                <b>Lưu ý:</b> Vé một chặng chỉ dùng được 1 lần trong thời gian hiệu lực.
+                            </i>
+                            <i className="text-lg">
+                                <b>Lưu ý:</b> Vé một chặng chỉ có thể check-in và check-out ở đúng nhà ga đã mua.
                             </i>
                             <i className="text-lg">
                                 <b>Lưu ý:</b> Vé mua rồi miễn đổi trả, bán lại dưới mọi hình thức.

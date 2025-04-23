@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosInstance } from 'axios'
-import SelectInput from '@/components/common/SelectInput'
+import SelectSearchInput from '@/components/common/SelectSearchInput'
 
 type FilterFormProps = {
     axios: AxiosInstance
@@ -27,7 +27,7 @@ const FilterForm = ({ axios, handleSearch, selectedLine, setSelectedLine, select
     return (
         <div className="flex h-[98px] w-full gap-10 rounded-lg border-2 border-solid p-5">
             <div className="ml-[10px] grid flex-1 grid-cols-[1fr] items-center text-lg">
-                <SelectInput
+                <SelectSearchInput
                     fieldName="station"
                     placeholder="Chọn tuyến"
                     options={lines.map(line => ({
@@ -39,12 +39,12 @@ const FilterForm = ({ axios, handleSearch, selectedLine, setSelectedLine, select
                     onChange={(value: string | number) => setSelectedLine(value as number)}
                     onFocus={() => {}}
                     labelClassName="bg-white"
-                    selectClassName="py-[9px]"
+                    selectClassName="py-[9px] leading-normal"
                 />
             </div>
             <div className="border-secondary w-[2px] border-l-2 border-solid"></div>
             <div className="grid flex-1 grid-cols-[1fr] items-center text-lg">
-                <SelectInput
+                <SelectSearchInput
                     fieldName="station"
                     placeholder="Chọn nhà ga"
                     options={(stations as IStation[]).map(station => ({
@@ -56,7 +56,7 @@ const FilterForm = ({ axios, handleSearch, selectedLine, setSelectedLine, select
                     onChange={(value: string | number) => setSelectedStation(value as number)}
                     onFocus={() => {}}
                     labelClassName="bg-white"
-                    selectClassName="py-[9px]"
+                    selectClassName="py-[9px] leading-normal"
                 />
             </div>
 

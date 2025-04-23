@@ -35,6 +35,10 @@ const SUB_MENU_LIST = [
                         navigation: 'customers'
                     },
                     {
+                        label: 'Danh sách chuyến đi',
+                        navigation: 'trips'
+                    },
+                    {
                         label: 'Vé đã phát hành',
                         navigation: 'issued-tickets'
                     }
@@ -105,16 +109,6 @@ const SUB_MENU_LIST = [
                     {
                         label: 'Cập nhật giá vé',
                         navigation: 'ticket-prices-update'
-                    }
-                ]
-            },
-            {
-                label: 'Thống kê',
-                icon: faCashRegister,
-                items: [
-                    {
-                        label: 'Doanh thu',
-                        navigation: 'transactions'
                     }
                 ]
             }

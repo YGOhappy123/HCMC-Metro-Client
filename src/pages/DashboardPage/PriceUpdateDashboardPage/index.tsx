@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import UpdateSingleJourney from '@/pages/DashboardPage/PriceUpdateDashboardPage/UpdateSingleJourney'
+import UpdateSubscription from '@/pages/DashboardPage/PriceUpdateDashboardPage/UpdateSubscription'
 
 const PriceUpdateDashboardPage = () => {
     const [ticketType, setTicketType] = useState<'single-journey' | 'subscription'>('single-journey')
@@ -49,7 +50,7 @@ const PriceUpdateDashboardPage = () => {
             </div>
 
             {ticketType === 'single-journey' && <UpdateSingleJourney />}
-            {ticketType === 'subscription'}
+            {ticketType === 'subscription' && <UpdateSubscription />}
         </div>
     )
 }
