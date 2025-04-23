@@ -86,7 +86,7 @@ const issuedSingleJourneyTicketService = ({ enableFetching }: { enableFetching: 
         queryFn: () => {
             if (!isSearching) {
                 return axios.get<IResponseData<IIssuedSingleJourneyTicket[]>>(
-                    `/issued-tickets/single-journey?skip=${limit * (page - 1)}&limit=${limit}`
+                    `/issued-tickets/single-journey?skip=${limit * (page - 1)}&limit=${limit}&sort=[["issuedAt","DESC"]]`
                 )
             }
         },
