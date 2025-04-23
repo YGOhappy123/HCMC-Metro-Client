@@ -29,6 +29,7 @@ const SelectSearchInput = ({
     const [showDropdown, setShowDropdown] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
     const containerRef = useRef<HTMLDivElement>(null)
+    const searchInputRef = useRef<HTMLInputElement>(null)
 
     const filteredOptions = options.filter(option => option.label.toLowerCase().includes(searchTerm.toLowerCase().trim()))
 
@@ -42,6 +43,12 @@ const SelectSearchInput = ({
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [])
+
+    useEffect(() => {
+        if (showDropdown && searchInputRef.current) {
+            searchInputRef.current.focus()
+        }
+    }, [showDropdown])
 
     const selectedLabel = options.find(option => option.value === value)?.label || '--'
 
@@ -70,6 +77,7 @@ const SelectSearchInput = ({
             {showDropdown && (
                 <div className="absolute right-0 left-0 z-10 mt-1 rounded border border-gray-300 bg-white shadow-lg">
                     <input
+                        ref={searchInputRef}
                         type="text"
                         className="w-full border-b border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 outline-none"
                         placeholder="Tìm kiếm..."

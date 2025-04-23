@@ -6,6 +6,7 @@ import { DateRange } from 'react-day-picker'
 import Button from '@/components/common/Button'
 import TextInput from '@/components/common/TextInput'
 import SelectInput from '@/components/common/SelectInput'
+import SelectSearchInput from '@/components/common/SelectSearchInput'
 import DateRangePicker from '@/components/common/DateRangePicker'
 
 type SingleJourneyTicketFilterProps = {
@@ -153,7 +154,7 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
                     </div>
                 </div>
                 <div className="mb-4">
-                    <SelectInput
+                    <SelectSearchInput
                         fieldName="issuedStation"
                         placeholder="Lọc theo ga mua vé"
                         options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
@@ -162,11 +163,11 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
                         onChange={(value: string | number) => setSearchIssuedStation(value as number)}
                         onFocus={() => {}}
                         labelClassName="bg-white"
-                        selectClassName="py-[9px]"
+                        selectClassName="py-[3px]"
                     />
                 </div>
                 <div className="mb-4">
-                    <SelectInput
+                    <SelectSearchInput
                         fieldName="entryStation"
                         placeholder="Lọc theo ga đi"
                         options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
@@ -175,11 +176,11 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
                         onChange={(value: string | number) => setSearchEntryStation(value as number)}
                         onFocus={() => {}}
                         labelClassName="bg-white"
-                        selectClassName="py-[9px]"
+                        selectClassName="py-[3px]"
                     />
                 </div>
                 <div className="mb-4">
-                    <SelectInput
+                    <SelectSearchInput
                         fieldName="exitStation"
                         placeholder="Lọc theo ga đến"
                         options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
@@ -188,7 +189,7 @@ const SingleJourneyTicketFilter = ({ stations, activeTab, setHavingFilters, onCh
                         onChange={(value: string | number) => setSearchExitStation(value as number)}
                         onFocus={() => {}}
                         labelClassName="bg-white"
-                        selectClassName="py-[9px]"
+                        selectClassName="py-[3px]"
                     />
                 </div>
                 <div className="mb-4">
