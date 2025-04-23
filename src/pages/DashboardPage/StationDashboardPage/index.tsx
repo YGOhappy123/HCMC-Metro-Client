@@ -1,27 +1,21 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { Dialog, DialogTrigger } from '@/components/ui/Dialog'
 import { Popover, PopoverTrigger } from '@/components/ui/Popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
 import StationTable from '@/pages/DashboardPage/StationDashboardPage/StationTable'
 import StationFilter from '@/pages/DashboardPage/StationDashboardPage/StationFilter'
-// import UpdateStationDialog from '@/pages/DashboardPage/StationDashboardPage/UpdateStationDialog'
 import StationService from '@/services/stationService'
 import useAxiosIns from '@/hooks/useAxiosIns'
 
 const StationDashboardPage = () => {
-    const axios = useAxiosIns() // axios là thư viện để gọi API lây dữ liệu
+    const axios = useAxiosIns() // axios: thư viện để gọi API lây dữ liệu
     const {
         Stations,
         total,
         page,
         limit,
         setPage,
-        // createStationMutation,
-        // updateStationMutation,
-        // deactivateStationMutation,
         buildQuery,
         onFilterSearch,
         onResetFilterSearch
@@ -31,19 +25,6 @@ const StationDashboardPage = () => {
         setPage(1)
     }, [])
 
-    // const fetchAllStationQuery = useQuery({
-    //     queryKey: ['Station-all'],
-    //     queryFn: () => axios.get<IResponseData<IStation[]>>('/Station/metro-Station'),
-    //     refetchOnWindowFocus: false,
-    //     refetchInterval: 10000,
-    //     enabled: true,
-    //     select: res => res.data
-    // })
-    // const Station = fetchAllStationQuery.data?.data || []
-
-    // const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-    // const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
-    // const [selectedStation, setSelectedStation] = useState<IStation | null>(null)
     const [havingFilters, setHavingFilters] = useState(false)
 
     return (
@@ -71,15 +52,6 @@ const StationDashboardPage = () => {
                         />
                     </Popover>
 
-                    {/* <Dialog open={isUpdateModalOpen} onOpenChange={setIsUpdateModalOpen}>
-                        <UpdateStationDialog
-                            selectedStation={selectedStation}
-                            isOpen={isUpdateModalOpen}
-                            Station={Station}
-                            closeDialog={() => setIsUpdateModalOpen(false)}
-                            updateStationMutation={updateStationMutation}
-                        />
-                    </Dialog> */}
                 </div>
             </div>
 
@@ -91,8 +63,6 @@ const StationDashboardPage = () => {
                 setPage={setPage}
                 onSelectStation={(Station: IStation) => {
                     console.log('selected station', Station)
-                    // setSelectedStation(Station)
-                    // setIsUpdateModalOpen(true)
                 }}
             />
         </div>

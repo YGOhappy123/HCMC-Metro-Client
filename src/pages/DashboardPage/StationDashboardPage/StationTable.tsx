@@ -18,7 +18,7 @@ const StationTable = ({ Stations, total, page, limit, setPage, onSelectStation }
 
     const columns: ColumnDef<IStation>[] = [
         {
-            accessorKey: 'stationId', // hiển thị dữ liệu của property StationId
+            accessorKey: 'stationId',
             header: 'Mã Nhà Ga'
         },
         {
@@ -31,7 +31,7 @@ const StationTable = ({ Stations, total, page, limit, setPage, onSelectStation }
         },
         {
             accessorKey: 'lines',
-            header: 'Tuyến',
+            header: () => <div className="text-center">Tuyến</div>,
             cell: (row) => {
                 const {stationId} = row.row.original;
                 return (

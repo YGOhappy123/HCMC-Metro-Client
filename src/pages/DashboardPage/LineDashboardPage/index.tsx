@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { Dialog, DialogTrigger } from '@/components/ui/Dialog'
 import { Popover, PopoverTrigger } from '@/components/ui/Popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
 import LineTable from '@/pages/DashboardPage/LineDashboardPage/LineTable'
-// import LineFilter from '@/pages/DashboardPage/LineDashboardPage/LineFilter'
+import LineFilter from '@/pages/DashboardPage/LineDashboardPage/LineFilter'
 import lineService from '@/services/lineService'
 import useAxiosIns from '@/hooks/useAxiosIns'
-import { useLocation, useRoutes } from 'react-router-dom'
 
 const LineDashboardPage = () => {
-    const axios = useAxiosIns() // axios là thư viện để gọi API lây dữ liệu
+    const axios = useAxiosIns() // axios: thư viện để gọi API lây dữ liệu
 
     const {
         Lines,
@@ -47,12 +44,12 @@ const LineDashboardPage = () => {
                                 {havingFilters && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
                             </div>
                         </PopoverTrigger>
-                        {/* <LineFilter
+                        <LineFilter
                             setHavingFilters={setHavingFilters}
                             onChange={buildQuery}
                             onSearch={onFilterSearch}
                             onReset={onResetFilterSearch}
-                        /> */}
+                        />
                     </Popover>
                 </div>
             </div>

@@ -1,7 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
-import dayjs from '@/libs/dayjs'
-import ConfirmationDialog from '@/components/ui/ConfirmationDialog'
 import Button from '@/components/common/Button'
 import { useNavigate } from 'react-router-dom'
 
@@ -31,7 +29,7 @@ const LineTable = ({ Lines, total, page, limit, setPage, onSelectLine }: LineTab
         },
         {
             accessorKey: 'stations',
-            header: 'Nhà ga',
+            header: () => <div className="text-center">Nhà Ga</div>,
             cell: ({ row }) => {
                 const { lineId } = row.original;
                 return (
