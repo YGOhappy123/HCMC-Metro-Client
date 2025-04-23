@@ -34,30 +34,6 @@ const DashboardRoutes = [
                 path: '',
                 element: <OverallDashboardPage />
             },
-            // {
-            //     path: 'rooms',
-            //     element: <RoomDashboardPage />
-            // },
-            // {
-            //     path: 'room-classes',
-            //     element: <RoomClassDashboardPage />
-            // },
-            // {
-            //     path: 'floors',
-            //     element: <FloorDashboardPage />
-            // },
-            // {
-            //     path: 'services',
-            //     element: <ServiceDashboardPage />
-            // },
-            // {
-            //     path: 'features',
-            //     element: <FeatureDashboardPage />
-            // },
-            // {
-            //     path: 'services',
-            //     element: <ServiceDashboardPage />
-            // },
             {
                 path: 'customers',
                 element: <CustomerDashboardPage />
@@ -71,10 +47,6 @@ const DashboardRoutes = [
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
             },
             {
-                path: 'ticket-prices',
-                element: <AuthProtector children={<TicketPriceLookupDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
-            },
-            {
                 path: 'issued-tickets',
                 element: <AuthProtector children={<IssuedTicketDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
             },
@@ -82,14 +54,6 @@ const DashboardRoutes = [
                 path: 'trips',
                 element: <AuthProtector children={<TripDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
             },
-            // {
-            //     path: 'bookings',
-            //     element: <BookingDashboardPage />
-            // },
-            // {
-            //     path: 'transactions',
-            //     element: <TransactionDashboardPage />
-            // },
             {
                 path: 'ticket-prices-update',
                 element: <PriceUpdateDashboardPage />
