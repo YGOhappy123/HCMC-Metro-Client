@@ -19,7 +19,7 @@ const Service : React.FC = () => {
                         <li className="flex gap-2 text-[14px] font-semibold leading-7 tracking-wide text-slate-500"><PictureInPicture2 className="text-pink-500"/>Cập nhật, tra cứu tuyến đường</li>
                     </ul>
                     <div className="flex items-center justify-center">
-                        <button className="bg-primary px-[16px] py-[9px] rounded-2xl text-white border-2 border-primay hover:bg-white transition-all duration-200 hover:text-primary"><Link to={"/"}>Đặt vé ngay</Link></button>
+                        <button className="bg-primary px-[16px] py-[9px] rounded-2xl text-white border-2 border-primay hover:bg-white transition-all duration-200 hover:text-primary"><Link to={"/buy-tickets"}>Đặt vé ngay</Link></button>
                     </div>
                     
                 </div>
@@ -36,7 +36,7 @@ const Service : React.FC = () => {
                             <li className="flex gap-2 text-[14px] font-semibold leading-7 tracking-wide text-white"><PictureInPicture2 className="text-pink-500"/>Tiết kiệm chi phí dài hạn</li>
                         </ul>
                         <div className="flex items-center justify-center">
-                            <button className="bg-white px-[16px] py-[9px] rounded-2xl text-primary border-2 border-white hover:bg-primary transition-all duration-200 hover:text-white"><Link to={"/"}>Đặt vé ngay</Link></button>
+                            <button className="bg-white px-[16px] py-[9px] rounded-2xl text-primary border-2 border-white hover:bg-primary transition-all duration-200 hover:text-white"><Link to={"/buy-tickets"}>Đặt vé ngay</Link></button>
                         </div>
                     </div>
                 </div>
