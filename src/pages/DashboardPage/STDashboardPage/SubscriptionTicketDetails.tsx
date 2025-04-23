@@ -2,7 +2,7 @@ import Button from '@/components/common/Button';
 import { PaymentMethod } from '@/types/tickets';
 
 interface TicketDetails {
-  ticketName: string;
+  ticketName?: string;
   price: number;
   purchaseDate: string;
   expiredAt: string;
@@ -12,42 +12,64 @@ interface TicketDetails {
 interface SubscriptionTicketDetailsProps {
   ticketDetails: TicketDetails;
   handlePayment: () => void;
+  handleCancel: () => void;
   loading: boolean;
 }
 
-const SubscriptionTicketDetails = ({ ticketDetails, handlePayment, loading }: SubscriptionTicketDetailsProps) => {
+const SubscriptionTicketDetails = ({ ticketDetails, handlePayment, handleCancel, loading }: SubscriptionTicketDetailsProps) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
-      <h2 className="text-xl font-bold mb-4">Chi tiết vé</h2>
-      <div className="mb-2">
-        <span className="font-semibold">Loại vé: </span>
-        {ticketDetails.ticketName}
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 animate-fade-in">
+      <div className="bg-white p-10 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform scale-100 transition-transform duration-300">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">Chi tiết vé</h2>
+        <div className="space-y-4">
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-700">Loại vé:</span>
+            <span className="text-gray-900">{ticketDetails.ticketName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-700">Giá tiền:</span>
+            <span className="text-gray-900">{ticketDetails.price.toLocaleString()} VND</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-700">Ngày bắt đầu:</span>
+            <span className="text-gray-900">{new Date(ticketDetails.purchaseDate).toLocaleDateString('vi-VN')}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-700">Ngày hết hạn:</span>
+            <span className="text-gray-900">{new Date(ticketDetails.expiredAt).toLocaleDateString('vi-VN')}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-semibold text-gray-700">Phương thức thanh toán:</span>
+            <span className="text-gray-900">
+              {ticketDetails.paymentMethod === 'cash'
+                ? 'Tiền mặt'
+                : ticketDetails.paymentMethod === 'creditCard'
+                ? 'Thẻ tín dụng'
+                : 'Ví điện tử'}
+            </span>
+          </div>
+        </div>
+        <div className="flex gap-4 mt-8">
+          <Button
+            text="Thanh toán"
+            className="flex-1 bg-primary text-white rounded-xl px-6 py-3 hover:bg-primary-light transition-colors"
+            onClick={() => {
+              console.log('Payment clicked', ticketDetails);
+              handlePayment();
+            }}
+            disabled={loading}
+          />
+          <Button
+            text="Trở lại"
+            className="flex-1 bg-gray-300 text-gray-700 rounded-xl px-6 py-3 hover:bg-gray-400 transition-colors"
+            onClick={() => {
+              console.log('Cancel clicked from modal');
+              handleCancel();
+            }}
+            disabled={loading}
+          />
+        </div>
       </div>
-      <div className="mb-2">
-        <span className="font-semibold">Giá tiền: </span>
-        {ticketDetails.price.toLocaleString()} VND
-      </div>
-      <div className="mb-2">
-        <span className="font-semibold">Ngày bắt đầu: </span>
-        {new Date(ticketDetails.purchaseDate).toLocaleDateString('vi-VN')}
-      </div>
-      <div className="mb-4">
-        <span className="font-semibold">Ngày hết hạn: </span>
-        {new Date(ticketDetails.expiredAt).toLocaleDateString('vi-VN')}
-      </div>
-      <div className="mb-4">
-        <span className="font-semibold">Phương thức thanh toán: </span>
-        {ticketDetails.paymentMethod === 'cash' ? 'Tiền mặt' :
-         ticketDetails.paymentMethod === 'creditCard' ? 'Thẻ tín dụng' :
-         ticketDetails.paymentMethod === 'digitalWallet' ? 'Ví điện tử' : 'Thẻ SFC'}
-      </div>
-      <Button
-        text="Thanh toán"
-        variant="gradient"
-        className="border-primary rounded-2xl px-4 py-2 w-full"
-        onClick={handlePayment}
-        disabled={loading}
-      />
     </div>
   );
 };

@@ -1,75 +1,100 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useQuery } from '@tanstack/react-query';
-import ticketService from '@/services/ticketService';
 import toastConfig from '@/configs/toast';
-import { PaymentMethod } from '@/types/tickets';
-import { ISubscriptionTicketPrice } from '@/types/tickets';
+import ticketService from '@/services/ticketService';
+import useAxiosIns from '@/hooks/useAxiosIns';
+import { PaymentMethod, ISubscriptionTicket, IIssuedSubscriptionTicket } from '@/types/tickets';
+import { addDays } from 'date-fns';
 
-export const useCreateSubscriptionTicket = () => {
-  const { getSubscriptionTickets, issueSubscriptionTicket } = ticketService();
+const validTicketStatuses = ['UNPAID', 'PAID', 'USED', 'EXPIRED'] as const;
+type TicketStatus = typeof validTicketStatuses[number];
 
-  const { data: ticketsData, isLoading, error } = useQuery({
-    queryKey: ['subscriptionTickets'],
-    queryFn: async () => {
-      const response = await getSubscriptionTickets();
-      console.log('Subscription tickets API response:', response);
-      return response.data;
-    },
-    refetchOnWindowFocus: false,
-  });
+const useCreateSubscriptionTicket = () => {
+  const axios = useAxiosIns();
+  const service = ticketService(axios);
 
-  const tickets: ISubscriptionTicketPrice[] = ticketsData || [];
-
-  const [selectedTicket, setSelectedTicket] = useState<ISubscriptionTicketPrice | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<ISubscriptionTicket | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
-  const [ticketDetails, setTicketDetails] = useState<{
-    ticketName: string;
-    price: number;
-    purchaseDate: string;
-    expiredAt: string;
-    paymentMethod: PaymentMethod;
-    subscriptionTicketId: number;
-  } | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [ticketDetails, setTicketDetails] = useState<IIssuedSubscriptionTicket | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleConfirm = () => {
-    if (!selectedTicket || !selectedTicket.subscriptionTicket) {
-      toast('Vui lòng chọn loại vé hợp lệ', toastConfig('error'));
+  const subscriptionTickets: ISubscriptionTicket[] = useMemo(
+    () => [
+      { ticketId: 1, name: 'Vé 1 ngày', validityDays: 1, requirements: '', price: 30000 },
+      { ticketId: 2, name: 'Vé 3 ngày', validityDays: 3, requirements: '', price: 90000 },
+      { ticketId: 3, name: 'Vé 30 ngày', validityDays: 30, requirements: '', price: 300000 },
+      { ticketId: 4, name: 'Vé 30 ngày HSSV', validityDays: 30, requirements: '', price: 150000 },
+    ],
+    []
+  );
+
+  const handleSelectTicket = (ticket: ISubscriptionTicket | null) => {
+    console.log('Selected ticket:', ticket);
+    setSelectedTicket(ticket);
+  };
+
+  const handleSelectPaymentMethod = useCallback((method: PaymentMethod) => {
+    console.log('Selected payment method:', method);
+    setPaymentMethod(method);
+  }, []);
+
+  const handleConfirm = useCallback(() => {
+    if (!selectedTicket) {
+      toast('Vui lòng chọn loại vé', toastConfig('error'));
+      return;
+    }
+    if (!paymentMethod) {
+      toast('Vui lòng chọn phương thức thanh toán', toastConfig('error'));
       return;
     }
 
-    const purchaseDate = new Date().toISOString();
-    const expiredAt = new Date(
-      Date.now() + selectedTicket.subscriptionTicket.validityDays * 24 * 60 * 60 * 1000
-    ).toISOString();
+    const purchaseDate = new Date();
+    const expiredAt = addDays(purchaseDate, selectedTicket.validityDays);
 
-    setTicketDetails({
-      ticketName: selectedTicket.subscriptionTicket.name,
+    const ticket: IIssuedSubscriptionTicket = {
+      ticketId: 0,
+      code: `SUB-${Date.now()}`,
+      subscriptionTicketId: selectedTicket.ticketId,
       price: selectedTicket.price,
-      purchaseDate,
-      expiredAt,
+      purchaseDate: purchaseDate.toISOString(),
+      expiredAt: expiredAt.toISOString(),
+      issuedStationId: 1,
+      orderId: 0,
+      status: 'UNPAID',
       paymentMethod,
-      subscriptionTicketId: selectedTicket.subscriptionTicketId,
-    });
-  };
+      ticketName: selectedTicket.name,
+    };
 
-  const handlePayment = async () => {
-    if (!ticketDetails) {
+    console.log('Created ticket details:', ticket);
+    setTicketDetails(ticket);
+  }, [selectedTicket, paymentMethod]);
+
+  const handlePayment = useCallback(async () => {
+    if (!ticketDetails || !paymentMethod) {
       toast('Không có thông tin vé để thanh toán', toastConfig('error'));
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
     try {
-      await issueSubscriptionTicket({
+      const paymentTime = new Date().toISOString();
+      const orderResponse = await service.createOrderSubscription({
+        paymentMethod,
+        paymentTime,
+        totalAmount: ticketDetails.price,
+      });
+      const orderId = orderResponse.data.orderId;
+
+      await service.issueSubscriptionTicket({
         subscriptionTicketId: ticketDetails.subscriptionTicketId,
         price: ticketDetails.price,
-        purchaseDate: ticketDetails.purchaseDate,
+        issuedAt: ticketDetails.purchaseDate,
         expiredAt: ticketDetails.expiredAt,
-        paymentMethod: ticketDetails.paymentMethod,
-        issuedStationId: 1, // Giả định ga phát hành
+        issuedStationId: ticketDetails.issuedStationId,
+        code: ticketDetails.code,
+        orderId,
       });
+
       toast('Vé đã được lưu thành công', toastConfig('success'));
       setSelectedTicket(null);
       setPaymentMethod('cash');
@@ -78,32 +103,31 @@ export const useCreateSubscriptionTicket = () => {
       console.error('Error issuing subscription ticket:', error);
       toast('Lỗi khi lưu vé thời hạn', toastConfig('error'));
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  };
+  }, [ticketDetails, paymentMethod, service]);
 
-  const handleCancel = () => {
-    const confirmCancel = window.confirm('Giao dịch chưa hoàn thành. Bạn có muốn hủy?');
-    if (confirmCancel) {
+  const handleCancel = useCallback(() => {
+    if (window.confirm('Giao dịch chưa hoàn thành. Bạn có muốn hủy?')) {
       setSelectedTicket(null);
       setPaymentMethod('cash');
       setTicketDetails(null);
       toast('Đã hủy giao dịch', toastConfig('info'));
     }
-  };
+  }, []);
 
   return {
-    tickets,
-    isLoading,
-    error,
+    subscriptionTickets,
     selectedTicket,
-    setSelectedTicket,
     paymentMethod,
-    setPaymentMethod,
     ticketDetails,
-    loading,
+    isLoading,
+    handleSelectTicket,
+    handleSelectPaymentMethod,
     handleConfirm,
     handlePayment,
     handleCancel,
   };
 };
+
+export default useCreateSubscriptionTicket;

@@ -1,5 +1,12 @@
 declare global {
-    type PaymentMethod = 'cash' | 'creditCard' | 'digitalWallet' | 'sfc'
+    type PaymentMethod = 'cash' | 'creditCard' | 'digitalWallet'
+
+    export enum TicketStatus {
+        UNPAID = 'UNPAID',
+        PAID = 'PAID',
+        USED = 'USED',
+        EXPIRED = 'EXPIRED',
+      }
 
     interface IOrder {
         orderId: number
@@ -46,8 +53,9 @@ declare global {
     interface ISubscriptionTicket {
         ticketId: number
         name: string
-        requirements?: string
         validityDays: number
+        requirements?: string
+        price: number
     }
 
     interface ISubscriptionTicketPrice {
@@ -69,11 +77,13 @@ declare global {
         issuedStation?: IStation
         subscriptionTicketId: number
         subscriptionTicket?: ISubscriptionTicket
-        paymentMethod?: PaymentMethod
+        paymentMethod: PaymentMethod
         paymentTime?: string
         price: number
         purchaseDate: string
         expiredAt: string
+        status?: string
+        ticketName?: string
     }
 
     interface IIssuedSfcCard {
@@ -86,4 +96,4 @@ declare global {
     }
 }
 
-export {IOrder,PaymentMethod,ISubscriptionTicketPrice,IIssuedSubscriptionTicket}
+export {IOrder,PaymentMethod,ISubscriptionTicketPrice,IIssuedSubscriptionTicket,ISubscriptionTicket,method}

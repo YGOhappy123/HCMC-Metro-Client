@@ -1,14 +1,10 @@
-import useAxiosIns from '@/hooks/useAxiosIns';
 import { toast } from 'react-toastify';
 import toastConfig from '@/configs/toast';
-import { ISubscriptionTicketPrice, IIssuedSubscriptionTicket } from '@/types/tickets';
 
-const ticketService = () => {
-  const axios = useAxiosIns();
-
+const ticketService = (axios: any) => {
   const getStations = async () => {
     try {
-      const response = await axios.get<IResponseData<IStation[]>>('/stations/metro-stations');
+      const response = await axios.get('/stations/metro-stations');
       return response.data;
     } catch (error) {
       console.error('Error fetching stations:', error);
@@ -19,9 +15,7 @@ const ticketService = () => {
 
   const getPathBetweenStations = async (startStationId: number, endStationId: number, paymentMethod: PaymentMethod) => {
     try {
-      const response = await axios.get<IResponseData<IPathSegment[]>>(
-        `/stations/metro-path?startStationId=${startStationId}&endStationId=${endStationId}&paymentMethod=${paymentMethod}`
-      );
+      const response = await axios.get(`/stations/metro-path?start=${startStationId}&end=${endStationId}&method=${paymentMethod}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching path:', error);
@@ -33,17 +27,14 @@ const ticketService = () => {
   const issueSubscriptionTicket = async (data: {
     subscriptionTicketId: number;
     price: number;
-    purchaseDate: string;
+    issuedAt: string;
     expiredAt: string;
-    paymentMethod: PaymentMethod;
-    issuedStationId: number;
+    issuedStationId?: number;
+    code: string;
+    orderId: number;
   }) => {
     try {
-      const response = await axios.post<IResponseData<IIssuedSubscriptionTicket>>('/ticket/issue-subscription-ticket', {
-        ...data,
-        code: `SUB-${Date.now()}`, // Tạo mã vé đơn giản
-        paymentTime: new Date().toISOString(),
-      });
+      const response = await axios.post('/ticket/issue-subscription-ticket', data);
       console.log('issueSubscriptionTicket response:', response.data);
       return response.data;
     } catch (error) {
@@ -55,10 +46,9 @@ const ticketService = () => {
 
   const getSubscriptionTickets = async () => {
     try {
-      const response = await axios.get<IResponseData<ISubscriptionTicketPrice[]>>('/ticket/subscription-tickets', {
+      const response = await axios.get('/ticket/subscription-tickets', {
         headers: { 'Cache-Control': 'no-cache' },
       });
-      console.log('getSubscriptionTickets response:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching subscription tickets:', error);
@@ -66,7 +56,6 @@ const ticketService = () => {
       throw error;
     }
   };
-
 
   const createOrder = async (data: {
     start: number;
@@ -84,8 +73,7 @@ const ticketService = () => {
         toast('Số lượng vé phải lớn hơn hoặc bằng 1', toastConfig('error'));
         throw new Error('Invalid quantity');
       }
-      
-      const response = await axios.post<IResponseData<{ orderId: number }>>('/ticket/orders', data);
+      const response = await axios.post('/ticket/orders', data);
       return response.data;
     } catch (error) {
       console.error('Error creating order:', error);
@@ -96,9 +84,7 @@ const ticketService = () => {
 
   const verifyPayment = async (vnp_TxnRef: number, vnp_ResponseCode: string, paymentMethod: PaymentMethod) => {
     try {
-      const response = await axios.get<IResponseData<{ orderId: number }>>(
-        `/ticket/verify-payment?vnp_TxnRef=${vnp_TxnRef}&vnp_ResponseCode=${vnp_ResponseCode}&paymentMethod=${paymentMethod}`
-      );
+      const response = await axios.get(`/ticket/verify-payment?vnp_TxnRef=${vnp_TxnRef}&vnp_ResponseCode=${vnp_ResponseCode}&paymentMethod=${paymentMethod}`);
       return response.data;
     } catch (error) {
       console.error('Error verifying payment:', error);
@@ -108,8 +94,23 @@ const ticketService = () => {
   };
 
   const calculateTotalPrice = (path: IPathSegment[], quantity: number) => {
-    const total = path.reduce((sum, segment) => sum + segment.price, 0) * quantity;
-    return total;
+    return path.reduce((sum, segment) => sum + segment.price, 0) * quantity;
+  };
+
+  const createOrderSubscription = async (data: {
+    paymentMethod: PaymentMethod;
+    paymentTime: string;
+    totalAmount: number;
+  }) => {
+    try {
+      const response = await axios.post('/orders', data);
+      console.log('createOrder response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating order:', error);
+      toast('Lỗi khi tạo đơn hàng', toastConfig('error'));
+      throw error;
+    }
   };
 
   return {
@@ -119,7 +120,8 @@ const ticketService = () => {
     verifyPayment,
     calculateTotalPrice,
     issueSubscriptionTicket,
-    getSubscriptionTickets
+    getSubscriptionTickets,
+    createOrderSubscription,
   };
 };
 

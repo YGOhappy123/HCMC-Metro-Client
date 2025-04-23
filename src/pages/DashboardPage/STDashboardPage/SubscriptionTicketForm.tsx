@@ -1,11 +1,10 @@
-import { PaymentMethod } from '@/types/tickets';
+import { PaymentMethod, ISubscriptionTicket } from '@/types/tickets';
 import Button from '@/components/common/Button';
-import { ISubscriptionTicketPrice } from '@/types/tickets';
 
 interface SubscriptionTicketFormProps {
-  tickets: ISubscriptionTicketPrice[];
-  selectedTicket: ISubscriptionTicketPrice | null;
-  setSelectedTicket: (ticket: ISubscriptionTicketPrice | null) => void;
+  tickets: ISubscriptionTicket[];
+  selectedTicket: ISubscriptionTicket | null;
+  setSelectedTicket: (ticket: ISubscriptionTicket | null) => void;
   paymentMethod: PaymentMethod;
   setPaymentMethod: (method: PaymentMethod) => void;
   loading: boolean;
@@ -24,57 +23,69 @@ const SubscriptionTicketForm = ({
   handleCancel,
 }: SubscriptionTicketFormProps) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
-      <h2 className="text-xl font-bold mb-4">Đặt vé thời hạn</h2>
-      {tickets.length === 0 ? (
-        <div className="text-gray-600 mb-4">Không có vé nào để hiển thị</div>
-      ) : (
-        <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-2">Chọn loại vé</label>
+    <div className="bg-white p-10 rounded-2xl shadow-xl max-w-2xl w-full mx-auto border border-gray-100">
+      <h2 className="text-3xl font-bold text-gray-800 mb-8">Đặt vé thời hạn</h2>
+      <div className="mb-8">
+        <label className="block text-base font-medium text-gray-700 mb-4">Chọn loại vé</label>
+        <div className="space-y-4">
           {tickets.map((ticket) => (
-            <div key={ticket.priceId} className="flex items-center mb-2">
+            <div
+              key={ticket.ticketId}
+              className={`flex items-center p-4 rounded-lg border ${
+                selectedTicket?.ticketId === ticket.ticketId
+                  ? 'border-primary bg-primary/10'
+                  : 'border-gray-200 hover:bg-gray-50'
+              } transition-colors duration-200`}
+            >
               <input
                 type="radio"
                 name="subscriptionTicket"
-                checked={selectedTicket?.priceId === ticket.priceId}
-                onChange={() => setSelectedTicket(ticket)}
-                className="mr-2"
+                checked={selectedTicket?.ticketId === ticket.ticketId}
+                onChange={() => {
+                  console.log('Radio selected:', ticket);
+                  setSelectedTicket(ticket);
+                }}
+                className="mr-3 h-5 w-5 text-primary focus:ring-primary"
                 disabled={loading}
               />
-              <label className="text-gray-700">
-                {ticket.subscriptionTicket?.name || 'Không xác định'} - {ticket.price.toLocaleString()} VND (
-                {ticket.subscriptionTicket?.validityDays || 0} ngày)
+              <label className="text-gray-700 text-base flex-1">
+                <span className="font-semibold">{ticket.name}</span> - {ticket.price.toLocaleString()} VND (
+                {ticket.validityDays} ngày)
               </label>
             </div>
           ))}
         </div>
-      )}
-      <div className="mb-4">
-        <label className="block text-sm text-gray-600 mb-1">Phương thức thanh toán</label>
+      </div>
+      <div className="mb-8">
+        <label className="block text-base font-medium text-gray-700 mb-3">Phương thức thanh toán</label>
         <select
           value={paymentMethod}
-          onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-          className="w-full border rounded-lg px-3 py-2"
+          onChange={(e) => {
+            const method = e.target.value as PaymentMethod;
+            console.log('Select payment method:', method);
+            setPaymentMethod(method);
+          }}
+          className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 focus:ring-2 focus:ring-primary focus:border-primary transition"
           disabled={loading}
         >
           <option value="cash">Tiền mặt</option>
           <option value="creditCard">Thẻ tín dụng</option>
           <option value="digitalWallet">Ví điện tử</option>
-          <option value="sfc">Thẻ SFC</option>
         </select>
       </div>
       <div className="flex gap-4">
         <Button
           text="Xác nhận"
-          variant="gradient"
-          className="border-primary rounded-2xl px-4 py-2 flex-1"
-          onClick={handleConfirm}
+          className="flex-1 bg-primary text-white rounded-xl px-6 py-3 hover:bg-primary-light transition-colors"
+          onClick={() => {
+            console.log('Confirm clicked', { selectedTicket, paymentMethod });
+            handleConfirm();
+          }}
           disabled={loading || !selectedTicket}
         />
         <Button
           text="Hủy"
-          variant="gradient"
-          className="border-primary rounded-2xl px-4 py-2 flex-1"
+          className="flex-1 bg-gray-300 text-gray-700 rounded-xl px-6 py-3 hover:bg-gray-400 transition-colors"
           onClick={handleCancel}
           disabled={loading}
         />

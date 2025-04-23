@@ -25,15 +25,15 @@ const SJTDashboardPage = () => {
   } = useTicketBooking();
 
   if (isLoading) {
-    return <div>Đang tải danh sách ga...</div>;
+    return <div className="p-6 text-center text-gray-600">Đang tải danh sách ga...</div>;
   }
 
   if (error) {
-    return <div>Lỗi khi tải danh sách ga: {error.message}</div>;
+    return <div className="p-6 text-center text-red-600">Lỗi khi tải danh sách ga: {error.message}</div>;
   }
 
   return (
-    <div className="p-4 flex flex-col lg:flex-row gap-6">
+    <div className="p-6 max-w-4xl mx-auto">
       <TicketForm
         stations={stations}
         fromStation={fromStation}
@@ -50,7 +50,12 @@ const SJTDashboardPage = () => {
         handleCancel={handleCancel}
       />
       {showTicket && orderData && (
-        <TicketDetails orderData={orderData} handlePayment={handlePayment} loading={loading} />
+        <TicketDetails
+          orderData={orderData}
+          handlePayment={handlePayment}
+          handleCancel={handleCancel}
+          loading={loading}
+        />
       )}
     </div>
   );

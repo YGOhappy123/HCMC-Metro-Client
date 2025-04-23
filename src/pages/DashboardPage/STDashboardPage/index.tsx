@@ -1,40 +1,30 @@
-import { useCreateSubscriptionTicket } from './useCreateSubscriptionTicket';
+import useCreateSubscriptionTicket from './useCreateSubscriptionTicket';
 import SubscriptionTicketForm from './SubscriptionTicketForm';
 import SubscriptionTicketDetails from './SubscriptionTicketDetails';
 
 const STDashboardPage = () => {
   const {
-    tickets,
-    isLoading,
-    error,
+    subscriptionTickets,
     selectedTicket,
-    setSelectedTicket,
+    handleSelectTicket,
     paymentMethod,
-    setPaymentMethod,
+    handleSelectPaymentMethod,
     ticketDetails,
-    loading,
+    isLoading,
     handleConfirm,
     handlePayment,
     handleCancel,
   } = useCreateSubscriptionTicket();
 
-  if (isLoading) {
-    return <div>Đang tải danh sách vé...</div>;
-  }
-
-  if (error) {
-    return <div>Lỗi khi tải danh sách vé: {error.message}</div>;
-  }
-
   return (
-    <div className="p-4 flex flex-col lg:flex-row gap-6">
+    <div className="p-6 max-w-4xl mx-auto">
       <SubscriptionTicketForm
-        tickets={tickets}
+        tickets={subscriptionTickets}
         selectedTicket={selectedTicket}
-        setSelectedTicket={setSelectedTicket}
+        setSelectedTicket={handleSelectTicket}
         paymentMethod={paymentMethod}
-        setPaymentMethod={setPaymentMethod}
-        loading={loading}
+        setPaymentMethod={handleSelectPaymentMethod}
+        loading={isLoading}
         handleConfirm={handleConfirm}
         handleCancel={handleCancel}
       />
@@ -42,7 +32,8 @@ const STDashboardPage = () => {
         <SubscriptionTicketDetails
           ticketDetails={ticketDetails}
           handlePayment={handlePayment}
-          loading={loading}
+          handleCancel={handleCancel}
+          loading={isLoading}
         />
       )}
     </div>
