@@ -38,10 +38,10 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
         if (searchIsWorking) query.isWorking = searchIsWorking
         if (range) {
             if (range[0]) {
-                query.startHireTime = dayjs(range[0]).format('YYYY-MM-DD')
+                query.startTime = dayjs(range[0]).format('YYYY-MM-DD')
             }
             if (range[1]) {
-                query.endHireTime = dayjs(range[1]).format('YYYY-MM-DD')
+                query.endTime = dayjs(range[1]).format('YYYY-MM-DD')
             }
         }
         setQuery(JSON.stringify(query))

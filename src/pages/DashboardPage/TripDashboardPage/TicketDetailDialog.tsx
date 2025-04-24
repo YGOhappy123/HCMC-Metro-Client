@@ -1,178 +1,277 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { ColumnDef } from '@tanstack/react-table'
+import { DataTable } from '@/components/ui/DataTable'
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
-
-import { RootState } from '@/store'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { getMappedPaymentMethod, getMappedTicketStatus } from '@/utils/paymentMethodMapping'
+import { QRCodeCanvas } from 'qrcode.react'
 import Button from '@/components/common/Button'
-import TextInput from '@/components/common/TextInput'
-import SelectInput from '@/components/common/SelectInput'
-import DatePicker from '@/components/common/DatePicker'
+import dayjs from 'dayjs'
 
 type TicketDetailDialogProps = {
-    selectedStaff: IStaff | null
-    stations: IStation[]
-    isOpen: boolean
+    ticket: IIssuedSingleJourneyTicket | IIssuedSubscriptionTicket | null
     closeDialog: () => void
-    updateStaffMutation: any
 }
 
-const TicketDetailDialog = ({ selectedStaff, stations, isOpen, closeDialog, updateStaffMutation }: TicketDetailDialogProps) => {
-    const user = useSelector((state: RootState) => state.auth.user)
+const TicketDetailDialog = ({ ticket, closeDialog }: TicketDetailDialogProps) => {
+    // const [ticketType, setTicketType] = useState<'single-journey' | 'subscription'>('single-journey')
 
-    const [formValues, setFormValues] = useState({
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        workingStationId: 0
-    })
+    if (!ticket) return null
 
-    const [errors, setErrors] = useState({
-        fullName: '',
-        phoneNumber: '',
-        email: '',
-        workingStationId: ''
-    })
+    let ticketType: 'single-journey' | 'subscription' = 'single-journey'
 
-    const handleSubmit = async () => {
-        const formErrors = validateFormValues()
-
-        if (!formErrors.fullName && !formErrors.phoneNumber && !formErrors.email && !formErrors.workingStationId) {
-            await updateStaffMutation
-                .mutateAsync({
-                    staffId: selectedStaff?.staffId,
-                    data: {
-                        fullName: formValues.fullName,
-                        phoneNumber: formValues.phoneNumber,
-                        email: formValues.email,
-                        workingStationId: formValues.workingStationId
-                    }
-                })
-                .then(() => closeDialog())
-        } else {
-            setErrors(formErrors)
-        }
+    if ('subscriptionTicketId' in ticket) {
+        ticketType = 'subscription'
     }
 
-    const validateFormValues = () => {
-        const { fullName, email, phoneNumber, workingStationId } = formValues
-        const formErrors = { ...errors }
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-        const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+    const singleJourneyColumns: ColumnDef<IIssuedSingleJourneyTicket>[] = [
+        {
+            accessorKey: 'ticketId',
+            header: 'Mã Vé'
+        },
+        {
+            accessorKey: 'code',
+            header: () => <div className="text-center">Mã Code</div>,
+            cell: ({ row }) => {
+                const code = row.original.code
 
-        if (!fullName.trim()) formErrors.fullName = formErrors.fullName || 'Họ và tên không được để trống.'
-        if (!email.trim()) formErrors.email = formErrors.email || 'Địa chỉ email không được để trống.'
-        if (!emailRegex.test(email)) formErrors.email = formErrors.email || 'Địa chỉ email không hợp lệ.'
-        if (!phoneNumber.trim()) formErrors.phoneNumber = formErrors.phoneNumber || 'Số điện thoại không được để trống.'
-        if (!phoneRegex.test(phoneNumber)) formErrors.phoneNumber = formErrors.phoneNumber || 'Số điện thoại không hợp lệ.'
-        if (!workingStationId) formErrors.workingStationId = formErrors.workingStationId || 'Vui lòng chọn nhà ga công tác.'
+                return (
+                    <div className="flex justify-center">
+                        <QRCodeCanvas value={code!} size={80} />
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'stations',
+            header: () => <div className="text-center">Ga Khởi Hành Và Đích Đến</div>,
+            cell: ({ row }) => {
+                const entryStation = row.original.entryStation
+                const exitStation = row.original.exitStation
 
-        return formErrors
-    }
+                return (
+                    <div className="flex flex-col items-center justify-center gap-2">
+                        <span>{entryStation?.stationName}</span>
+                        <FontAwesomeIcon icon={faArrowDown} />
+                        <span>{exitStation?.stationName}</span>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'price',
+            header: () => <div className="text-center">Giá Tiền</div>,
+            cell: ({ row }) => {
+                const price = row.original.price
 
-    useEffect(() => {
-        if (isOpen && selectedStaff) {
-            setFormValues({
-                fullName: selectedStaff?.fullName ?? '',
-                phoneNumber: selectedStaff?.phoneNumber ?? '',
-                email: selectedStaff?.email ?? '',
-                workingStationId: selectedStaff?.workingStationId ?? 0
-            })
-            setErrors({
-                fullName: '',
-                phoneNumber: '',
-                email: '',
-                workingStationId: ''
-            })
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-green">
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price! * 1000)}
+                        </div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'method',
+            header: () => <div className="text-center">Phương Thức Thanh Toán</div>,
+            cell: ({ row }) => {
+                const method = row.original.paymentMethod
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-blue">{getMappedPaymentMethod(method!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng Thái Vé</div>,
+            cell: ({ row }) => {
+                const status = row.original.status
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-pink">{getMappedTicketStatus(status!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'dates',
+            header: 'Ngày Mua',
+            cell: ({ row }) => {
+                const purchaseDate = row.original.issuedAt
+                const expiredAt = row.original.expiredAt
+                const paymentTime = row.original.paymentTime
+
+                return (
+                    <div>
+                        <div>
+                            <span className="font-semibold">Ngày mua: </span>
+                            {dayjs(purchaseDate).format('DD/MM/YYYY HH:mm:ss')}
+                        </div>
+                        <div>
+                            <span className="font-semibold">Hết hạn: </span>
+                            {dayjs(expiredAt).format('DD/MM/YYYY HH:mm:ss')}
+                        </div>
+                        <div>
+                            <span className="font-semibold">Thanh toán: </span>
+                            {paymentTime ? dayjs(paymentTime).format('DD/MM/YYYY HH:mm:ss') : '(Chưa thanh toán)'}
+                        </div>
+                    </div>
+                )
+            }
         }
-    }, [isOpen])
+    ]
+
+    const subscriptionColumns: ColumnDef<IIssuedSubscriptionTicket>[] = [
+        {
+            accessorKey: 'ticketId',
+            header: 'Mã Vé'
+        },
+        {
+            accessorKey: 'code',
+            header: () => <div className="text-center">Mã Code</div>,
+            cell: ({ row }) => {
+                const code = row.original.code
+
+                return (
+                    <div className="flex justify-center">
+                        <QRCodeCanvas value={code!} size={80} />
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'stations',
+            header: () => <div className="text-center">Loại Vé</div>,
+            cell: ({ row }) => {
+                const ticket = row.original.subscriptionTicket
+
+                return (
+                    <div className="flex items-center justify-center gap-2">
+                        <span>{ticket?.ticketName}</span>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'price',
+            header: () => <div className="text-center">Giá Tiền</div>,
+            cell: ({ row }) => {
+                const price = row.original.price
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-green">
+                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price! * 1000)}
+                        </div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'method',
+            header: () => <div className="text-center">Phương Thức Thanh Toán</div>,
+            cell: ({ row }) => {
+                const method = row.original.paymentMethod
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-blue">{getMappedPaymentMethod(method!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'status',
+            header: () => <div className="text-center">Trạng Thái Vé</div>,
+            cell: ({ row }) => {
+                const status = row.original.status
+
+                return (
+                    <div className="flex justify-center">
+                        <div className="table-tag-pink">{getMappedTicketStatus(status!)}</div>
+                    </div>
+                )
+            }
+        },
+        {
+            accessorKey: 'dates',
+            header: 'Ngày Mua',
+            cell: ({ row }) => {
+                const purchaseDate = row.original.issuedAt
+                const expiredAt = row.original.expiredAt
+                const paymentTime = row.original.paymentTime
+
+                return (
+                    <div>
+                        <div>
+                            <span className="font-semibold">Ngày mua: </span>
+                            {dayjs(purchaseDate).format('DD/MM/YYYY HH:mm:ss')}
+                        </div>
+                        <div>
+                            <span className="font-semibold">Hết hạn: </span>
+                            {dayjs(expiredAt).format('DD/MM/YYYY HH:mm:ss')}
+                        </div>
+                        <div>
+                            <span className="font-semibold">Thanh toán: </span>
+                            {paymentTime ? dayjs(paymentTime).format('DD/MM/YYYY HH:mm:ss') : '(Chưa thanh toán)'}
+                        </div>
+                    </div>
+                )
+            }
+        }
+    ]
+
+    // const tableData = ticket?.order?.reduce((data: any[], order) => {
+    //     if (ticketType === 'single-journey') {
+    //         data = [
+    //             ...data,
+    //             ...order.singleJourneyTickets!.map(tk => ({
+    //                 ...tk,
+    //                 paymentMethod: order.paymentMethod,
+    //                 paymentTime: order.paymentTime
+    //             }))
+    //         ]
+    //     } else {
+    //         data = [
+    //             ...data,
+    //             ...order.subscriptionTickets!.map(tk => ({
+    //                 ...tk,
+    //                 paymentMethod: order.paymentMethod,
+    //                 paymentTime: order.paymentTime
+    //             }))
+    //         ]
+    //     }
+
+    //     return data
+    // }, [])
+
+    const { order, ...value } = ticket
+    const tableData = [{ ...value, paymentTime: ticket.order.paymentTime, paymentMethod: ticket.order.paymentMethod }]
 
     return (
-        <DialogContent className="max-w-[800px] bg-white">
+        <DialogContent className="max-w-[1200px] bg-white">
             <DialogHeader>
-                <DialogTitle>Cập nhật thông tin nhân viên</DialogTitle>
+                <DialogTitle>Thông tin vé</DialogTitle>
                 <DialogDescription></DialogDescription>
             </DialogHeader>
             <div className="border-b-2"></div>
-            <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <div className="mb-10">
-                            <TextInput
-                                fieldName="fullName"
-                                placeholder="Họ và tên"
-                                error={errors.fullName}
-                                value={formValues.fullName}
-                                onChange={(value: string) => setFormValues(prev => ({ ...prev, fullName: value }))}
-                                onFocus={() => setErrors(prev => ({ ...prev, fullName: '' }))}
-                                labelClassName="bg-white"
-                            />
-                        </div>
-                        <div className="mb-10">
-                            <TextInput
-                                fieldName="email"
-                                placeholder="Email"
-                                error={errors.email}
-                                value={formValues.email}
-                                onChange={(value: string) => setFormValues(prev => ({ ...prev, email: value }))}
-                                onFocus={() => setErrors(prev => ({ ...prev, email: '' }))}
-                                labelClassName="bg-white"
-                            />
-                        </div>
-                        <div className="mb-5">
-                            <TextInput
-                                fieldName="phoneNumber"
-                                placeholder="Số điện thoại"
-                                error={errors.phoneNumber}
-                                value={formValues.phoneNumber}
-                                onChange={(value: string) => setFormValues(prev => ({ ...prev, phoneNumber: value }))}
-                                onFocus={() => setErrors(prev => ({ ...prev, phoneNumber: '' }))}
-                                labelClassName="bg-white"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <div className="mb-10">
-                            <SelectInput
-                                fieldName="workingStationId"
-                                placeholder="Ga công tác"
-                                options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
-                                error={errors.workingStationId}
-                                value={formValues.workingStationId}
-                                onChange={(value: string | number) => setFormValues(prev => ({ ...prev, workingStationId: value as number }))}
-                                onFocus={() => setErrors(prev => ({ ...prev, workingStationId: '' }))}
-                                labelClassName="bg-white"
-                            />
-                        </div>
-                        <div className="mb-10">
-                            <DatePicker
-                                date={new Date(selectedStaff?.hireDate ?? '')}
-                                placeHolder="Chọn ngày công tác"
-                                setDate={() => {}}
-                                triggerClassName="leading-normal h-[54px] disabled:cursor-not-allowed disabled:text-neutral-500"
-                                error=""
-                                onFocus={() => {}}
-                                disabled
-                            />
-                        </div>
-                        <div className="mb-5">
-                            <TextInput
-                                fieldName="updatedBy"
-                                placeholder="Người tạo"
-                                error=""
-                                disabled={true}
-                                value={user.fullName}
-                                onChange={() => {}}
-                                onFocus={() => {}}
-                                labelClassName="bg-white"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <div className="max-h-[400px] overflow-y-auto">
+                <DataTable
+                    columns={ticketType === 'single-journey' ? singleJourneyColumns : subscriptionColumns}
+                    data={tableData ?? []}
+                    noDataMessage="Khách hàng chưa từng mua loại vé này."
+                />
+            </div>
             <div className="border-b-2"></div>
             <DialogFooter>
-                <Button text="Hủy bỏ" variant="danger" onClick={closeDialog} />
-                <Button text="Xác nhận" variant="success" onClick={handleSubmit} />
+                <Button text="Đóng" variant="danger" onClick={closeDialog} />
             </DialogFooter>
         </DialogContent>
     )

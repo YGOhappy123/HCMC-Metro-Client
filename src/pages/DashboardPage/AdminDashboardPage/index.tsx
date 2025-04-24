@@ -6,23 +6,12 @@ import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
 import AdminTable from '@/pages/DashboardPage/AdminDashboardPage/AdminTable'
 import CreateAdminDialog from '@/pages/DashboardPage/AdminDashboardPage/CreateAdminDialog'
-// import AdminFilter from '@/pages/DashboardPage/AdminDashboardPage/AdminFilter'
+import AdminFilter from '@/pages/DashboardPage/AdminDashboardPage/AdminFilter'
 import adminService from '@/services/adminService'
 
 const AdminDashboardPage = () => {
-    const {
-        admins,
-        total,
-        page,
-        limit,
-        setPage,
-        buildQuery,
-        onFilterSearch,
-        onResetFilterSearch,
-        createAdminMutation,
-        updateAdminMutation,
-        deactivateAdminMutation
-    } = adminService({ enableFetching: true })
+    const { admins, total, page, limit, setPage, buildQuery, onFilterSearch, onResetFilterSearch, createAdminMutation, deactivateAdminMutation } =
+        adminService({ enableFetching: true })
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [havingFilters, setHavingFilters] = useState(false)
@@ -44,12 +33,12 @@ const AdminDashboardPage = () => {
                                 {havingFilters && <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-600"></div>}
                             </div>
                         </PopoverTrigger>
-                        {/* <AdminFilter
+                        <AdminFilter
                             setHavingFilters={setHavingFilters}
                             onChange={buildQuery}
                             onSearch={onFilterSearch}
                             onReset={onResetFilterSearch}
-                        /> */}
+                        />
                     </Popover>
 
                     <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

@@ -2,10 +2,14 @@ import { Suspense } from 'react'
 import {
     OverallDashboardPage,
     StaffDashboardPage,
+    StationDashboardPage,
+    LineDashboardPage,
+    AdminDashboardPage,
     IssuedTicketDashboardPage,
     CustomerDashboardPage,
     PriceUpdateDashboardPage,
-    AdminDashboardPage
+    SellSingleJourneyDashboardPage,
+    SellSubscriptionDashboardPage
 } from '@/pages/DashboardPage'
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
@@ -31,20 +35,36 @@ const DashboardRoutes = [
                 element: <CustomerDashboardPage />
             },
             {
-                path: 'admins',
-                element: <AdminDashboardPage />
+                path: 'sell-single-journey',
+                element: <AuthProtector children={<SellSingleJourneyDashboardPage />} redirect="/auth" allowedRoles={['staff']} />
+            },
+            {
+                path: 'sell-subscription',
+                element: <AuthProtector children={<SellSubscriptionDashboardPage />} redirect="/auth" allowedRoles={['staff']} />
             },
             {
                 path: 'staffs',
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
             },
             {
+                path: 'admins',
+                element: <AuthProtector children={<AdminDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+            },
+            {
+                path: 'stations',
+                element: <StationDashboardPage />
+            },
+            {
+                path: 'lines',
+                element: <LineDashboardPage />
+            },
+            {
                 path: 'issued-tickets',
-                element: <AuthProtector children={<IssuedTicketDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
+                element: <IssuedTicketDashboardPage />
             },
             {
                 path: 'trips',
-                element: <AuthProtector children={<TripDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+                element: <TripDashboardPage />
             },
             {
                 path: 'ticket-prices-update',

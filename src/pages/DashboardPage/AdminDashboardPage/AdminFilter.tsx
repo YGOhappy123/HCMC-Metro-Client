@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PopoverContent } from '@/components/ui/Popover'
-import { StaffSortAndFilterParams } from '@/services/staffService'
+import { AdminSortAndFilterParams } from '@/services/adminService'
 import { DateRange } from 'react-day-picker'
 
 import Button from '@/components/common/Button'
@@ -8,19 +8,17 @@ import TextInput from '@/components/common/TextInput'
 import SelectInput from '@/components/common/SelectInput'
 import DateRangePicker from '@/components/common/DateRangePicker'
 
-type StaffFilterProps = {
-    stations: IStation[]
+type AdminFilterProps = {
     setHavingFilters: (value: boolean) => void
-    onChange: (params: StaffSortAndFilterParams) => void
+    onChange: (params: AdminSortAndFilterParams) => void
     onSearch: () => void
     onReset: () => void
 }
 
-const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }: StaffFilterProps) => {
+const AdminFilter = ({ setHavingFilters, onChange, onSearch, onReset }: AdminFilterProps) => {
     const [searchName, setSearchName] = useState<string>('')
     const [searchEmail, setSearchEmail] = useState<string>('')
     const [searchPhoneNumber, setSearchPhoneNumber] = useState<string>('')
-    const [searchStation, setSearchStation] = useState<number>(0)
     const [searchIsWorking, setSearchIsWorking] = useState<string | undefined>(undefined)
     const [range, setRange] = useState<string[] | any[]>()
     const [sort, setSort] = useState<string>('-createdAt')
@@ -38,13 +36,13 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
     }, [date])
 
     useEffect(() => {
-        onChange({ searchName, searchEmail, searchPhoneNumber, searchStation, searchIsWorking, sort, range })
-    }, [searchName, searchEmail, searchPhoneNumber, searchStation, searchIsWorking, sort, range])
+        onChange({ searchName, searchEmail, searchPhoneNumber, searchIsWorking, sort, range })
+    }, [searchName, searchEmail, searchPhoneNumber, searchIsWorking, sort, range])
 
     const handleSearch = () => {
         onSearch()
 
-        if (!searchName && !searchEmail && !searchPhoneNumber && !searchStation && !searchIsWorking && sort === '-createdAt' && !range?.length) {
+        if (!searchName && !searchEmail && !searchPhoneNumber && !searchIsWorking && sort === '-createdAt' && !range?.length) {
             setHavingFilters(false)
         } else {
             setHavingFilters(true)
@@ -55,7 +53,6 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
         setSearchName('')
         setSearchEmail('')
         setSearchPhoneNumber('')
-        setSearchStation(0)
         setSearchIsWorking(undefined)
         setSort('-createdAt')
         setDate(undefined)
@@ -107,20 +104,7 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
                     />
                 </div>
                 <div className="mb-4">
-                    <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" placeHolder="Lọc theo ngày vào làm" />
-                </div>
-                <div className="mb-4">
-                    <SelectInput
-                        fieldName="station"
-                        placeholder="Lọc theo ga công tác"
-                        options={stations.map(station => ({ value: station.stationId, label: station.stationName }))}
-                        error=""
-                        value={searchStation}
-                        onChange={(value: string | number) => setSearchStation(value as number)}
-                        onFocus={() => {}}
-                        labelClassName="bg-white"
-                        selectClassName="py-[9px]"
-                    />
+                    <DateRangePicker date={date} setDate={setDate} triggerClassName="leading-normal" placeHolder="Lọc theo ngày tạo" />
                 </div>
                 <div className="mb-4">
                     <SelectInput
@@ -159,4 +143,4 @@ const StaffFilter = ({ stations, setHavingFilters, onChange, onSearch, onReset }
     )
 }
 
-export default StaffFilter
+export default AdminFilter

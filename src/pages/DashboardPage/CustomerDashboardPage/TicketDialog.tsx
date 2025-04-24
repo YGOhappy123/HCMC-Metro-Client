@@ -8,6 +8,7 @@ import { getMappedPaymentMethod, getMappedTicketStatus } from '@/utils/paymentMe
 import { QRCodeCanvas } from 'qrcode.react'
 import Button from '@/components/common/Button'
 import dayjs from 'dayjs'
+import TicketNameTag from '@/components/ui/TicketNameTag'
 
 type TicketDialogProps = {
     customer: ICustomer | null
@@ -144,11 +145,7 @@ const TicketDialog = ({ customer, closeDialog }: TicketDialogProps) => {
             cell: ({ row }) => {
                 const ticket = row.original.subscriptionTicket
 
-                return (
-                    <div className="flex items-center justify-center gap-2">
-                        <span>{ticket?.ticketName}</span>
-                    </div>
-                )
+                return <TicketNameTag ticketName={ticket?.ticketName || ''} />
             }
         },
         {
