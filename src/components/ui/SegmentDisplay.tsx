@@ -22,7 +22,7 @@ export const SegmentDisplay = ({ segment, index }: SegmentDisplayProps) => {
         select: res => res.data
     })
     const lineInfo = fetchLineInfoQuery.data?.data?.[0]
-    const lineStations = segment.from! > segment.to! ? lineInfo?.stations?.reverse() : lineInfo?.stations
+    const lineStations = lineInfo?.stations
 
     const activeStationIndexes = useMemo(() => {
         if (!lineInfo || !lineInfo.stations) return []

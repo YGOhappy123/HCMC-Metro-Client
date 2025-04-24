@@ -17,7 +17,7 @@ export const NAVIGATION_TABS: NavigationTab[] = [
     { label: 'trang chủ', href: '/' },
     { label: 'dịch vụ', href: '/our-services' },
     { label: 'mua vé', href: '/buy-tickets' },
-    { label: 'quản lý', href: '/dashboard', roles: ['admin'] }
+    { label: 'quản lý', href: '/dashboard', roles: ['admin', 'staff'] }
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [

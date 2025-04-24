@@ -4,18 +4,12 @@ import {
     StaffDashboardPage,
     StationDashboardPage,
     LineDashboardPage,
-    TicketPriceLookupDashboardPage,
+    AdminDashboardPage,
     IssuedTicketDashboardPage,
-    // RoomDashboardPage,
-    // RoomClassDashboardPage,
-    // FloorDashboardPage,
-    // FeatureDashboardPage,
-    // ServiceDashboardPage,
     CustomerDashboardPage,
-    // AdminDashboardPage,
-    // BookingDashboardPage,
-    // TransactionDashboardPage,
-    PriceUpdateDashboardPage
+    PriceUpdateDashboardPage,
+    SellSingleJourneyDashboardPage,
+    SellSubscriptionDashboardPage
 } from '@/pages/DashboardPage'
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
@@ -40,33 +34,37 @@ const DashboardRoutes = [
                 path: 'customers',
                 element: <CustomerDashboardPage />
             },
-            // {
-            //     path: 'admins',
-            //     element: <AdminDashboardPage />
-            // },
+            {
+                path: 'sell-single-journey',
+                element: <AuthProtector children={<SellSingleJourneyDashboardPage />} redirect="/auth" allowedRoles={['staff']} />
+            },
+            {
+                path: 'sell-subscription',
+                element: <AuthProtector children={<SellSubscriptionDashboardPage />} redirect="/auth" allowedRoles={['staff']} />
+            },
             {
                 path: 'staffs',
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
             },
             {
+                path: 'admins',
+                element: <AuthProtector children={<AdminDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+            },
+            {
                 path: 'stations',
-                element: <AuthProtector children={<StationDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+                element: <StationDashboardPage />
             },
             {
                 path: 'lines',
-                element: <AuthProtector children={<LineDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
-            },
-            {
-                path: 'ticket-prices',
-                element: <AuthProtector children={<TicketPriceLookupDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
+                element: <LineDashboardPage />
             },
             {
                 path: 'issued-tickets',
-                element: <AuthProtector children={<IssuedTicketDashboardPage />} redirect="/auth" allowedRoles={['admin', 'staff']} />
+                element: <IssuedTicketDashboardPage />
             },
             {
                 path: 'trips',
-                element: <AuthProtector children={<TripDashboardPage />} redirect="/auth" allowedRoles={['admin']} />
+                element: <TripDashboardPage />
             },
             {
                 path: 'ticket-prices-update',

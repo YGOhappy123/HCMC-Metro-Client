@@ -4,17 +4,20 @@ import PriceUpdateDashboardPage from '@/pages/DashboardPage/PriceUpdateDashboard
 import StaffDashboardPage from '@/pages/DashboardPage/StaffDashboardPage'
 import StationDashboardPage from '@/pages/DashboardPage/StationDashboardPage'
 import LineDashboardPage from '@/pages/DashboardPage/LineDashboardPage'
-
-import TicketPriceLookupDashboardPage from '@/pages/DashboardPage/TicketPriceLookupDashboardPage'
+import AdminDashboardPage from '@/pages/DashboardPage/AdminDashboardPage'
 import IssuedTicketDashboardPage from '@/pages/DashboardPage/IssuedTicketDashboardPage'
+import SellSingleJourneyDashboardPage from '@/pages/DashboardPage/SellSingleJourneyDashboardPage'
+import SellSubscriptionDashboardPage from '@/pages/DashboardPage/SellSubscriptionDashboardPage'
 
 export {
     CustomerDashboardPage,
     OverallDashboardPage,
     StaffDashboardPage,
     PriceUpdateDashboardPage,
-    TicketPriceLookupDashboardPage,
+    AdminDashboardPage,
     IssuedTicketDashboardPage,
     StationDashboardPage,
-    LineDashboardPage
+    LineDashboardPage,
+    SellSingleJourneyDashboardPage,
+    SellSubscriptionDashboardPage
 }

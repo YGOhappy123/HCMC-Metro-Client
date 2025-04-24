@@ -70,11 +70,11 @@ const SUB_MENU_LIST = [
                 items: [
                     {
                         label: 'Vé một chặng',
-                        navigation: 'issue-single-journey-ticket'
+                        navigation: 'sell-single-journey'
                     },
                     {
                         label: 'Vé thời hạn',
-                        navigation: 'issue-subscription-ticket'
+                        navigation: 'sell-subscription'
                     }
                 ]
             }
@@ -94,7 +94,7 @@ const SUB_MENU_LIST = [
                     },
                     {
                         label: 'Admin',
-                        navigation: 'bookings'
+                        navigation: 'admins'
                     }
                 ]
             },

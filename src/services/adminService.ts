@@ -13,6 +13,7 @@ export type AdminSortAndFilterParams = {
     searchName: string
     searchEmail: string
     searchPhoneNumber: string
+    searchIsWorking: string | undefined
     sort: string
     range: string[] | any[] | undefined
 }
@@ -29,11 +30,12 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
     const [query, setQuery] = useState<string>('')
     const [sort, setSort] = useState<string>('')
 
-    const buildQuery = ({ searchName, searchEmail, searchPhoneNumber, sort, range }: AdminSortAndFilterParams) => {
+    const buildQuery = ({ searchName, searchEmail, searchPhoneNumber, searchIsWorking, sort, range }: AdminSortAndFilterParams) => {
         const query: any = {}
-        if (searchName) query.name = searchName.trim()
+        if (searchName) query.fullName = searchName.trim()
         if (searchEmail) query.email = searchEmail.trim()
         if (searchPhoneNumber) query.phoneNumber = searchPhoneNumber.trim()
+        if (searchIsWorking) query.isWorking = searchIsWorking
         if (range) {
             if (range[0]) {
                 query.startTime = dayjs(range[0]).format('YYYY-MM-DD')
@@ -46,52 +48,45 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
         if (sort) setSort(JSON.stringify(getMappedSort(sort)))
     }
 
-    // const searchAdminsQuery = useQuery(['search-admins', query, sort], {
-    //     queryFn: () => {
-    //         return axios.get<IResponseData<IAdmin[]>>(`/admins?skip=${limit * (page - 1)}&limit=${limit}&filter=${query}&sort=${sort}`)
-    //     },
-    //     keepPreviousData: true,
-    //     enabled: false,
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         if (!res) return
-    //         setAdmins(res.data.data)
-    //         setTotal(res.data.total as number)
-    //     }
-    // })
+    const searchAdminsQuery = useQuery({
+        queryKey: ['search-admins', query, sort],
+        queryFn: () => {
+            return axios.get<IResponseData<IAdmin[]>>(`/personnel/admins?skip=${limit * (page - 1)}&limit=${limit}&filter=${query}&sort=${sort}`)
+        },
+        enabled: false
+    })
 
-    // const getAllAdminsQuery = useQuery(['admins', page, limit], {
-    //     queryFn: () => {
-    //         if (!isSearching) {
-    //             return axios.get<IResponseData<IAdmin[]>>(`/admins?skip=${limit * (page - 1)}&limit=${limit}`)
-    //         }
-    //     },
-    //     keepPreviousData: true,
-    //     enabled: enableFetching,
-    //     refetchOnWindowFocus: false,
-    //     refetchIntervalInBackground: true,
-    //     refetchInterval: 10000,
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         if (!res) return
-    //         setAdmins(res.data.data)
-    //         setTotal(res.data.total as number)
-    //     }
-    // })
+    useEffect(() => {
+        if (searchAdminsQuery.isSuccess && searchAdminsQuery.data) {
+            setAdmins(searchAdminsQuery.data.data?.data)
+            setTotal(searchAdminsQuery.data.data?.total as number)
+        }
+    }, [searchAdminsQuery.isSuccess, searchAdminsQuery.data])
 
-    // const getCsvAdminsQuery = useQuery(['search-csv-admins', query, sort], {
-    //     queryFn: () => {
-    //         return axios.get<IResponseData<IAdmin[]>>(`/admins?filter=${query}&sort=${sort}`)
-    //     },
-    //     keepPreviousData: true,
-    //     enabled: false,
-    //     onError: onError
-    // })
+    const getAllAdminsQuery = useQuery({
+        queryKey: ['admins', page, limit],
+        queryFn: () => {
+            if (!isSearching) {
+                return axios.get<IResponseData<IAdmin[]>>(`/personnel/admins?skip=${limit * (page - 1)}&limit=${limit}`)
+            }
+        },
+        enabled: enableFetching,
+        refetchOnWindowFocus: false,
+        refetchIntervalInBackground: true,
+        refetchInterval: 10000
+    })
+
+    useEffect(() => {
+        if (getAllAdminsQuery.isSuccess && getAllAdminsQuery.data && !isSearching) {
+            setAdmins(getAllAdminsQuery.data.data?.data)
+            setTotal(getAllAdminsQuery.data.data?.total as number)
+        }
+    }, [getAllAdminsQuery.isSuccess, getAllAdminsQuery.data])
 
     const onFilterSearch = () => {
         setPage(1)
         setIsSearching(true)
-        // setTimeout(() => searchAdminsQuery.refetch(), 300)
+        setTimeout(() => searchAdminsQuery.refetch(), 300)
     }
 
     const onResetFilterSearch = () => {
@@ -99,37 +94,37 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
         setIsSearching(false)
         setQuery('')
         setSort('')
-        // setTimeout(() => getAllAdminsQuery.refetch(), 300)
+        setTimeout(() => getAllAdminsQuery.refetch(), 300)
     }
 
     useEffect(() => {
         if (isSearching) {
-            // searchAdminsQuery.refetch()
+            searchAdminsQuery.refetch()
         }
     }, [page])
 
-    // const createNewAdminMutation = useMutation({
-    //     mutationFn: (data: Partial<IAdmin>) => {
-    //         return axios.post<IResponseData<IAdmin>>('/admins', data)
-    //     },
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         if (isSearching) {
-    //             queryClient.invalidateQueries('search-admins')
-    //             searchAdminsQuery.refetch()
-    //         } else {
-    //             queryClient.invalidateQueries('admins')
-    //         }
-    //         toast(getMappedMessage(res.data.message), toastConfig('success'))
-    //     }
-    // })
+    const createAdminMutation = useMutation({
+        mutationFn: (data: Partial<IAdmin>) => {
+            return axios.post<IResponseData<IAdmin>>('/personnel/admins', data)
+        },
+        onError: onError,
+        onSuccess: res => {
+            if (isSearching) {
+                queryClient.invalidateQueries({ queryKey: ['search-admins'] })
+                searchAdminsQuery.refetch()
+            } else {
+                queryClient.invalidateQueries({ queryKey: ['admins'] })
+            }
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
 
     const updateAdminMutation = useMutation({
         mutationFn: ({ data }: { data: Partial<IAdmin> }) => axios.patch<IResponseData<any>>('/personnel/admins/update-info', data),
         onSuccess: res => {
             if (isSearching) {
                 queryClient.invalidateQueries({ queryKey: ['search-admins'] })
-                // searchAdminsQuery.refetch()
+                searchAdminsQuery.refetch()
             } else {
                 queryClient.invalidateQueries({ queryKey: ['admins'] })
             }
@@ -138,21 +133,21 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
         onError: onError
     })
 
-    // const toggleActiveMutation = useMutation({
-    //     mutationFn: (adminId: number) => {
-    //         return axios.post<IResponseData<any>>('/admins/deactivate-admin/${adminId}')
-    //     },
-    //     onError: onError,
-    //     onSuccess: res => {
-    //         if (isSearching) {
-    //             queryClient.invalidateQueries('search-admins')
-    //             searchAdminsQuery.refetch()
-    //         } else {
-    //             queryClient.invalidateQueries('admins')
-    //         }
-    //         toast(getMappedMessage(res.data.message), toastConfig('success'))
-    //     }
-    // })
+    const deactivateAdminMutation = useMutation({
+        mutationFn: (adminId: number) => {
+            return axios.post<IResponseData<any>>(`/personnel/admins/${adminId}/deactivate-account`)
+        },
+        onError: onError,
+        onSuccess: res => {
+            if (isSearching) {
+                queryClient.invalidateQueries({ queryKey: ['search-admins'] })
+                searchAdminsQuery.refetch()
+            } else {
+                queryClient.invalidateQueries({ queryKey: ['admins'] })
+            }
+            toast(getMappedMessage(res.data.message), toastConfig('success'))
+        }
+    })
 
     return {
         admins,
@@ -163,13 +158,9 @@ const adminService = ({ enableFetching }: { enableFetching: boolean }) => {
         onFilterSearch,
         onResetFilterSearch,
         buildQuery,
-
-        // searchAdminsQuery,
-        // getAllAdminsQuery,
-        // getCsvAdminsQuery,
-        // createNewAdminMutation,
-        updateAdminMutation
-        // toggleActiveMutation
+        createAdminMutation,
+        updateAdminMutation,
+        deactivateAdminMutation
     }
 }
 
