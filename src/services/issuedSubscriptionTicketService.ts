@@ -82,7 +82,9 @@ const issuedSingleJourneyTicketService = ({ enableFetching }: { enableFetching: 
         queryKey: ['issued-subscription-tickets', page, limit],
         queryFn: () => {
             if (!isSearching) {
-                return axios.get<IResponseData<IIssuedSubscriptionTicket[]>>(`/issued-tickets/subscription?skip=${limit * (page - 1)}&limit=${limit}`)
+                return axios.get<IResponseData<IIssuedSubscriptionTicket[]>>(
+                    `/issued-tickets/subscription?skip=${limit * (page - 1)}&limit=${limit}&sort=[["issuedAt","DESC"]]`
+                )
             }
         },
         enabled: enableFetching,

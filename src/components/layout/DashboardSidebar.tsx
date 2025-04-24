@@ -55,10 +55,6 @@ const SUB_MENU_LIST = [
                     {
                         label: 'Nhà ga',
                         navigation: 'stations'
-                    },
-                    {
-                        label: 'Tra cứu giá vé',
-                        navigation: 'ticket-prices'
                     }
                 ]
             }

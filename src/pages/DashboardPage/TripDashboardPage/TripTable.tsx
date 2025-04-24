@@ -10,7 +10,6 @@ type TripTableProps = {
     limit: number
     setPage: (page: number) => void
     onSelectTicket: (ticket: IIssuedSingleJourneyTicket | IIssuedSubscriptionTicket) => void
-    // deactivateStaffMutation: any
 }
 
 const TripTable = ({ trips, total, page, limit, setPage, onSelectTicket }: TripTableProps) => {
