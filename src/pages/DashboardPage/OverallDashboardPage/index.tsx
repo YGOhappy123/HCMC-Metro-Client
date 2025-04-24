@@ -71,7 +71,7 @@ const OverallDashboardPage = () => {
                         previousValue={(revenueCounts?.previousCount ?? 0) * 1000}
                         label="Doanh thu"
                         unit="Vnđ"
-                        to="/dashboard/transactions"
+                        to="/dashboard/issued-tickets"
                     />
                     <StatisticCard
                         loading={getSummaryDataQuery.isLoading}
@@ -87,7 +87,7 @@ const OverallDashboardPage = () => {
                         previousValue={ticketCounts?.previousCount ?? 0}
                         label="Vé đã bán ra"
                         unit="Vé"
-                        to="/dashboard/ticketCounts"
+                        to="/dashboard/issued-tickets"
                     />
                 </div>
 

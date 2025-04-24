@@ -2,18 +2,10 @@ import { Suspense } from 'react'
 import {
     OverallDashboardPage,
     StaffDashboardPage,
-    TicketPriceLookupDashboardPage,
     IssuedTicketDashboardPage,
-    // RoomDashboardPage,
-    // RoomClassDashboardPage,
-    // FloorDashboardPage,
-    // FeatureDashboardPage,
-    // ServiceDashboardPage,
     CustomerDashboardPage,
-    // AdminDashboardPage,
-    // BookingDashboardPage,
-    // TransactionDashboardPage,
-    PriceUpdateDashboardPage
+    PriceUpdateDashboardPage,
+    AdminDashboardPage
 } from '@/pages/DashboardPage'
 import DashboardLayout from '@/layouts/DashboardLayout'
 import ErrorPage from '@/pages/ErrorPage'
@@ -38,10 +30,10 @@ const DashboardRoutes = [
                 path: 'customers',
                 element: <CustomerDashboardPage />
             },
-            // {
-            //     path: 'admins',
-            //     element: <AdminDashboardPage />
-            // },
+            {
+                path: 'admins',
+                element: <AdminDashboardPage />
+            },
             {
                 path: 'staffs',
                 element: <AuthProtector children={<StaffDashboardPage />} redirect="/auth" allowedRoles={['admin']} />

@@ -94,7 +94,7 @@ const SUB_MENU_LIST = [
                     },
                     {
                         label: 'Admin',
-                        navigation: 'bookings'
+                        navigation: 'admins'
                     }
                 ]
             },
