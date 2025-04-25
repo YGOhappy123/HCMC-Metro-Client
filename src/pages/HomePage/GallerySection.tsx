@@ -5,8 +5,7 @@ import ServicesGallerySection from '@/pages/HomePage/ServicesGallerySection'
 
 const DESCRIPTION_IMAGES = {
     gallery: {
-        feature:
-            'https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/487489194_1089817216520187_7863584507565965494_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH06c7aUC2mU3TPUEksdt2UbzNb0xQDqZxvM1vTFAOpnC178ikBFg1O2vS9CjUfFUOUOVBsHGSNDHpBLrntQw1J&_nc_ohc=fX7KR5OKGMwQ7kNvwHYFOOW&_nc_oc=Adns1JRepMchIA7WbWbx_jc-6CtEUetJZcDfw99ahMDihFS8LBIW5GQ_G3BXayYo4OQ&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=8bYxa_OjJIaDbOqGH6hZhA&oh=00_AfHrc13_GW024KMzQSVOHJhNk0qR2usTZsUI8c8XGbEZ3w&oe=68092D40',
+        feature: 'https://achievereal.com/resource/images/2024/11/tat-tan-tat-ve-metro-tp-hcm-tuyen-ben-thanh-suoi-tien-tu-a-z.jpg',
         top: [
             'https://cdn.tcdulichtphcm.vn/upload/4-2024/images/2024-12-20/1734664051-dsc07346.jpg',
             'https://mia.vn/media/uploads/blog-du-lich/gieng-troi-2-1736845069.jpg'
