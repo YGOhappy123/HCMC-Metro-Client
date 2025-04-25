@@ -1,9 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/ui/DataTable'
-import dayjs from '@/libs/dayjs'
-import formatCurrency from '@/utils/formatCurrency'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons'
+import { QRCodeCanvas } from 'qrcode.react'
+import dayjs from '@/libs/dayjs'
+import formatCurrency from '@/utils/formatCurrency'
 
 type SingleJourneyTicketTableProps = {
     tickets: IIssuedSingleJourneyTicket[]
@@ -26,6 +27,19 @@ const SingleJourneyTicketTable = ({ tickets, total, page, limit, setPage }: Sing
             cell: ({ row }) => {
                 const orderId = row.original.orderId
                 return `#${orderId}`
+            }
+        },
+        {
+            accessorKey: 'code',
+            header: () => <div className="text-center">Mã Code</div>,
+            cell: ({ row }) => {
+                const code = row.original.code
+
+                return (
+                    <div className="flex justify-center">
+                        <QRCodeCanvas value={code!} size={80} />
+                    </div>
+                )
             }
         },
         {

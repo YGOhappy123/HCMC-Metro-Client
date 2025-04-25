@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons'
 import formatCurrency from '@/utils/formatCurrency'
 import TicketNameTag from '@/components/ui/TicketNameTag'
+import { QRCodeCanvas } from 'qrcode.react'
 
 type SubscriptionTicketTableProps = {
     tickets: IIssuedSubscriptionTicket[]
@@ -27,6 +28,19 @@ const SubscriptionTicketTable = ({ tickets, total, page, limit, setPage }: Subsc
             cell: ({ row }) => {
                 const orderId = row.original.orderId
                 return `#${orderId}`
+            }
+        },
+        {
+            accessorKey: 'code',
+            header: () => <div className="text-center">Mã Code</div>,
+            cell: ({ row }) => {
+                const code = row.original.code
+
+                return (
+                    <div className="flex justify-center">
+                        <QRCodeCanvas value={code!} size={80} />
+                    </div>
+                )
             }
         },
         {
