@@ -102,7 +102,7 @@ const BuyTicketForm = ({ selectedTicket }: BuyTicketFormProps) => {
                     <div className="flex flex-col gap-3 py-5 text-lg">
                         <p className="text-justify">Khách hàng chỉ có thể mua các loại vé thời hạn không có yêu cầu đặc biệt.</p>
                         <p className="text-justify">
-                            Để mua vé này, quý khách vui lòng liên nhân viên và xuất trình các giấy tờ/ chứng nhận cần thiết.
+                            Để mua vé này, quý khách vui lòng liên hệ nhân viên và xuất trình các giấy tờ/ chứng nhận cần thiết.
                         </p>
                     </div>
                 </div>
