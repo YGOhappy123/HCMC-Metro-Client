@@ -64,7 +64,7 @@ const authService = () => {
     })
 
     const resetPasswordMutation = useMutation({
-        mutationFn: (data: { resetPasswordToken: string; password: string; confirmPassword: string }) =>
+        mutationFn: (data: { token: string; password: string; confirmPassword: string }) =>
             axios.post<IResponseData<any>>('/auth/reset-password', data),
         onError: onError,
         onSuccess: res => {
